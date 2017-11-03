@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_title">#2DDB97</color>
+    <color name="app_right_title">#FF20D18C</color>
+    <color name="app_bar">#FF20D18C</color>
+
+
+    <color name="app_transparent">#00000000</color>
+    <color name="app_transparent_half">#70000000</color>
+    <color name="app_transparent_half_darker">#90000000</color>
+    <color name="app_transparent_half_darker_darker">#a0000000</color>
+    <color name="app_transparent_half_darker_darker_dark">#b0000000</color>
+</resources>
