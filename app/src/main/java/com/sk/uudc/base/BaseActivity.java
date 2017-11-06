@@ -27,6 +27,7 @@ import com.github.androidtools.SPUtils;
 import com.github.androidtools.StatusBarUtils;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.activity.IBaseActivity;
+import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
@@ -41,13 +42,15 @@ import java.util.Random;
 
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 
 /**
  * Created by Administrator on 2017/6/1.
  */
 
-public abstract class BaseActivity extends IBaseActivity implements ProgressLayout.OnAgainInter,View.OnClickListener{
+public abstract class BaseActivity extends IBaseActivity implements ProgressLayout.OnAgainInter,View.OnClickListener,LoadMoreAdapter.OnLoadMoreListener{
 
     /*************************************************/
     protected Toolbar toolbar;
@@ -73,6 +76,9 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     protected abstract void initData();
     protected abstract void onViewClick(View v);
     protected void initRxBus(){};
+
+    protected void getData(int page,boolean isLoad){};
+
     protected void hiddenBottomLine(boolean flag){
         hiddenBottomLine=flag;
     }
@@ -191,6 +197,13 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         if(null!=findViewById(R.id.pcfl_refresh)){
             pcfl = (PtrClassicFrameLayout) findViewById(R.id.pcfl_refresh);
             pcfl.setLastUpdateTimeRelateObject(this);
+
+            pcfl.setPtrHandler(new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    getData(1,false);
+                }
+            });
         }
         if(null!=findViewById(R.id.pl_load)){
             pl_load = (ProgressLayout) findViewById(R.id.pl_load);
@@ -203,8 +216,8 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
             if(navigationIcon!=-1){
                 getSupportActionBar().setHomeAsUpIndicator(navigationIcon);
             }else{
-                getSupportActionBar().setHomeAsUpIndicator(R.drawable.app_back);
-//                getSupportActionBar().setHomeAsUpIndicator(R.drawable.back);
+//                getSupportActionBar().setHomeAsUpIndicator(R.drawable.app_back);
+                getSupportActionBar().setHomeAsUpIndicator(R.drawable.app_back_black);
             }
             getSupportActionBar().setDisplayHomeAsUpEnabled(showNavigationIcon);
         }
@@ -272,7 +285,10 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
             }
         });
     }
-
+    @Override
+    public void loadMore() {
+        getData(pageNum,true);
+    }
     @Override
     public void again() {
         initData();

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.github.androidtools.ClickUtils;
 import com.github.androidtools.SPUtils;
+import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.github.baseclass.fragment.IBaseFragment;
 import com.github.baseclass.rx.RxBus;
 import com.sk.uudc.Config;
@@ -29,12 +30,14 @@ import java.util.Random;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
  * Created by Administrator on 2017/7/13.
  */
 
-public abstract class BaseFragment extends IBaseFragment implements View.OnClickListener,ProgressLayout.OnAgainInter{
+public abstract class BaseFragment extends IBaseFragment implements View.OnClickListener,ProgressLayout.OnAgainInter,LoadMoreAdapter.OnLoadMoreListener{
     protected int pageNum=2;
     protected int pageSize=20;
 
@@ -47,6 +50,7 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
     protected abstract void initData();
     protected abstract void onViewClick(View v);
     protected void initRxBus(){};
+    protected void getData(int page,boolean isLoad){};
     protected Unbinder mUnBind;
 
     protected ProgressLayout pl_load;
@@ -63,6 +67,12 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
         if(null!=view.findViewById(R.id.pcfl_refresh)){
             pcfl = (PtrClassicFrameLayout) view.findViewById(R.id.pcfl_refresh);
             pcfl.setLastUpdateTimeRelateObject(this);
+            pcfl.setPtrHandler(new PtrDefaultHandler() {
+                @Override
+                public void onRefreshBegin(PtrFrameLayout frame) {
+                    getData(1,false);
+                }
+            });
         }
         if(null!=view.findViewById(R.id.pl_load)){
             pl_load = (ProgressLayout) view.findViewById(R.id.pl_load);
@@ -116,7 +126,10 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
         mUnBind.unbind();
         RxBus.getInstance().removeAllStickyEvents();
     }
-
+    @Override
+    public void loadMore() {
+        getData(pageNum,true);
+    }
     @Override
     public void again() {
         initData();

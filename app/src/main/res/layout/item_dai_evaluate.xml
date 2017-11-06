@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:gravity="center_vertical"
+              android:paddingLeft="10dp"
+    >
+    <com.github.customview.MyCheckBox
+        android:layout_width="30dp"
+        android:layout_height="70dp"
+        app:my_checkbox_checked="@drawable/my_check_select"
+        app:my_checkbox_normal="@drawable/my_check_normal"
+        android:visibility="gone"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/background_f2"
+        android:padding="2px"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        >
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/banner"
+            />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="海底捞(宝山店)"
+                android:textColor="@color/gray_66"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:background="@color/white"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="江苏路长宁区"
+                    android:drawableLeft="@drawable/home_address"
+                    android:drawablePadding="3dp"
+                    android:textColor="@color/gray_33"
+                    />
+                <com.github.customview.MyTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="去晒单"
+                    android:textColor="@color/orange"
+                    app:my_tv_border_color="@color/orange"
+                    android:padding="3dp"
+                    android:layout_marginRight="10dp"
+                    app:my_tv_all_line="true"
+                    app:my_tv_corner_radius="2dp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+</LinearLayout>

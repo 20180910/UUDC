@@ -37,16 +37,19 @@
         android:supportsRtl="true"
         android:name=".MyApplication"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".MainActivity">
+        <activity android:name=".module.home.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-
-
+        <activity android:name=".module.my.activity.MyShouYiActivity"/>
+        <activity android:name=".module.my.activity.MyFenXiaoActivity"/>
+        <activity android:name=".module.my.activity.WoYaoHeZuoActivity"/>
+        <activity android:name=".module.my.activity.ShenQingHeHuoActivity"/>
+        <activity android:name=".module.my.activity.MessageDetailActivity"/>
+        <activity android:name=".module.my.activity.MyEvaluateActivity"/>
 
 
     </application>

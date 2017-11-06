@@ -15,7 +15,9 @@
     <color name="green2">#22ddb0</color>
 
 
-    <color name="home_green">#18CB6D</color>
+    <color name="home_green">#06C1AE</color>
+    <color name="orange">#FFB001</color>
+    <color name="orange_press">#eaa304</color>
     <color name="blue">#4ed3fd</color>
     <color name="red">#fc353a</color>
     <color name="gray_press">#FFE4E0E0</color>
@@ -23,7 +25,6 @@
     <color name="black_33">#333333</color>
     <color name="home_title">#2ACBE0</color>
     <color name="orange_ff">#ff712b</color>
-    <color name="orange_press">#FFDE5511</color>
     <color name="orange_ff2">#FFF2EB</color>
     <color name="blue_00">#0088ff</color>
     <color name="hint_color">#FFC8C8C8</color>
@@ -68,7 +69,7 @@
     <!-- 黑色 -->
     <color name="button_ensure">#ff6000</color>
     <color name="cutting_line">#dfdfdf</color>
-    <color name="orange">#FF8111</color>
+    <color name="orange_0">#FF8111</color>
     <color name="wheel_unselect_text">#c2c1c1</color>
     <color name="wheel_bg">#f2f2f2</color>
     <color name="common_line">#D1D1D1</color>
