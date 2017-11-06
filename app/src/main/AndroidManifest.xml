@@ -50,6 +50,7 @@
         <activity android:name=".module.my.activity.ShenQingHeHuoActivity"/>
         <activity android:name=".module.my.activity.MessageDetailActivity"/>
         <activity android:name=".module.my.activity.MyEvaluateActivity"/>
+        <activity android:name=".module.my.activity.MyBalanceActivity"/>
 
 
     </application>

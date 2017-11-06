@@ -185,7 +185,6 @@
                 android:background="@color/white"
                 android:padding="10dp"
                 >
-
             </android.support.v7.widget.RecyclerView>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 
