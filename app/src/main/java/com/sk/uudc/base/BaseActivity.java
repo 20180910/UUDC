@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,11 +163,11 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         if(null!=findViewById(R.id.app_title)){
             app_title= (TextView) findViewById(R.id.app_title);
             app_title.setText(appTitle==null?"":appTitle);
-            if(null!=findViewById(R.id.v_bottom_line)){
+            /*if(null!=findViewById(R.id.v_bottom_line)){
                 if(TextUtils.isEmpty(appTitle)||hiddenBottomLine){
                     findViewById(R.id.v_bottom_line).setVisibility(View.GONE);
                 }
-            }
+            }*/
 
             if(appTitleColor!=0){
                 app_title.setTextColor(appTitleColor);

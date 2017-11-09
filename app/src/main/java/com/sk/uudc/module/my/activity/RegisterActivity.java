@@ -9,9 +9,10 @@ import com.sk.uudc.base.BaseActivity;
  * Created by Administrator on 2017/11/4.
  */
 
-public class LoginActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity {
     @Override
     protected int getContentView() {
+        setAppTitle("注册");
         setTitleBackgroud(R.color.transparent);
         return R.layout.act_login;
     }

@@ -51,6 +51,18 @@
         <activity android:name=".module.my.activity.MessageDetailActivity"/>
         <activity android:name=".module.my.activity.MyEvaluateActivity"/>
         <activity android:name=".module.my.activity.MyBalanceActivity"/>
+        <activity android:name=".module.my.activity.ChongZhiActivity"/>
+        <activity android:name=".module.my.activity.ChongZhiSuccessActivity"/>
+        <activity android:name=".module.my.activity.TiXianActivity"/>
+        <activity android:name=".module.my.activity.BankManageActivity"/>
+        <activity android:name=".module.my.activity.BalanceDetailActivity"/>
+        <activity android:name=".module.my.activity.SettingActivity"/>
+        <activity android:name=".module.my.activity.AboutPlatformActivity"/>
+        <activity android:name=".module.my.activity.MyDataActivity"/>
+        <activity android:name=".module.my.activity.EditNameActivity"/>
+        <activity android:name=".module.my.activity.LoginActivity"/>
+        <activity android:name=".module.my.activity.RegisterActivity"/>
+        <activity android:name=".module.my.activity.ForgetPWDActivity"/>
 
 
     </application>

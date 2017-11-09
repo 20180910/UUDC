@@ -59,12 +59,14 @@
             app:my_tv_solid="@color/white"
             app:my_tv_press="@color/c_press"
             />
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="银行卡管理"
-            android:textColor="@color/home_green"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bank_manage"
             android:layout_marginTop="15dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             />
     </LinearLayout>
 </LinearLayout>

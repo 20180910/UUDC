@@ -212,9 +212,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/home_bg"
+                    android:src="@drawable/home_canting"
                     />
-                <TextView
+                <!--<TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="品质餐厅·舌尖美食"
@@ -230,7 +230,7 @@
                     android:layout_alignParentBottom="true"
                     android:textColor="@color/gray_99"
                     android:layout_marginTop="5dp"
-                    />
+                    />-->
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_home_can_ting"

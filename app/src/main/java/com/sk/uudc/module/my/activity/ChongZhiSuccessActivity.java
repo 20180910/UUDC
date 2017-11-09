@@ -1,19 +1,22 @@
 package com.sk.uudc.module.my.activity;
 
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 
 /**
- * Created by Administrator on 2017/11/4.
+ * Created by Administrator on 2017/11/7.
  */
 
-public class LoginActivity extends BaseActivity {
+public class ChongZhiSuccessActivity extends BaseActivity {
     @Override
     protected int getContentView() {
-        setTitleBackgroud(R.color.transparent);
-        return R.layout.act_login;
+        setAppTitle("充值");
+        setAppRightTitle("完成");
+        setAppRightTitleColor(ContextCompat.getColor(mContext,R.color.home_green));
+        return R.layout.act_chong_zhi_success;
     }
 
     @Override

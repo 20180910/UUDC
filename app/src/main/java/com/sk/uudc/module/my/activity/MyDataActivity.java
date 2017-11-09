@@ -6,14 +6,14 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 
 /**
- * Created by Administrator on 2017/11/4.
+ * Created by Administrator on 2017/11/7.
  */
 
-public class LoginActivity extends BaseActivity {
+public class MyDataActivity extends BaseActivity {
     @Override
     protected int getContentView() {
-        setTitleBackgroud(R.color.transparent);
-        return R.layout.act_login;
+        setAppTitle("我的资料");
+        return R.layout.act_my_data;
     }
 
     @Override

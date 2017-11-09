@@ -72,6 +72,7 @@
             app:my_tv_solid="@color/orange"
             android:layout_margin="10dp"
             android:textSize="16sp"
+            app:my_tv_corner_radius="4dp"
             />
     </LinearLayout>
 </LinearLayout>

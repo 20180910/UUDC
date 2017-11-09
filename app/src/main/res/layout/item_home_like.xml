@@ -58,35 +58,35 @@
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/start"
+                    android:src="@drawable/star"
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/start"
+                    android:src="@drawable/star"
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/start"
+                    android:src="@drawable/star"
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/start"
+                    android:src="@drawable/star"
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/start"
+                    android:src="@drawable/star"
                     android:layout_marginRight="2dp"
                     />
                 <TextView
