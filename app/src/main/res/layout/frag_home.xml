@@ -3,6 +3,7 @@
               xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
               android:background="@color/background_f2"
               android:orientation="vertical"
     >
@@ -50,6 +51,7 @@
             >
 
             <TextView
+                android:id="@+id/tv_home_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -82,36 +84,208 @@
             android:src="@drawable/message"
             />
     </com.github.customview.MyLinearLayout>
-
-    <android.support.v4.widget.NestedScrollView
+    <com.sk.uudc.base.ProgressLayout
+        android:id="@id/pl_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/banner"
-                />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@color/white"
-                android:padding="10dp"
+                android:orientation="vertical"
                 >
+
+                <com.youth.banner.Banner
+                    android:id="@+id/bn_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:image_scale_type="center_crop"
+                    app:scroll_time="2000"
+                    app:delay_time="5000"
+                    android:visibility="visible"
+                    >
+                </com.youth.banner.Banner>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/white"
+                    android:padding="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/zygg"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@color/white"
+                            android:layout_marginLeft="13dp"
+                            android:layout_marginBottom="3dp"
+                            >
+                            <com.github.customview.MyTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="热门"
+                                android:textColor="@color/home_green"
+                                app:my_tv_border_color="@color/home_green"
+                                app:my_tv_all_line="true"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                app:my_tv_corner_radius="2dp"
+                                android:textSize="10sp"
+                                />
+
+
+
+                            <com.sk.uudc.view.AutoVerticalScrollTextView
+                                android:id="@+id/avstv_home1"
+                                android:textSize="14sp"
+                                android:maxLines="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6dp"
+                                android:paddingRight="6dp"
+                                />
+                            <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="红薯可以摇身一变，从平凡变成高档的甜品"-->
+                            <!--android:layout_marginLeft="6dp"-->
+                            <!--android:textSize="14sp"-->
+                            <!--android:maxLines="1"-->
+                            <!--android:ellipsize="end"-->
+                            <!--/>-->
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@color/white"
+                            android:layout_marginLeft="13dp"
+                            >
+                            <com.github.customview.MyTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="热门"
+                                android:textColor="@color/home_green"
+                                app:my_tv_border_color="@color/home_green"
+                                app:my_tv_all_line="true"
+                                android:paddingTop="2dp"
+                                android:paddingBottom="2dp"
+                                android:paddingLeft="5dp"
+                                android:paddingRight="5dp"
+                                app:my_tv_corner_radius="2dp"
+                                android:textSize="10sp"
+                                />
+                            <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="红薯可以摇身一变，从平凡变成高档的甜品"-->
+                            <!--android:layout_marginLeft="6dp"-->
+                            <!--android:textSize="14sp"-->
+                            <!--android:maxLines="1"-->
+                            <!--android:ellipsize="end"-->
+                            <!--/>-->
+
+
+                            <com.sk.uudc.view.AutoVerticalScrollTextView
+                                android:id="@+id/avstv_home2"
+                                android:textSize="14sp"
+                                android:maxLines="1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="6dp"
+                                android:paddingRight="6dp"
+                                />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_home_cai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/white"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+                    android:gravity="center_vertical"
+                    >
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/home_canting"
+                        />
+                    <!--<TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="品质餐厅·舌尖美食"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="15dp"
+                        android:textSize="15sp"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="每  日  精  选  好  吃  不  贵"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/gray_99"
+                        android:layout_marginTop="5dp"
+                        />-->
+                </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_home_can_ting"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingBottom="10dp"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
                 <ImageView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/iv_home_icon"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/zygg"
+                    tools:src="@drawable/banner"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
                     />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,176 +293,30 @@
                     android:orientation="vertical"
                     android:background="@color/white"
                     android:gravity="center_vertical"
+                    android:padding="10dp"
                     >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@color/white"
-                        android:layout_marginLeft="13dp"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/like"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="3dp"
                         android:layout_marginBottom="3dp"
-                        >
-                        <com.github.customview.MyTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="热门"
-                            android:textColor="@color/home_green"
-                            app:my_tv_border_color="@color/home_green"
-                            app:my_tv_all_line="true"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            app:my_tv_corner_radius="2dp"
-                            android:textSize="10sp"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="红薯可以摇身一变，从平凡变成高档的甜品"
-                            android:layout_marginLeft="6dp"
-                            android:textSize="14sp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
+                        />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_home_like"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:gravity="center_vertical"
-                        android:background="@color/white"
-                        android:layout_marginLeft="13dp"
+                        android:layout_height="wrap_content"
                         >
-                        <com.github.customview.MyTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="热门"
-                            android:textColor="@color/home_green"
-                            app:my_tv_border_color="@color/home_green"
-                            app:my_tv_all_line="true"
-                            android:paddingTop="2dp"
-                            android:paddingBottom="2dp"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            app:my_tv_corner_radius="2dp"
-                            android:textSize="10sp"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="红薯可以摇身一变，从平凡变成高档的甜品"
-                            android:layout_marginLeft="6dp"
-                            android:textSize="14sp"
-                            android:maxLines="1"
-                            android:ellipsize="end"
-                            />
-                    </LinearLayout>
+
+                    </android.support.v7.widget.RecyclerView>
                 </LinearLayout>
+
             </LinearLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_home_cai"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/white"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                >
+        </android.support.v4.widget.NestedScrollView>
 
-            </android.support.v7.widget.RecyclerView>
+    </com.sk.uudc.base.ProgressLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:orientation="vertical"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                >
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/home_canting"
-                    />
-                <!--<TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="品质餐厅·舌尖美食"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
-                    android:textSize="15sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="每  日  精  选  好  吃  不  贵"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:textColor="@color/gray_99"
-                    android:layout_marginTop="5dp"
-                    />-->
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_home_can_ting"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingTop="5dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
-                >
-
-            </android.support.v7.widget.RecyclerView>
-
-<ImageView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scaleType="centerCrop"
-    android:src="@drawable/banner"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="10dp"
-    />
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:gravity="center_vertical"
-    android:padding="10dp"
-    >
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:src="@drawable/like"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_home_like"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
-
-    </android.support.v7.widget.RecyclerView>
-</LinearLayout>
-
-
-
-
-
-
-
-
-
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

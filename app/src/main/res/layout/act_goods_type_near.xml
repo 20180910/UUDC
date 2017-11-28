@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical"
+    >
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/ctlGoodsTypeNear"
+        app:tl_textSelectColor="@color/orange"
+        app:tl_textUnselectColor="@color/gray_66"
+        app:tl_textsize="14sp"
+        app:tl_tab_padding="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:tl_indicator_width="10dp"
+        app:tl_indicator_color="@color/orange"
+        android:background="@color/white"
+        ></com.flyco.tablayout.CommonTabLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/gray_f4"/>
+ <LinearLayout
+     android:layout_width="match_parent"
+
+     android:layout_height="match_parent"
+     android:orientation="horizontal">
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/rvGoodsTypeYiji"
+         android:layout_width="150dp"
+         android:layout_height="match_parent">
+
+     </android.support.v7.widget.RecyclerView>
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/rvGoodsTypeErji"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent">
+
+     </android.support.v7.widget.RecyclerView>
+ </LinearLayout>
+</LinearLayout>

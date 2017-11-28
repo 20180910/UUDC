@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -28,13 +29,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="商家评论:"
+                        android:text="商家评分:"
                         android:layout_marginLeft="10dp"
                         />
                     <TextView
+                        android:id="@+id/tv_shangjia_evaluate_pingfen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="4.5分"
+                        tools:text="4.5分"
                         android:textColor="@color/orange"
                         android:layout_marginLeft="10dp"
                         />
@@ -54,9 +56,10 @@
                         android:layout_marginTop="5dp"
                         >
                         <com.github.customview.MyTextView
+                            android:id="@+id/tv_shangjia_evaluate_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="全部(20)"
+                            android:text="全部(0)"
                             android:textColor="@color/orange"
                             app:my_tv_solid="@color/white"
                             app:my_tv_all_line="true"
@@ -68,9 +71,10 @@
                             android:layout_marginRight="10dp"
                             />
                         <com.github.customview.MyTextView
+                            android:id="@+id/tv_shangjia_evaluate_good"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="好评(20)"
+                            android:text="好评(0)"
                             android:textColor="@color/gray_33"
                             app:my_tv_solid="@color/white"
                             app:my_tv_all_line="true"
@@ -80,7 +84,20 @@
                             android:paddingBottom="5dp"
                             android:layout_marginRight="10dp"
                             />
-
+                        <com.github.customview.MyTextView
+                            android:id="@+id/tv_shangjia_evaluate_bad"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="差评(0)"
+                            android:textColor="@color/gray_33"
+                            app:my_tv_solid="@color/white"
+                            app:my_tv_all_line="true"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:layout_marginRight="10dp"
+                            />
                     </com.github.customview.FlowLayout>
                 </LinearLayout>
                 <android.support.v7.widget.RecyclerView

@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/background_f2"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/background_f2"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical"
+                android:paddingTop="20dp"
     >
+<com.sk.uudc.base.ProgressLayout
+    android:id="@id/pl_load"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="0.7"
+        android:background="@color/gray_33"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        >
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/shangjia_bg"
+            />
+    </LinearLayout>
 
     <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -17,197 +39,261 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:background="@color/white"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            >
+
+            <LinearLayout
+                android:id="@+id/ll_shangjia_jieshao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
                 >
-                <RelativeLayout
+
+                <ImageView
+                    android:id="@+id/iv_shangjia_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/shangjia_img"
+                    />
+
+                <com.github.customview.MyLinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/shangjia_bg"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
+                    android:orientation="vertical"
                     >
+
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/gray_99"
-                        android:alpha="0.4"
+                        android:id="@+id/tv_shangjia_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/white"
+                        tools:text="香满楼什么什么菜"
                         />
+
                     <LinearLayout
-                        android:id="@+id/ll_shangjia_jieshao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
                         android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:layout_marginTop="50dp"
+                        android:orientation="horizontal"
                         >
+
                         <ImageView
-                            android:layout_width="45dp"
-                            android:layout_height="45dp"
+                            android:id="@+id/iv_shangjia_star1"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginRight="2dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/shangjia_img"
+                            android:src="@drawable/star"
                             />
-                        <com.github.customview.MyLinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            >
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="香满楼什么什么菜"
-                                android:textColor="@color/white"
-                                android:layout_marginBottom="5dp"
-                                />
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical"
-                                >
-                                <ImageView
-                                    android:layout_width="13dp"
-                                    android:layout_height="13dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/star"
-                                    android:layout_marginRight="2dp"
-                                    />
-                                <ImageView
-                                    android:layout_width="13dp"
-                                    android:layout_height="13dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/star"
-                                    android:layout_marginRight="2dp"
-                                    />
-                                <ImageView
-                                    android:layout_width="13dp"
-                                    android:layout_height="13dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/star"
-                                    android:layout_marginRight="2dp"
-                                    />
-                                <ImageView
-                                    android:layout_width="13dp"
-                                    android:layout_height="13dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/star"
-                                    android:layout_marginRight="2dp"
-                                    />
-                                <ImageView
-                                    android:layout_width="13dp"
-                                    android:layout_height="13dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/star"
-                                    android:layout_marginRight="2dp"
-                                    />
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="5.0"
-                                    android:textColor="@color/orange"
-                                    android:layout_marginLeft="10dp"
-                                    />
-                            </LinearLayout>
 
-                        </com.github.customview.MyLinearLayout>
+                        <ImageView
+                            android:id="@+id/iv_shangjia_star2"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginRight="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/star"
+                            />
 
-                    </LinearLayout>
-                    <View
-                        android:id="@+id/v_shang_jia"
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
-                        android:background="@color/gray_ea"
-                        android:layout_below="@+id/ll_shangjia_jieshao"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginLeft="65dp"
-                        />
-                        <LinearLayout
-                            android:id="@+id/ll_shangjia_manjian"
-                            android:layout_below="@+id/v_shang_jia"
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:id="@+id/iv_shangjia_star3"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginRight="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/star"
+                            />
+
+                        <ImageView
+                            android:id="@+id/iv_shangjia_star4"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginRight="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/star"
+                            />
+
+                        <ImageView
+                            android:id="@+id/iv_shangjia_star5"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_marginRight="2dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/star"
+                            />
+
+                        <TextView
+                            android:id="@+id/tv_shangjia_num"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical"
-                            android:layout_marginLeft="65dp"
-                            android:layout_marginTop="10dp"
-                            >
-                            <com.github.customview.MyTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="活动"
-                                android:textColor="@color/white"
-                                app:my_tv_solid="@color/home_green"
-                                app:my_tv_corner_radius="4dp"
-                                android:paddingLeft="5dp"
-                                android:paddingRight="5dp"
-                                android:paddingTop="2dp"
-                                android:paddingBottom="2dp"
-                                />
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:text="满50减20，满100减50元"
-                                android:textColor="@color/white"
-                                android:layout_marginLeft="10dp"
-                                android:maxLines="2"
-                                />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="4个活动"
-                                android:drawableRight="@drawable/shangjia_jiantou"
-                                android:drawablePadding="7dp"
-                                android:layout_marginRight="10dp"
-                                android:textColor="@color/white"
-                                />
-                        </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        android:background="@color/background_f2"
-                        android:layout_below="@+id/ll_shangjia_manjian"
-                        android:layout_marginTop="10dp"
-                        >
-                        <com.flyco.tablayout.CommonTabLayout
-                            android:id="@+id/ctl_shang_jia"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:background="@color/white"
-                            >
-
-                        </com.flyco.tablayout.CommonTabLayout>
-                        <FrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                        </FrameLayout>
+                            android:layout_marginLeft="10dp"
+                            android:text="5.0"
+                            android:textColor="@color/orange"
+                            />
                     </LinearLayout>
-                </RelativeLayout>
+
+                </com.github.customview.MyLinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/v_shang_jia"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@+id/ll_shangjia_jieshao"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/gray_ea"
+                />
+
+            <LinearLayout
+                android:id="@+id/ll_shangjia_manjian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_shang_jia"
+                android:layout_marginLeft="65dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <com.github.customview.MyTextView
+                    android:id="@+id/tv_shangjia_huodong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="2dp"
+                    android:text="活动"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    app:my_tv_corner_radius="4dp"
+                    app:my_tv_solid="@color/home_green"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_shangjia_huodong_content"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:maxLines="3"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    tools:text="满50减20，满100减50元"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_shangjia_huaodong_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:drawablePadding="7dp"
+                    android:drawableRight="@drawable/shangjia_jiantou"
+                    android:textColor="@color/white"
+                    tools:text="4个活动"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/ll_shangjia_manjian"
+                android:layout_marginTop="10dp"
+                android:background="@color/background_f2"
+                android:orientation="vertical"
+                >
+                <!--<com.flyco.tablayout.SlidingTabLayout-->
+                <!--android:id="@+id/stl_shang_jia"-->
+
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--app:tl_textSelectColor="@color/orange"-->
+                <!--app:tl_textUnselectColor="@color/gray_66"-->
+                <!--app:tl_textsize="14sp"-->
+                <!--app:tl_tab_padding="30dp"-->
+                <!--android:paddingTop="10dp"-->
+                <!--android:paddingBottom="10dp"-->
+                <!--app:tl_indicator_width="10dp"-->
+                <!--app:tl_indicator_color="@color/orange"-->
+                <!--android:background="@color/white"-->
+                <!--&gt;-->
+
+                <!--</com.flyco.tablayout.SlidingTabLayout>-->
+                <com.flyco.tablayout.CommonTabLayout
+                    android:id="@+id/ctl_shang_jia"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    app:tl_indicator_color="@color/orange"
+                    app:tl_indicator_width="10dp"
+                    app:tl_tab_padding="10dp"
+                    app:tl_textSelectColor="@color/orange"
+                    app:tl_textUnselectColor="@color/gray_66"
+                    app:tl_textsize="14sp"
+                    >
+
+                </com.flyco.tablayout.CommonTabLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/gray_f4"/>
+                <!--<android.support.v4.view.ViewPager-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/vp_shangjia"-->
+                <!--&gt;</android.support.v4.view.ViewPager>-->
+                <FrameLayout
+                    android:id="@+id/fl_shangjia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    ></FrameLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
     <LinearLayout
+
         android:id="@+id/ll_shangjia_top"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         >
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:gravity="center_vertical"
+            android:orientation="vertical"
             android:paddingLeft="5dp"
             android:paddingRight="10dp"
             >
+
             <ImageView
+                android:id="@+id/iv_shangjia_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
@@ -215,33 +301,41 @@
                 />
         </LinearLayout>
 
-        <com.github.customview.MyEditText
+        <com.github.customview.MyTextView
+            android:id="@+id/tv_shangjia_search"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="30dp"
-            app:my_et_solid="#F9F9F9"
-            app:my_et_corner_radius="5dp"
-            android:gravity="center_vertical"
-            android:textSize="13sp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:hint="请输入关键字"
-            app:my_et_hiddenClear="true"
+            android:layout_weight="1"
             android:drawableRight="@drawable/shangjia_search"
+            android:gravity="center_vertical"
+            android:hint="点击搜索"
+            android:textColorHint="@color/hint_color"
+            android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:textSize="13sp"
+            app:my_tv_corner_radius="5dp"
+            app:my_tv_solid="#F9F9F9"
             />
         <ImageView
+            android:id="@+id/iv_shangjia_collection"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:scaleType="centerCrop"
             android:src="@drawable/shangjia_xing"
             />
+
         <ImageView
+            android:id="@+id/iv_shangjia_share"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
             android:scaleType="centerCrop"
             android:src="@drawable/shangjia_share"
-            android:layout_marginLeft="10dp"
             />
     </LinearLayout>
+</com.sk.uudc.base.ProgressLayout>
+
+
 </RelativeLayout>

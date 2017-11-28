@@ -5,14 +5,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/gray_f6"
-                android:fitsSystemWindows="true"
     >
-
+    <View
+        android:id="@id/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
     <FrameLayout
         android:id="@+id/layout_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/line1"
+        android:layout_below="@+id/status_bar"
         ></FrameLayout>
 
     <View

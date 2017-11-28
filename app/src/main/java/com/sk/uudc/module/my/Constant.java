@@ -39,5 +39,7 @@ public class Constant {
         public static final String youHuiMoney="youHuiMoney";
         public static final String gongChangId="gongChangId";
         public static final String pinPaiId="pinPaiId";
+        public static final String msgId="msgId";
+        public static final String amount="amount";
     }
 }

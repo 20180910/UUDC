@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_f2"
+              android:orientation="vertical"
+    >
+
+    <include layout="@layout/app_title"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="2px"
+        android:background="@color/gray_f4"/>
+
+
+       <com.yyydjk.library.DropDownMenu
+           android:id="@+id/ddm_goods_type"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:ddmenuTextSize="13sp"
+           app:ddtextUnselectedColor="@color/drop_down_unselected"
+           app:ddtextSelectedColor="@color/home_green"
+           app:dddividerColor="@color/white"
+           app:ddunderlineColor="@color/gray_f4"
+           app:ddmenuMenuHeightPercent="0.5"
+           app:ddmenuSelectedIcon="@drawable/checked_right"
+           app:ddmaskColor="@color/gray_ban"
+           app:ddmenuBackgroundColor="@color/white"
+           app:ddmenuUnselectedIcon="@drawable/normal_right"
+
+           >
+       </com.yyydjk.library.DropDownMenu>
+
+
+
+
+
+
+
+
+
+</LinearLayout>

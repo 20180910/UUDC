@@ -1,10 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/background_f2"
+              android:orientation="vertical"
     >
 
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            >
+
+            <com.github.customview.MyLinearLayout
+                android:id="@+id/ll_near_top"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_title_height"
+                android:layout_alignParentTop="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:my_ll_border_width="1px"
+                app:my_ll_bottom_line="true"
+                app:my_ll_solid="@color/app_bar"
+                >
+
+
+                <com.github.customview.MyLinearLayout
+                    android:id="@+id/ll_near_search"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_weight="1"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:my_ll_corner_radius="4dp"
+                    app:my_ll_solid="#F3F3F3"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_near_search"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#F3F3F3"
+                        android:gravity="center_vertical"
+                        android:hint="请输入关键字..."
+                        android:maxLines="1"
+                        android:paddingBottom="0dp"
+                        android:paddingLeft="6dp"
+                        android:paddingTop="0dp"
+                        android:textSize="13sp"
+                        />
+
+
+                </com.github.customview.MyLinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_near_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:padding="10dp"
+                    android:src="@drawable/shangjia_search"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_near_map"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="地图"
+                    android:textColor="@color/home_green"
+
+                    android:textSize="16sp"/>
+            </com.github.customview.MyLinearLayout>
+
+            <com.flyco.tablayout.SlidingTabLayout
+                android:id="@+id/stl_near"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                app:tl_indicator_color="@color/orange"
+                app:tl_indicator_width="10dp"
+                app:tl_tab_padding="10dp"
+                app:tl_textSelectColor="@color/orange"
+                app:tl_textUnselectColor="@color/gray_66"
+                app:tl_textsize="14sp"
+                ></com.flyco.tablayout.SlidingTabLayout>
+            <com.sk.uudc.base.ProgressLayout
+                android:id="@id/pl_load"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vp_near"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="2px"
+                ></android.support.v4.view.ViewPager>
+
+            </com.sk.uudc.base.ProgressLayout>
+
+        </LinearLayout>
 </LinearLayout>

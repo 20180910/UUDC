@@ -164,7 +164,9 @@ public class AndroidUtils {
         return bd1.divide
                 (bd2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
-
+    public static double chuFa(double d1,double d2) {
+         return chuFa( d1, d2,2 );
+    }
     /**
      * 将double类型数据转为字符串
      * @param d
@@ -174,6 +176,17 @@ public class AndroidUtils {
         BigDecimal bg = new BigDecimal(d * 100);
         double doubleValue = bg.setScale(2,BigDecimal.ROUND_HALF_UP).doubleValue();
         return  String.valueOf((int)doubleValue);
+    }
+    /**
+     * 验证身份证号是否符合规则
+     * @param text 身份证号
+     * @return
+     */
+    public static boolean personIdValidation(String text) {
+        String regx = "[0-9]{17}x";
+        String reg1 = "[0-9]{15}";
+        String regex = "[0-9]{18}";
+        return text.matches(regx) || text.matches(reg1) || text.matches(regex);
     }
 
 }

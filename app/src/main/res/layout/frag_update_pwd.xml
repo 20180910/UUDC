@@ -24,6 +24,7 @@
             android:textColor="@color/gray_33"
             />
         <com.github.customview.MyEditText
+            android:id="@+id/et_update_pwd_old"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
@@ -31,7 +32,7 @@
             android:textSize="13sp"
             android:hint="原密码"
             android:textColor="@color/gray_33"
-            android:inputType="textWebPassword"
+            android:inputType="textPassword"
             android:imeOptions="actionNext"
             android:maxLines="1"
             />
@@ -54,6 +55,7 @@
             android:textColor="@color/gray_33"
             />
         <com.github.customview.MyEditText
+            android:id="@+id/et_update_pwd_new"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
@@ -61,7 +63,7 @@
             android:textSize="13sp"
             android:hint="新密码"
             android:textColor="@color/gray_33"
-            android:inputType="textWebPassword"
+            android:inputType="textPassword"
             android:imeOptions="actionNext"
             android:maxLines="1"
             />
@@ -84,6 +86,7 @@
             android:textColor="@color/gray_33"
             />
         <com.github.customview.MyEditText
+            android:id="@+id/et_update_pwd_new2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
@@ -91,12 +94,13 @@
             android:textSize="13sp"
             android:hint="确认密码"
             android:textColor="@color/gray_33"
-            android:inputType="textWebPassword"
+            android:inputType="textPassword"
             android:imeOptions="actionNext"
             android:maxLines="1"
             />
     </LinearLayout>
     <com.github.customview.MyTextView
+        android:id="@+id/tv_update_pwd_sure"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:text="确定"

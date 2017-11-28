@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -24,10 +25,11 @@
         android:layout_marginBottom="8dp"
         >
         <ImageView
+            android:id="@+id/iv_item_daipingjia_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/banner"
+            tools:src="@drawable/banner"
             />
     </LinearLayout>
 
@@ -41,9 +43,10 @@
             android:layout_marginLeft="10dp"
             >
             <TextView
+                android:id="@+id/tv_item_daipingjia_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="海底捞(宝山店)"
+                tools:text="海底捞(宝山店)"
                 android:textColor="@color/gray_66"
                 />
             <LinearLayout
@@ -54,16 +57,19 @@
                 android:background="@color/white"
                 android:layout_marginTop="10dp"
                 >
+
                 <TextView
+                    android:id="@+id/tv_item_daipingjia_time"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="江苏路长宁区"
-                    android:drawableLeft="@drawable/home_address"
+                    android:layout_weight="1"
                     android:drawablePadding="3dp"
+                    tools:text="江苏路长宁区"
                     android:textColor="@color/gray_33"
                     />
+
                 <com.github.customview.MyTextView
+                    android:id="@+id/tv_item_daipingjia_shaidan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="去晒单"

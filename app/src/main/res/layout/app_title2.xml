@@ -56,9 +56,8 @@
     </android.support.v7.widget.Toolbar>
     <View
         android:id="@+id/v_bottom_line"
-        android:layout_height="1px"
+        android:layout_height="2px"
         android:layout_width="match_parent"
-          android:background="@color/c_divider"
-        android:visibility="gone"
+          android:background="@color/background_f2"
         />
 </LinearLayout>

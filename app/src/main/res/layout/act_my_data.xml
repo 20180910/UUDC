@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -8,6 +9,7 @@
     >
 <include layout="@layout/app_title"/>
     <LinearLayout
+        android:id="@+id/ll_my_data_icon"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:orientation="horizontal"
@@ -26,6 +28,7 @@
             android:textSize="16sp"
             />
         <com.github.customview.MyImageView
+            android:id="@+id/im_my_data_icon"
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:src="@drawable/people"
@@ -40,6 +43,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_my_data_name"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
@@ -58,9 +62,10 @@
             android:textSize="16sp"
             />
         <TextView
+         android:id="@+id/tv_my_data_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="张三"
+            tools:text="张三"
             />
         <ImageView
             android:layout_width="wrap_content"
@@ -71,6 +76,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_my_data_nickname"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
@@ -89,6 +95,7 @@
             android:textSize="16sp"
             />
         <TextView
+            android:id="@+id/tv_my_data_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="张三"
@@ -102,6 +109,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_my_data_sex"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
@@ -120,6 +128,7 @@
             android:textSize="16sp"
             />
         <TextView
+            android:id="@+id/tv_my_data_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="男"
@@ -133,6 +142,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_my_data_birthday"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"
@@ -151,6 +161,7 @@
             android:textSize="16sp"
             />
         <TextView
+            android:id="@+id/tv_my_data_birthday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1999-1-1"
@@ -164,6 +175,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_my_data_xuigaimima"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:orientation="horizontal"

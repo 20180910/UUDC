@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+
+    >
+    <TextView
+        android:id="@+id/tv_item_woyaohezuo_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/gray_33"
+        android:textSize="16sp"
+        android:text="Q1 什么是合伙人？"/>
+    <TextView
+        android:id="@+id/tv_item_woyaohezuo_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/gray_99"
+        android:textSize="14sp"
+        android:text="答：什么是合伙人？"/>
+
+</LinearLayout>

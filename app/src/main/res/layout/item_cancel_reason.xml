@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@color/white"
+              android:orientation="horizontal"
+              android:gravity="center"
+    >
+
+
+
+
+
+            <TextView
+                android:id="@+id/title_tv"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:padding="10dp"
+                tools:text="不想买了"
+                android:textColor="@color/black_33"
+                android:textSize="14sp" />
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginRight="10dp"
+
+        android:background="@null"
+        android:button="@null"
+        android:gravity="center"
+        android:drawableLeft="@drawable/selector_checkbox" />
+
+
+
+
+
+
+
+</LinearLayout>

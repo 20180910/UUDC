@@ -13,6 +13,11 @@
         android:layout_height="40dp"
         android:background="@color/white"
         android:layout_marginTop="2px"
+        app:tl_indicator_color="@color/orange"
+        app:tl_indicator_width="20dp"
+        app:tl_textSelectColor="@color/orange"
+        app:tl_textUnselectColor="@color/gray_66"
+        app:tl_textsize="14sp"
         >
     </com.flyco.tablayout.CommonTabLayout>
     <FrameLayout

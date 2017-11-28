@@ -8,6 +8,7 @@
     >
 <include layout="@layout/app_title"/>
     <com.github.customview.MyEditText
+        android:id="@+id/et_edit_name"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="@color/white"
@@ -20,6 +21,7 @@
         android:textColor="@color/gray_33"
         />
     <com.github.customview.MyTextView
+        android:id="@+id/tv_edit_baocun"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:text="保存"

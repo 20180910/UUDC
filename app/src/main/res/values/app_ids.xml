@@ -9,4 +9,6 @@
     <item name="pcfl_refresh" type="id"/>
     <item name="pl_load" type="id"/>
 
+    <item name="nsv" type="id"/>
+
 </resources>

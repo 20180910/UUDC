@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -14,73 +15,57 @@
         android:layout_marginTop="2px"
         >
         <LinearLayout
-            android:id="@+id/ll_dai_evaluate"
+            android:id="@+id/ll_my_evaluate_dai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/white"
             android:gravity="center_vertical"
             >
-            <LinearLayout
+
+
+
+            <com.github.customview.MyLinearLayout
+                android:id="@+id/ll_my_evaluate_num"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:background="@color/white"
+                app:my_ll_bottom_line="true"
+                android:layout_marginLeft="10dp"
                 >
-                <LinearLayout
-                    android:layout_width="35dp"
+                <TextView
+                    android:drawablePadding="10dp"
+                    android:drawableLeft="@drawable/my_evaluate2"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@color/white"
-                    android:gravity="center_vertical"
-                    >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/my_evaluate2"
-                        android:layout_marginLeft="10dp"
-                        />
-                </LinearLayout>
-
-                <com.github.customview.MyLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    app:my_ll_bottom_line="true"
+                    android:text="待评价"
+                    />
+                <com.github.customview.MyTextView
+                    android:id="@+id/tv_my_evaluate_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="19dp"
+                    android:text="2"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    app:my_tv_solid="@color/red"
+                    app:my_tv_corner_radius="10dp"
                     android:layout_marginLeft="10dp"
-                    >
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="待评价"
-                        />
-                    <com.github.customview.MyTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="19dp"
-                        android:text="2"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        app:my_tv_solid="@color/red"
-                        app:my_tv_corner_radius="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/jiantou_right"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        />
-                </com.github.customview.MyLinearLayout>
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/jiantou_right"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    />
+            </com.github.customview.MyLinearLayout>
 
-            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -111,10 +96,11 @@
                         android:layout_marginTop="5dp"
                         >
                         <ImageView
+                            android:id="@+id/iv_my_evaluate_icon"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/banner"
+                            tools:src="@drawable/banner"
                             />
                     </LinearLayout>
                     <LinearLayout
@@ -127,9 +113,10 @@
                         android:layout_marginRight="10dp"
                         >
                         <TextView
+                            android:id="@+id/tv_my_evaluate_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="和谐与美食"
+                            tools:text="和谐与美食"
                             android:textSize="16sp"
                             />
                         <LinearLayout
@@ -141,13 +128,15 @@
                             android:layout_marginTop="10dp"
                             >
                             <TextView
+                                android:id="@+id/tv_my_evaluate_time"
                                 android:layout_width="0dp"
                                 android:layout_weight="1"
                                 android:layout_height="wrap_content"
-                                android:text="2017-01-01消费未评价"
+                                tools:text="2017-01-01消费未评价"
                                 android:textColor="@color/gray_33"
                                 />
                             <com.github.customview.MyTextView
+                                android:id="@+id/tv_my_evaluate_qushaidan"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="去晒单"
@@ -175,10 +164,10 @@
             app:ptr_resistance="2.1"
             app:ptr_ratio_of_header_height_to_refresh="1.2"
             android:background="@color/background_f2"
-            android:layout_below="@+id/ll_dai_evaluate"
+            android:layout_below="@+id/ll_my_evaluate_dai"
             >
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_my_evaluate"
+                android:id="@+id/rv_dai_evaluate"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"

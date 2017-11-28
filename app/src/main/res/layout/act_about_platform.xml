@@ -25,6 +25,7 @@
                     android:gravity="center"
                     >
                     <ImageView
+                        android:id="@+id/iv_about_platform_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scaleType="centerCrop"
@@ -40,6 +41,7 @@
                     android:gravity="center_horizontal"
                     >
                     <TextView
+                        android:id="@+id/tv_about_platform_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="公司介绍"
@@ -47,6 +49,7 @@
                         android:textColor="@color/gray_33"
                         />
                     <TextView
+                        android:id="@+id/tv_about_platform_edition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="成立于2008年，我公司为各行业提供专业的IT技术服务，经过成立于2008年，我公司为各行业提供专业的IT技术服务，经过成立于2008年，我公司为各行业提供专业的IT技术服务，经过成立于2008年，我公司为各行业提供专业的IT技术服务，经过成立于2008年，我公司为各行业提供专业的IT技术服务，经过成立于2008年，我公司为各行业提供专业的IT技术服务，经过成立于2008年，我公司为各行业提供专业的IT技术服务，经过"

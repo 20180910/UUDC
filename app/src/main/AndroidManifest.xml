@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -30,14 +31,53 @@
 
 
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+    <!--百度地图-->
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+
+
+
+    <!-- 支付宝支付权限 -->
+
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+    <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+
+    <!--支付宝支付-->
+
+    <activity
+        android:name="com.alipay.sdk.app.H5PayActivity"
+        android:configChanges="orientation|keyboardHidden|navigation"
+        android:exported="false"
+        android:screenOrientation="behind"
+        android:windowSoftInputMode="adjustResize|stateHidden" >
+    </activity>
+
+    <activity
+        android:name="com.alipay.sdk.auth.AuthActivity"
+        android:configChanges="orientation|keyboardHidden|navigation"
+        android:exported="false"
+        android:screenOrientation="behind" >
+    </activity>
+    <!-- alipay sdk end -->
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:name=".MyApplication"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".module.home.activity.MainActivity">
+        <activity android:name=".module.home.activity.MainActivity"
+                  android:label="@string/app_name"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -50,6 +90,7 @@
         <activity android:name=".module.my.activity.ShenQingHeHuoActivity"/>
         <activity android:name=".module.my.activity.MessageDetailActivity"/>
         <activity android:name=".module.my.activity.MyEvaluateActivity"/>
+        <activity android:name=".module.my.activity.MyCollectActivity"/>
         <activity android:name=".module.my.activity.MyBalanceActivity"/>
         <activity android:name=".module.my.activity.ChongZhiActivity"/>
         <activity android:name=".module.my.activity.ChongZhiSuccessActivity"/>
@@ -60,9 +101,66 @@
         <activity android:name=".module.my.activity.AboutPlatformActivity"/>
         <activity android:name=".module.my.activity.MyDataActivity"/>
         <activity android:name=".module.my.activity.EditNameActivity"/>
-        <activity android:name=".module.my.activity.LoginActivity"/>
-        <activity android:name=".module.my.activity.RegisterActivity"/>
+        <activity android:name=".module.my.activity.LoginActivity" android:windowSoftInputMode="adjustNothing"/>
+        <activity android:name=".module.my.activity.RegisterActivity" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".module.my.activity.ForgetPWDActivity"/>
+        <activity android:name=".module.order.activity.ShangJiaActivity"/>
+        <activity android:name=".module.order.activity.OrderActivity"/>
+        <activity android:name=".module.order.activity.OrderDetailsActivity"/>
+        <activity android:name=".module.order.activity.BusinessEvaluationActivity"
+                  android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".module.order.activity.CancelReasonsActivity"/>
+        <activity android:name=".module.home.activity.GoodsTypeActivity"/>
+        <activity android:name=".module.near.activity.ShangJiaActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".module.near.activity.TiJiaoOrderActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".module.near.activity.OrderPayActivity"/>
+        <activity android:name=".module.near.activity.YudingSuccessActivity"/>
+        <activity android:name=".module.my.activity.UpdatePWDActivity"/>
+        <activity android:name=".module.my.activity.MyMessageActivity"/>
+        <activity android:name=".module.my.activity.BangDingBankActivity"/>
+        <activity android:name=".module.near.activity.NearMapActivity"/>
+
+
+        <!--百度地图-->
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="yTKTw0Ct5XUkIoGhR8DIwFus4P0lR9Tq"/>
+
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" >
+            <intent-filter>
+                <action android:name="com.baidu.location.service_v2.2" >
+                </action>
+            </intent-filter>
+        </service>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <activity android:name=".module.my.activity.DaiEvaluateActivity"/>
+        <activity android:name=".module.home.activity.SearchActivity"/>
+        <activity android:name=".module.home.activity.SearchResultActivity"/>
+        <activity android:name=".module.home.activity.CitySearchActivity"/>
 
 
     </application>

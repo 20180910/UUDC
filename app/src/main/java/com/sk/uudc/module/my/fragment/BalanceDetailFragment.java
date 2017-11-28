@@ -9,6 +9,7 @@ import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.github.baseclass.adapter.LoadMoreViewHolder;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
+import com.sk.uudc.module.near.Constant;
 
 import butterknife.BindView;
 
@@ -25,13 +26,14 @@ public class BalanceDetailFragment extends BaseFragment {
         return R.layout.frag_balance_detail;
     }
 
-    public static BalanceDetailFragment newInstance() {
+    public static BalanceDetailFragment newInstance(String typeId) {
 
-        Bundle args = new Bundle();
+        BalanceDetailFragment newFragment = new BalanceDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Constant.typeId, typeId);
+        newFragment.setArguments(bundle);
+        return newFragment;
 
-        BalanceDetailFragment fragment = new BalanceDetailFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
     @Override
     protected void initView() {

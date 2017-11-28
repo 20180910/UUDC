@@ -7,7 +7,11 @@
               android:background="@color/background_f2"
     >
 <include layout="@layout/app_title"/>
+
+
+
     <LinearLayout
+        android:id="@+id/ll_setting_gengxin"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -39,6 +43,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_setting_qinglihuancun"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -90,6 +95,7 @@
             />
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_setting_pingtai"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -114,6 +120,7 @@
             />
     </LinearLayout>
      <com.github.customview.MyTextView
+         android:id="@+id/tv_setting_tuichu"
          android:layout_width="match_parent"
          android:layout_height="40dp"
          android:gravity="center"

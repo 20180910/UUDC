@@ -13,6 +13,7 @@
         android:background="@color/background_f2"
         />
     <TextView
+        android:id="@+id/tv_message_details_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="账号注册成功"
@@ -28,6 +29,7 @@
         android:background="@color/background_f2"
         />
     <TextView
+        android:id="@+id/tv_message_details_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="您的账号注册成功"

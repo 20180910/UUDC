@@ -24,6 +24,7 @@
     android:paddingTop="5dp"
     >
     <com.github.customview.MyTextView
+        android:id="@+id/tv_item_home_canting_pingfen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -32,21 +33,21 @@
         android:layout_marginLeft="5dp"
         app:my_tv_border_color="@color/white"
         app:my_tv_all_line="true"
-        android:paddingTop="2dp"
-        android:paddingBottom="2dp"
         android:paddingLeft="3dp"
         android:paddingRight="3dp"
         app:my_tv_corner_radius="2dp"
         app:my_tv_border_width="2px"
+        android:textSize="12sp"
         />
 
     <TextView
+        android:id="@+id/tv_item_home_canting_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="新旺茶餐厅"
         android:textColor="@color/white"
         android:layout_marginLeft="5dp"
-        android:textSize="17sp"
+        android:textSize="13sp"
         android:maxLines="1"
         android:ellipsize="end"
         />

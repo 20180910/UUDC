@@ -7,4 +7,86 @@
               android:background="@color/background_f2"
     >
 <include layout="@layout/app_title"/>
+  <com.sk.uudc.base.ProgressLayout
+      android:id="@id/pl_load"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical">
+          <android.support.v4.widget.NestedScrollView
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1">
+
+              <LinearLayout
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:background="@color/white"
+                  android:orientation="vertical">
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/iv_woyaohezuo_icon1"
+                      android:src="@color/gray_d4"
+                      />
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/iv_woyaohezuo_icon2"
+                      android:src="@color/gray_d4"
+                      />
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/iv_woyaohezuo_icon3"
+                      android:src="@color/gray_d4"
+                      />
+                  <ImageView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/iv_woyaohezuo_icon4"
+                      android:src="@color/gray_d4"
+                      />
+
+
+
+                  <ImageView
+                      android:layout_margin="10dp"
+                      android:layout_gravity="center_horizontal"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:src="@drawable/changjianwenti"/>
+
+                  <android.support.v7.widget.RecyclerView
+                      android:id="@+id/rv_woyaohezuo_changjianwenti"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+
+                  </android.support.v7.widget.RecyclerView>
+
+              </LinearLayout>
+          </android.support.v4.widget.NestedScrollView>
+          <View
+              android:layout_width="match_parent"
+              android:layout_height="2px"
+              android:background="@color/gray_f4"/>
+          <com.github.customview.MyTextView
+              android:id="@+id/tv_woyaohezuo_shenqing"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:layout_marginLeft="10dp"
+              android:layout_marginRight="10dp"
+              android:layout_marginTop="5dp"
+              app:my_tv_corner_radius="5dp"
+              android:layout_marginBottom="5dp"
+              android:text="申请成为合伙人"
+              android:gravity="center"
+              android:textColor="@color/white"
+              app:my_tv_solid="@color/orange"/>
+
+
+      </LinearLayout>
+  </com.sk.uudc.base.ProgressLayout>
 </LinearLayout>

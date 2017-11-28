@@ -23,6 +23,7 @@
     android:gravity="center"
     >
     <TextView
+        android:id="@+id/tv_my_shouyi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="3000.0"
@@ -54,6 +55,7 @@
             android:gravity="center"
             >
             <TextView
+                android:id="@+id/tv_my_shouyi_lishi"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3000.0"
@@ -80,6 +82,7 @@
             android:gravity="center"
             >
             <TextView
+                android:id="@+id/tv_my_shouyi_zuotian"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3000.0"
@@ -98,6 +101,7 @@
         </LinearLayout>
     </LinearLayout>
         <com.github.customview.MyTextView
+            android:id="@+id/tv_my_shouyi_zhuanchuyue"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:text="转出到余额"
@@ -129,11 +133,28 @@
             android:layout_marginLeft="8dp"
             />
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_my_shouyi"
+<com.sk.uudc.base.ProgressLayout
+    android:id="@id/pl_load"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@id/pcfl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="2px"
+        app:ptr_resistance="2.1"
+        app:ptr_ratio_of_header_height_to_refresh="1.2"
         >
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_my_shouyi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2px"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+
+</com.sk.uudc.base.ProgressLayout>
+
+
 </LinearLayout>

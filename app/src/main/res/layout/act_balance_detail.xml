@@ -7,19 +7,41 @@
               android:background="@color/background_f2"
     >
 <include layout="@layout/app_title"/>
-<com.flyco.tablayout.SlidingTabLayout
-    android:id="@+id/stl_balance_detail"
-    android:layout_width="match_parent"
-    android:layout_marginTop="2px"
-    android:background="@color/white"
-    android:layout_height="40dp">
-
-</com.flyco.tablayout.SlidingTabLayout>
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_balance_detail"
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/ctl_balance_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="2px">
+        android:layout_height="45dp"
+        android:background="@color/white"
+        android:padding="8dp"
+        app:tl_indicator_color="@color/orange"
+        app:tl_indicator_width="20dp"
+        app:tl_textSelectColor="@color/orange"
+        app:tl_textUnselectColor="@color/gray_66"
+        app:tl_textsize="14sp">
 
-    </android.support.v4.view.ViewPager>
+    </com.flyco.tablayout.CommonTabLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/gray_f4"/>
+   <com.sk.uudc.base.ProgressLayout
+       android:background="@color/white"
+       android:id="@id/pl_load"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+       <in.srain.cube.views.ptr.PtrClassicFrameLayout
+           android:id="@id/pcfl_refresh"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           app:ptr_resistance="2.1"
+           app:ptr_ratio_of_header_height_to_refresh="1.2"
+           >
+           <android.support.v7.widget.RecyclerView
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:id="@+id/rv_balance_detail">
+
+           </android.support.v7.widget.RecyclerView>
+       </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+   </com.sk.uudc.base.ProgressLayout>
 </LinearLayout>

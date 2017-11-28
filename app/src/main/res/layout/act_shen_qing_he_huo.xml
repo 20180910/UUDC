@@ -46,6 +46,7 @@
                     </LinearLayout>
                         <com.github.customview.MyLinearLayout
                             android:layout_width="0dp"
+                            android:id="@+id/ll_shenqinghehuo_province"
                             android:layout_weight="2"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
@@ -55,7 +56,9 @@
                             android:layout_marginRight="15dp"
                             >
                             <TextView
+                                android:id="@+id/tv_shenqinghezuo_province"
                                 android:layout_width="0dp"
+                                android:gravity="center"
                                 android:layout_weight="1"
                                 android:layout_height="match_parent"
                                 />
@@ -93,6 +96,7 @@
                             />
                     </LinearLayout>
                     <com.github.customview.MyLinearLayout
+                        android:id="@+id/ll_shenqinghehuo_city"
                         android:layout_width="0dp"
                         android:layout_weight="2"
                         android:layout_height="match_parent"
@@ -103,7 +107,9 @@
                         android:layout_marginRight="15dp"
                         >
                         <TextView
+                            android:id="@+id/tv_shenqinghezuo_city"
                             android:layout_width="0dp"
+                            android:gravity="center"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
                             />
@@ -140,6 +146,7 @@
                         />
                 </LinearLayout>
                 <com.github.customview.MyLinearLayout
+                    android:id="@+id/ll_shenqinghehuo_area"
                     android:layout_width="0dp"
                     android:layout_weight="2"
                     android:layout_height="match_parent"
@@ -150,7 +157,9 @@
                     android:layout_marginRight="15dp"
                     >
                     <TextView
+                        android:id="@+id/tv_shenqinghezuo_area"
                         android:layout_width="0dp"
+                        android:gravity="center"
                         android:layout_weight="1"
                         android:layout_height="match_parent"
                         />
@@ -198,10 +207,12 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
+                            android:id="@+id/et_shenqinghezuo_zijin"
                             android:layout_width="0dp"
+                            android:gravity="center"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
-                            android:inputType="number"
+                            android:inputType="numberDecimal"
                             android:imeOptions="actionNext"
                             android:maxLines="1"
                             />
@@ -242,6 +253,8 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
+                            android:gravity="center"
+                            android:id="@+id/et_shenqinghezuo_name"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
@@ -287,6 +300,8 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
+                            android:gravity="center"
+                            android:id="@+id/et_shenqinghezuo_phone"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
@@ -298,6 +313,7 @@
                     </com.github.customview.MyLinearLayout>
                 </LinearLayout>
                 <LinearLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
@@ -307,6 +323,7 @@
                     >
 
                     <LinearLayout
+
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -377,6 +394,8 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
+                            android:gravity="center"
+                            android:id="@+id/et_shenqinghezuo_youxiang"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
@@ -422,6 +441,8 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
+                            android:gravity="center"
+                            android:id="@+id/et_shenqinghezuo_liyou"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
@@ -433,6 +454,7 @@
                     </com.github.customview.MyLinearLayout>
                 </LinearLayout>
                 <com.github.customview.MyTextView
+                    android:id="@+id/tv_shenqinghezuo_tijiao"
                     android:layout_width="120dp"
                     android:layout_height="35dp"
                     android:text="提交"

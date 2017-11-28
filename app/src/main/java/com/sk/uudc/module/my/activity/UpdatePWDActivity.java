@@ -1,5 +1,6 @@
 package com.sk.uudc.module.my.activity;
 
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -9,6 +10,8 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.module.my.bean.UpdateBean;
+import com.sk.uudc.module.my.fragment.UpdatePWDOneFragment;
+import com.sk.uudc.module.my.fragment.UpdatePWDSecondFragment;
 
 import java.util.ArrayList;
 
@@ -24,10 +27,13 @@ public class UpdatePWDActivity extends BaseActivity {
 
     @BindView(R.id.fl_update_pwd)
     FrameLayout fl_update_pwd;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
 
     @Override
     protected int getContentView() {
         setAppTitle("修改密码");
+        setAppTitleColor(this.getResources().getColor(R.color.gray_33));
+        setTitleBackgroud(R.color.white);
         return R.layout.act_update_pwd;
     }
 
@@ -37,7 +43,25 @@ public class UpdatePWDActivity extends BaseActivity {
         list.add(new UpdateBean("原密码验证"));
         list.add(new UpdateBean("手机验证"));
 
-        ctl_update_pwd.setTabData(list);
+        for (int i = 0; i < list.size(); i++) {
+            int type = i + 1;
+            if (i==0) {
+                fragments.add(new UpdatePWDOneFragment());
+
+            }else {
+                fragments.add(new UpdatePWDSecondFragment());
+
+            }
+
+
+
+        }
+
+
+
+
+//        ctl_update_pwd.setTabData(list);
+        ctl_update_pwd.setTabData(list,this,R.id.fl_update_pwd,fragments);
         ctl_update_pwd.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -49,6 +73,9 @@ public class UpdatePWDActivity extends BaseActivity {
 
             }
         });
+
+
+
 
     }
 

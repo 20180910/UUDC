@@ -1,6 +1,8 @@
 package com.sk.uudc.base;
 
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.github.androidtools.ClickUtils;
+import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.SPUtils;
 import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.github.baseclass.fragment.IBaseFragment;
@@ -24,6 +27,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -40,7 +44,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 public abstract class BaseFragment extends IBaseFragment implements View.OnClickListener,ProgressLayout.OnAgainInter,LoadMoreAdapter.OnLoadMoreListener{
     protected int pageNum=2;
     protected int pageSize=20;
-
+    protected NestedScrollView nsv;
     private boolean isFirstLoadData=true;
     private boolean isPrepared;
     protected PtrClassicFrameLayout pcfl;
@@ -77,6 +81,9 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
         if(null!=view.findViewById(R.id.pl_load)){
             pl_load = (ProgressLayout) view.findViewById(R.id.pl_load);
             pl_load.setInter(this);
+        }
+        if(null!=view.findViewById(R.id.nsv)){
+            nsv = (NestedScrollView) view.findViewById(R.id.nsv);
         }
         initView();
         initRxBus();
@@ -138,7 +145,7 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
         return SPUtils.getPrefInt(mContext, Config.userType,-1);
     }
     protected String getUserId(){
-        return SPUtils.getPrefString(mContext,Config.user_id,null);
+        return SPUtils.getPrefString(mContext,Config.user_id,"0");
     }
     protected String getSign(){
         return getSign("user_id",getUserId());
@@ -438,4 +445,19 @@ iv_yaoqing_sina*//*
         fenXiangDialog.show();
     }
 */
+    public boolean keJian(View view){
+        int screenWidth= PhoneUtils.getScreenWidth(mContext);
+        int screenHeight=PhoneUtils.getScreenHeight(mContext);
+
+        Rect rect=new Rect(0,0,screenWidth,screenHeight );
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
+        System.out.println(Arrays.toString(location));
+        // Rect ivRect=new Rect(imageView.getLeft(),imageView.getTop(),imageView.getRight(),imageView.getBottom());
+        if (view.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

@@ -7,6 +7,7 @@
               android:orientation="vertical"
     >
     <LinearLayout
+        android:id="@+id/ll_update_pwd_second_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -32,13 +33,14 @@
                 />
 
             <com.github.customview.MyEditText
+                android:id="@+id/et_update_pwd_second_phone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:gravity="center_vertical"
                 android:hint="请输入手机号"
                 android:imeOptions="actionNext"
-                android:inputType="textWebPassword"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textColor="@color/gray_33"
                 android:textSize="13sp"
@@ -64,6 +66,7 @@
                 />
 
             <com.github.customview.MyEditText
+                android:id="@+id/et_update_pwd_second_code"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -71,12 +74,13 @@
                 android:gravity="center_vertical"
                 android:hint="请输入验证码"
                 android:imeOptions="actionNext"
-                android:inputType="textWebPassword"
+                android:inputType="number"
                 android:maxLines="1"
                 android:textColor="@color/gray_33"
                 android:textSize="13sp"
                 />
             <com.github.customview.MyTextView
+                android:id="@+id/tv_update_pwd_second_huoqu"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:text="获取验证码"
@@ -89,6 +93,7 @@
                 />
         </LinearLayout>
         <com.github.customview.MyTextView
+            android:id="@+id/tv_update_pwd_second_next"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="10dp"
@@ -103,6 +108,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_update_pwd_second_sure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -129,6 +135,7 @@
                 />
 
             <com.github.customview.MyEditText
+                android:id="@+id/et_update_pwd_second_reset"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -162,6 +169,7 @@
                 />
 
             <com.github.customview.MyEditText
+                android:id="@+id/et_update_pwd_second_reset2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/white"
@@ -176,6 +184,7 @@
         </LinearLayout>
 
         <com.github.customview.MyTextView
+            android:id="@+id/tv_update_pwd_second_sure"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_margin="10dp"

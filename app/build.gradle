@@ -55,21 +55,22 @@ android {
 }
 
 dependencies {
-//    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //    compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:26.+'
+    compile 'com.android.support:cardview-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
-
     compile 'com.android.support:design:26.+'
     compile(name: 'fastShape', ext: 'aar')
     compile(name: 'androidutils', ext: 'aar')
     compile(name: 'baseclass', ext: 'aar')
     compile(name: 'retrofitutil', ext: 'aar')
     compile 'cz.msebera.android:httpclient:4.4.1.2'
-//    compile 'com.orhanobut:logger:2.1.1'
+    //    compile 'com.orhanobut:logger:2.1.1'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
@@ -86,6 +87,18 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
-
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
+    compile 'com.github.dongjunkun:DropDownMenu:1.0.4'
+    //下拉框
+
+    //日历
+    compile 'com.contrarywind:Android-PickerView:3.2.6'
+    //二维码
+    compile 'cn.yipianfengye.android:zxing-library:2.2'
+    compile files('libs/BaiduLBS_Android.jar')
+    //滚动效果
+    compile 'com.github.addappcn:android-pickers:1.0.1'
+    //侧滑删除
+    compile 'com.baoyz.swipemenulistview:library:1.3.0'
+    compile files('libs/alipaySdk-20170725.jar')
 }

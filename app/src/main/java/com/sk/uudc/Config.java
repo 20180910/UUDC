@@ -5,22 +5,21 @@ package com.sk.uudc;
  */
 
 public class Config {
+    /*10444020
+android优优点餐
+yTKTw0Ct5XUkIoGhR8DIwFus4P0lR9Tq  百度地图*/
+    public static final String longitude = "longitude";
+    public static final String latitude = "latitude";
     public static final String app_name = "uudc";
-    public static final String hx_appKey = "1473170912061523#kefuchannelapp44495";
-    public static final String hx_tenantId = "44495";
-    public static final String hx_fwh = "kefuchannelimid_352045";
 
-
-/*e021bc831d4df2d593b78e8695dea260
-wx23ef688729e8e8ba*/
     public static final String weixing_id = "wx23ef688729e8e8ba";
-    public static final String weixing_AppSecret = "e021bc831d4df2d593b78e8695dea260";
+    public static final String weixing_AppSecret = "e0e4844100e8c4b92c1ce78beccd61a0";
     public static final String weixing_miyao = "NVwPLeIStgt1yUQ6H6A0LjMHpe2abwkM";
     public static final String weixing_mch_id = "1489530042";//商户号
 
-    public static final String zhifubao_app_id = "2017101009225222";//支付宝appid
+    public static final String zhifubao_app_id = "2017112100073782";//支付宝appid
     public static final String zhifubao_pid = "2088521340781744";
-    public static final String zhifubao_rsa2 = "MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDL/aFLStEeIWWM1FoeH+H1QEdTzXvPaLap2zMpSYWUlEL9X7UK1ZTj/1ZXa6HKYG3K6rTr7+e1KPqx349j/fAkRerFKTxT822BZA1G1V1TbYwI14Rdg1Er3LDSw3+Vt8a6wzDh9LHOktqjE/PdSYvK79eebUVbwomWuGf6mTjcRGOs5lDBuKi/EYMeJTgvTmr9MaEalSTSfhMlObzgVv+wb43yqDc6uQGC8kSavr0crvsQa9AedIUris0Lk4iw70leJliDTe5xPmxIStJvPjWSOXjtQ9bbIGsBh3dukx+TMYAzGexC9xFCdPQ7N8VlGrVDhiupKQlE6DovX8Aw8mTxAgMBAAECggEAKCykVnq+oot7P3gW43Xt/2oQYh3G83sw9lTYR5pWN4PXiaUOt7qGnzyLWZ419/BzzxHYXdsarCAM93kK+WtqnwoyCXBslDAN8fytbLTas3KQsLEZPX1+QAAvxuJ/vxG5jtCgUO/rEL71Vka4sW0pnecMdQQaM88lX8yjlcQVYbOwVYasdgwqV1YHQ7FCLxSDVkDMSuhiPXGxepBlXZwN1OmGzYEzJr+CPS/EUfBooDVGxzr6nKWem7J2mnFfYb4d93XwF1VEvjTXghe9N9P4AOb1ziJ4T1Wt7O88gddadbyMS8anqBKf0G0FMCPNopseqhBfFfh6yblgx13e0W2gAQKBgQDmzKY5ulIK8cD0504r3nMBlQGv5j0UHJti8drMYll84Umh69VUwuchkupwFl8Vnh2WJZsnQeDR5yz3gQ8syl5KdTAoNUvAiuzNrr3Bjhjd+vg3w7e21G/h/2cJ23eh2n1K6ABuDJHtFKJFHYz4NSYNbmYjhkRLrTy4bduvux9i8QKBgQDiQ56ZpIPTERSvGtf2guefECkRmXwpHCbmTaJCEfHwWqefmtipyG7IihAXSOqFqjSCzB3WbZ6u79oClh7Z3Ygs38zX4OS5WDH4RYI14PvF5DFGI4g6kXMpu4OCy7J2iiw5aZXxrDl3+jzN/ptlEcrwXM9nHZEVsSI+hea3R58iAQKBgQC49+yEOWHFKaj13WaV2+qZqvy2JzRuKNsTejdbM7r6TWeAoIvRKX6pNqAygotjvNuDWNI2rSJrtvUfyswJnong7HhS0RvLzMspsFCdja86QAesUWur2CdunQzMJpqDGaLuZG7rw6EzuyStdZhj19yOSRsMf2++orEWMd0twi7OUQKBgQDJj89js4izqA2zB8jHk0nfCzhqsz5GKQwGMbaQAQh0Q2374qeMaD84arV26L/zHvL0af1Sngi0cnrVvwHwt0auIxiKX4+iBQ1OzCz47lmbqnKytsiO1C+xR5gaFnf+3YwUARlQV0pCtSshnuSznqwYf7VLeK1ck5Wb+RDUyPrcAQKBgQDCdKaD+SGxT7bAwLT5DG/LguYDjlVjh+p6obm4ysz2SupFBFjkvnFVgzuUY7S3aPBRdaoaaa5FQFddg1PJlsnYrvIMmvs7Kgk3HkpdrMnwMv3qM2NFJO5Q259Tl0WZKcaXYkACmHwKSSjw4W4DAvWKH+dhc6ODLbWuYuxKfXIkfA==";//支付宝siyao
+    public static final String zhifubao_rsa2 = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCjoXde8HibHO1ZwN9WHV9ABZLhZk2qCMI11mI9H1LD01kyIYLwpVuDPrLKTVLpuMPzROBF5sPJ1dhqX7x20tmPDHcvpSFyVUoqtHrtdG2FKUWugPN8mFAFk4xRw6CJJ7/ma1HUBLUH0ZywIpsE2cUXenF32BojQYoUHGBvb3OLCcOm1sdZXCNduuQB6Vx5/CTU8JVhmYPSDPj/geJ+p5T8LJfMQAXzjZ5O1/UZXHaXtZ508u6tTeksxNfCW8BehphSzKLFkHXE4B6ZbU1d+q6xunjtWsAsxyc9hR+ieSEiUj2lq7kN5gETUVDCnbfHkVli19/77Z7ZznFbTmezhbZrAgMBAAECggEAEOplQ7xKS4a/BrNIo0dgDGdHGuQPjU9gfF5QQ49UaAgWRXdvaN8/SZ8WrpE1zBGcuC5bnP5RKTFhMQX6nrIHaaFZROSmQ4KLq0SDHL8Xf1eX64VLJos8YocxT1aQ5vzj+rcHe4qNCGTj9NVu/x5gIKA40LHXaeOhmZihY4O7BxltyURHijh5a6+kWtMNVO60FvlgUC/nL3ltvKDnVDgrYTD6J72h9sPi5ufIJ0dT172/hIN4xJ0ufYnVY9RdBuBuOaPUuFdzH1c4C0M3tZlE6cSshlG6Z1cGfdaSKf1m7lJH+lRdVcPtEG3wnSk+8TxVw6z1CbQ0WN681R3uImBr0QKBgQDh92VHZt3SUJVDhaSb2nSOBLgqasp2YrrO/BroxMAeGPChg5nTS6awHKSqjNCskY7I1IkjpsxbAjloTuq7i6skJjd1Pnt8kyh/TUthRB41FjJ/0lerItaqEDYR3FW+7MR68OrfE+F0RS/76vl6z6fPCzezsG7SJbVuuTbsY0G02QKBgQC5YRKgYvGnKNd75BbMfRFHxvulqYc+uzW0CxYdd5IoqDL0tRpc9gyT7upcrxof1VkBJWuYnZ018k6QmhsZVRaVw2Jq7GE1PnndjOzyiBVv23sKCK0hKmGgZg+cbsFyA6Fl4XDyYaekB7dDuLM8O3aOw0nXx81RI/qQ5yK7gBTq4wKBgF9WpUmp8h9hVojlox0K37Bn91gWNJQcddsM7UGWecR5G1XaE5XdzldxzlwTC5wz0b2URsRfBMvFNXl4CnvUowGeijmSgkF+SVDkyNAiEGivk+DwW4LeMRoRuu5wO1FRzlhcu4whdDc9VdCBRH93i8LEZd0PrMJHnLQ5ux2jhz6JAoGADwl0vVXJTEnf0MjboJK0iCH336Q0uD3vST9s987vKCUcnQTjso6yzn0evY3mjJZ9tb4XUDXYvrt86/XUJOXmAxfqL8okyHDc6b+4qKOpOX2QKWwyvvH1IVGmCoZhYqIwwVbcFo0dUAzgLLoar9QS9dmZb8thOCe293IIOzVUfQkCgYEAxuRPuI7SE3uPdwh4xABmXtKv1OgQY1xb9RynxGsYWrg5fxUIpuHSQjthnnp062OmaCsOjBBnuBQgMjd0sQ/G9VX71kCjCjWMsLSHLuotjjGQTasoI2rftk69B7o+3BPdNpsaxRoI+/pRG3aLv1YyeMLvLcXP6EegXfuPMHv1zKo=";//支付宝siyao
 
     public static final String sina_appKey = "3828185976";
     public static final String sina_appSecret = "3fe03c61ef9990cc80c19208fc143600";
@@ -37,6 +36,7 @@ wx23ef688729e8e8ba*/
     public static final String user_switch="user_switch";
     public static final String user_name="user_name";
     public static final String nick_name="nick_name";
+    public static final String name="name";
     public static final String sex="sex";
     public static final String area="area";
     public static final String city="city";
@@ -52,8 +52,7 @@ wx23ef688729e8e8ba*/
     public static final String isFirstIntoApp="isFirstIntoApp";
     public static final String isUpdatePWD="isUpdatePWD";
     public static final String userType="userType";
-    public static final int userType_farmer =2;//农户
-    public static final int userType_tgy =3;//推广员
+
     public static final String exitAPP ="exitAPP";//退出登录参数名
     public static final String noNetWork ="无网络连接,请稍后再试";//退出登录参数名
 

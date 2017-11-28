@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gray_f4"
+              android:orientation="vertical"
+    >
+
+    <include layout="@layout/app_title"/>
+
+
+   <android.support.v4.widget.NestedScrollView
+           android:id="@id/nsv"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           >
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               >
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="10dp"
+                   android:background="@color/white"
+                   android:orientation="horizontal"
+                   android:paddingLeft="10dp"
+                   android:paddingTop="10dp">
+
+                   <ImageView
+                       android:id="@+id/iv_business_evaluation_icon"
+                       android:layout_width="50dp"
+                       android:layout_height="50dp"
+                       android:scaleType="fitXY"
+                       android:src="@drawable/shangjia_food"
+                       />
+
+                   <TextView
+                       android:id="@+id/tv_business_evaluation_name"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_gravity="center_horizontal"
+                       android:maxLines="1"
+                       android:paddingBottom="10dp"
+                       android:paddingLeft="10dp"
+                       android:paddingTop="20dp"
+                       android:text="和喜粤式美食（澳门路）"
+                       android:textColor="@color/gray_66"
+                       android:textSize="14sp"/>
+               </LinearLayout>
+
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginTop="2px"
+                   android:background="@color/white"
+                   android:gravity="center"
+                   android:padding="10dp"
+                   android:text="你觉得这家店怎么样"
+                   android:textColor="@color/gray_66"
+                   android:textSize="13sp"/>
+
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/white"
+                   android:gravity="center"
+                   android:orientation="horizontal">
+
+                   <com.github.customview.MyCheckBox
+                       android:id="@+id/cb_business_evaluation_icon1"
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_margin="8dp"
+                       android:button="@null"
+                       app:my_checkbox_checked="@drawable/icon21"
+                       app:my_checkbox_checked_drawable="left"
+                       app:my_checkbox_normal="@drawable/icon20"
+                       />
+
+                   <com.github.customview.MyCheckBox
+                       android:id="@+id/cb_business_evaluation_icon2"
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_margin="8dp"
+                       android:button="@null"
+                       app:my_checkbox_checked="@drawable/icon21"
+                       app:my_checkbox_checked_drawable="left"
+                       app:my_checkbox_normal="@drawable/icon20"
+                       />
+
+                   <com.github.customview.MyCheckBox
+                       android:id="@+id/cb_business_evaluation_icon3"
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_margin="8dp"
+                       android:button="@null"
+                       app:my_checkbox_checked="@drawable/icon21"
+                       app:my_checkbox_checked_drawable="left"
+                       app:my_checkbox_normal="@drawable/icon20"
+                       />
+
+                   <com.github.customview.MyCheckBox
+                       android:id="@+id/cb_business_evaluation_icon4"
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_margin="8dp"
+                       android:button="@null"
+                       app:my_checkbox_checked="@drawable/icon21"
+                       app:my_checkbox_checked_drawable="left"
+                       app:my_checkbox_normal="@drawable/icon20"
+                       />
+
+                   <com.github.customview.MyCheckBox
+                       android:id="@+id/cb_business_evaluation_icon5"
+                       android:layout_width="25dp"
+                       android:layout_height="25dp"
+                       android:layout_margin="8dp"
+                       android:button="@null"
+                       app:my_checkbox_checked="@drawable/icon21"
+                       app:my_checkbox_checked_drawable="left"
+                       app:my_checkbox_normal="@drawable/icon20"
+                       />
+
+
+               </LinearLayout>
+
+               <TextView
+                   android:id="@+id/tv_business_evaluation_num"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/white"
+                   android:gravity="center"
+                   android:padding="10dp"
+                   android:text="0.0"
+                   android:textColor="@color/orange"
+                   android:textSize="18sp"/>
+
+
+               <com.github.customview.MyEditText
+                   android:id="@+id/et_business_evaluation_content"
+                   android:layout_width="match_parent"
+                   android:layout_height="100dp"
+                   android:layout_marginTop="10dp"
+                   android:background="@color/white"
+                   android:gravity="top"
+                   android:hint="亲，这家店怎么样，分享一下评论吧..."
+                   android:maxLines="3"
+                   android:padding="10dp"
+                   android:textSize="14sp"/>
+
+               <android.support.v7.widget.RecyclerView
+                   android:id="@+id/rv_business_evaluation_img"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/white"
+                   android:padding="10dp">
+
+               </android.support.v7.widget.RecyclerView>
+
+
+               <com.github.customview.MyTextView
+                   android:id="@+id/tv_business_evaluation_submit"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="10dp"
+                   android:gravity="center"
+                   android:padding="10dp"
+                   android:text="提交"
+                   android:textColor="@color/white"
+
+                   app:my_tv_corner_radius="5dp"
+                   app:my_tv_solid="@color/orange"/>
+
+           </LinearLayout>
+       </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

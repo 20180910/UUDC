@@ -1,10 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/background_f2"
     >
+    <android.support.v7.widget.Toolbar
+        android:id="@id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/app_bar"
+        android:gravity="center_vertical"
+        app:titleTextColor="@color/gray_66"
+        app:layout_collapseMode="pin"
+        >
+        <TextView
+            android:id="@id/app_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/gray_66"
+            android:textSize="19sp"
+            android:text="订单"
+            />
+
+        <ImageView
+            android:id="@id/app_right_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:maxHeight="?attr/actionBarSize"
+            android:paddingRight="10dp"
+            android:visibility="gone"
+            />
+
+        <TextView
+            android:id="@id/app_right_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dp"
+            android:maxLines="1"
+            android:textColor="@color/gray_66"
+            android:textSize="16sp"
+            tools:text="right_title"
+            />
+    </android.support.v7.widget.Toolbar>
+    <com.sk.uudc.base.ProgressLayout
+        android:id="@id/pl_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2px"
+        >
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textSize="17sp"
+                        android:textColor="@color/black_33"
+                        android:text="我的订单"/>
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/tv_all_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="全部订单"
+                        android:textSize="15sp"
+                        android:drawableRight="@drawable/jiantou_right"
+                        android:drawablePadding="5dp"
+                        android:textColor="@color/transparent_half_darker"/>
+
+
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="@color/gray_f4"/>
+                <LinearLayout
+                    android:padding="10dp"
+
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:layout_weight="1">
+                        <TextView
+                            android:paddingTop="5dp"
+                            android:id="@+id/tv_daifukuan"
+                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_66"
+                            android:drawablePadding="10dp"
+                            android:drawableTop="@drawable/daifukuan"
+                            android:text="待付款"/>
+                        <com.github.customview.MyTextView
+                            android:visibility="gone"
+                            android:id="@+id/tv_daifukuan_num"
+                            android:layout_width="15dp"
+                            android:layout_alignRight="@+id/tv_daifukuan"
+                            android:layout_height="15dp"
+                            app:my_tv_solid="@color/red"
+                            android:text="1"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            app:my_tv_corner_radius="50dp"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:layout_weight="1">
+                        <TextView
+                            android:paddingTop="5dp"
+                            android:id="@+id/tv_daishiyong"
+                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_66"
+                            android:drawablePadding="10dp"
+                            android:drawableTop="@drawable/daishiyong"
+                            android:text="待使用"/>
+                        <com.github.customview.MyTextView
+                            android:visibility="gone"
+                            android:id="@+id/tv_daishiyong_num"
+                            android:layout_width="15dp"
+                            android:layout_alignRight="@+id/tv_daishiyong"
+                            android:layout_height="15dp"
+                            app:my_tv_solid="@color/red"
+                            android:text="1"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            app:my_tv_corner_radius="50dp"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:paddingBottom="10dp"
+                        android:layout_width="0dp"
+                        android:paddingTop="5dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+                        <TextView
+                            android:paddingTop="5dp"
+
+                            android:id="@+id/tv_daipingjia"
+                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_66"
+                            android:drawablePadding="10dp"
+                            android:drawableTop="@drawable/daipingjia"
+                            android:text="待使用"/>
+                        <com.github.customview.MyTextView
+                            android:layout_marginRight="2dp"
+                            android:id="@+id/tv_daipingjia_num"
+                            android:layout_width="15dp"
+                            android:layout_alignRight="@+id/tv_daipingjia"
+                            android:layout_height="15dp"
+                            app:my_tv_solid="@color/red"
+                            android:text="1"
+                            android:textSize="10sp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            app:my_tv_corner_radius="10dp"
+                            />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:paddingBottom="10dp"
+                        android:paddingTop="5dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+                        <TextView
+                            android:paddingTop="5dp"
+                            android:id="@+id/tv_yiquxiao"
+                            android:layout_width="wrap_content"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:textColor="@color/gray_66"
+                            android:drawablePadding="10dp"
+                            android:drawableTop="@drawable/yiquxiao"
+                            android:text="已取消"/>
+                        <com.github.customview.MyTextView
+                            android:visibility="gone"
+                            android:id="@+id/tv_yiquxiao_num"
+                            android:layout_width="15dp"
+                            android:layout_alignRight="@+id/tv_yiquxiao"
+                            android:layout_height="15dp"
+                            app:my_tv_solid="@color/red"
+                            android:text="1"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            app:my_tv_corner_radius="50dp"
+                            />
+                    </RelativeLayout>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/gray_f4"
+                    android:text="最近订单"
+                    android:padding="10dp"
+                    android:textSize="15sp"
+                    android:textColor="@color/gray_99"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_zuijian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white">
+
+                    </android.support.v7.widget.RecyclerView>
+
+
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+    </com.sk.uudc.base.ProgressLayout>
+
+
 
 </LinearLayout>

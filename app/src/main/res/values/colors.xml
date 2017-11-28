@@ -6,6 +6,8 @@
     <color name="gray_99">#999999</color>
     <color name="gray_ea">#eaeaea</color>
     <color name="gray_d7">#d7d7d7</color>
+    <color name="gray_f4">#f2f2f2</color>
+    <color name="gray_AB">#616161</color>
     <color name="background_f2">#f2f2f2</color>
     <color name="image_bg">#FFF1EFEF</color>
     <color name="gray_d4">#d4d4d4</color>
@@ -13,6 +15,8 @@
     <color name="green_press">#FF20D18C</color>
     <color name="green1">#34e8a6</color>
     <color name="green2">#22ddb0</color>
+    <color name="green_qian">#E6F9F7</color>
+    <color name="gray_ban">#50000000</color>
 
 
     <color name="home_green">#06C1AE</color>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+    >
+    <TextView
+        android:id="@+id/tvItemGoodsTypeScreen"
+        android:layout_width="60dp"
+        android:layout_gravity="center"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:textSize="13sp"
+        android:textColor="@color/home_green"
+        android:text="早餐"
+        android:background="@drawable/shape_green_stoke"
+        android:gravity="center"/>
+
+</LinearLayout>

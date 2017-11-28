@@ -23,6 +23,7 @@
         android:gravity="center_vertical"
         >
         <TextView
+            android:id="@+id/tv_item_balance_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消订单退款金额"
@@ -30,13 +31,17 @@
             android:textSize="16sp"
             />
         <TextView
+            android:id="@+id/tv_item_balance_detail_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="14sp"
             android:text="2016-6-10 15:09"
             android:layout_marginTop="10dp"
+            android:textColor="@color/gray_99"
             />
     </LinearLayout>
     <TextView
+        android:id="@+id/tv_item_balance_detail_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+100"
@@ -45,4 +50,8 @@
         />
 
 </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="@color/gray_f4"/>
 </LinearLayout>

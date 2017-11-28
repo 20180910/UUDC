@@ -7,109 +7,80 @@
               android:background="@color/background_f2"
     >
 <include layout="@layout/app_title"/>
-    <LinearLayout
+    <com.sk.uudc.base.ProgressLayout
+        android:id="@id/pl_load"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:visibility="gone"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/no_bank"
-            />
-        <com.github.customview.MyTextView
-            android:layout_width="110dp"
-            android:layout_height="33dp"
-            android:text="绑定银行卡"
-            android:gravity="center"
-            app:my_tv_solid="@color/white"
-            app:my_tv_all_line="true"
-            android:layout_marginTop="20dp"
-            app:my_tv_press="@color/c_press"
-            android:textColor="@color/gray_33"
-            />
-    </LinearLayout>
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/white"
-    android:gravity="center_vertical"
-    android:padding="10dp"
-    android:layout_marginTop="10dp"
-    >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="当前已绑定银行卡:"
-        android:layout_marginLeft="10dp"
-        />
-    <com.github.customview.MyLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:my_ll_solid="@color/background_f2"
-        app:my_ll_corner_radius="5dp"
-        android:layout_margin="10dp"
-        android:padding="20dp"
-        >
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerCrop"
-            android:src="@drawable/nongye"
-            android:layout_marginTop="2dp"
-            />
+        android:layout_height="match_parent">
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            >
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/ll_bank_manage_no"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:visibility="gone"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/no_bank"
+                    />
+                <com.github.customview.MyTextView
+                    android:id="@+id/tv_bank_manage_bangding"
+                    android:layout_width="110dp"
+                    android:layout_height="33dp"
+                    android:text="绑定银行卡"
+                    android:gravity="center"
+                    app:my_tv_solid="@color/white"
+                    app:my_tv_all_line="true"
+                    android:layout_marginTop="20dp"
+                    app:my_tv_press="@color/c_press"
+                    android:textColor="@color/gray_33"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bank_manage"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@color/white"
                 android:gravity="center_vertical"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
                 >
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="中国农业银行"
-                    android:textColor="@color/gray_33"
-                    android:textSize="16sp"
-                    android:layout_marginBottom="5dp"
+                    android:text="当前已绑定银行卡:"
+                    android:layout_marginLeft="10dp"
                     />
-                <TextView
-                    android:layout_width="wrap_content"
+
+
+                <com.baoyz.swipemenulistview.SwipeMenuListView
+                    android:id="@+id/swlv_bank_manage"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="储蓄卡"
+                    android:divider="@null"/>
+
+
+                <TextView
+                    android:id="@+id/tv_bank_manage_bianji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="编辑银行卡信息"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="@color/home_green"
                     />
             </LinearLayout>
-        </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="***2566"
-            android:textColor="@color/gray_33"
-            android:textSize="16sp"
-            android:layout_gravity="center_vertical"
-            />
-    </com.github.customview.MyLinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="编辑银行卡信息"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:textColor="@color/home_green"
-        />
-</LinearLayout>
 
+        </LinearLayout>
+
+    </com.sk.uudc.base.ProgressLayout>
 </LinearLayout>

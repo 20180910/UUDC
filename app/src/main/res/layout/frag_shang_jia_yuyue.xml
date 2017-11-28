@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    >
+<android.support.v4.widget.NestedScrollView
+        android:id="@id/nsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_yuyue_commit"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:text="请选择您要预约的时间段"
+            android:textColor="@color/gray_66"
+            android:textSize="15sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_f4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="预约时间: "
+                android:textColor="@color/gray_66"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/tv_yuyue_date"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:drawableRight="@drawable/jiantou_right"
+                tools:text="2017-12-12"
+                android:textColor="@color/gray_33"
+                android:textSize="15sp"
+                android:gravity="center_vertical"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_f4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/time_empty"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="可选"
+                android:paddingRight="30dp"
+                android:paddingLeft="5dp"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/time_select"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="30dp"
+                android:paddingLeft="5dp"
+                android:text="已选"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/time_full"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="已经被订满"
+                android:paddingLeft="5dp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_f4"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvShangjiaYuyue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_f4"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:text="其他信息"
+            android:textColor="@color/gray_66"
+            android:textSize="15sp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_f4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用餐人数："
+                android:textColor="@color/gray_66"
+                android:ems="6"
+                android:textSize="15sp"/>
+
+            <com.github.customview.MyEditText
+                android:id="@+id/etShangjiaYuyueNum"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:imeOptions="actionNext"
+                android:maxLength="3"
+                tools:text="3"
+                app:my_et_border_color="@color/gray_99"
+                app:my_et_border_width="1dp"
+                app:my_et_solid="@color/white"
+                app:my_et_hiddenClear="true"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="人"
+                android:textColor="@color/gray_66"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/gray_f4"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="是否需要包间："
+                android:textColor="@color/gray_66"
+                android:ems="6"
+                android:textSize="15sp"/>
+
+            <RadioGroup
+                android:id="@+id/rgShangjiaYuyue"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <com.github.customview.MyRadioButton
+                    android:id="@+id/rbShangjiaYuyueNeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:button="@null"
+                    android:text="需要"
+                    android:textColor="@color/gray_66"
+                    app:my_radio_checked="@drawable/need_select"
+                    app:my_radio_normal="@drawable/need_normal"
+                    android:paddingLeft="10dp"
+                    />
+
+                <com.github.customview.MyRadioButton
+                    android:id="@+id/rbShangjiaYuyueNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="30dp"
+                    android:button="@null"
+                    android:text="不需要"
+                    android:checked="true"
+                    android:textColor="@color/gray_66"
+                    app:my_radio_checked="@drawable/need_select"
+                    app:my_radio_normal="@drawable/need_normal"
+                    android:paddingLeft="10dp"/>
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>
+
+    <TextView
+        android:id="@+id/tv_yuyue_commit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/orange"
+        android:gravity="center"
+        android:text="立即预约"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        />
+
+
+</RelativeLayout>

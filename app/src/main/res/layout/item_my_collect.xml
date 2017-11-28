@@ -8,21 +8,28 @@
               android:gravity="center_vertical"
     >
     <com.github.customview.MyCheckBox
+        android:id="@+id/ch_item_my_collect"
         android:layout_width="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_height="70dp"
         app:my_checkbox_checked="@drawable/my_check_select"
         app:my_checkbox_normal="@drawable/my_check_normal"
         android:visibility="gone"
         />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="10dp"
+
+        android:layout_marginTop="8dp"
         android:background="@color/background_f2"
         android:padding="2px"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         >
+
         <ImageView
+            android:id="@+id/iv_item_my_collect_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:scaleType="centerCrop"
@@ -30,7 +37,7 @@
             />
     </LinearLayout>
 
-        <LinearLayout
+    <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -40,8 +47,12 @@
             android:layout_marginLeft="10dp"
             >
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_item_my_collect_name"
+                android:layout_width="match_parent"
+                android:paddingRight="10dp"
+                android:maxLines="1"
                 android:layout_height="wrap_content"
+
                 android:text="海底捞(宝山店)"
                 android:textColor="@color/gray_33"
                 />
@@ -55,6 +66,7 @@
                 android:layout_marginBottom="5dp"
                 >
                 <ImageView
+                    android:id="@+id/iv_item_my_collect_star1"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
@@ -62,6 +74,7 @@
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
+                    android:id="@+id/iv_item_my_collect_star2"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
@@ -69,6 +82,7 @@
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
+                    android:id="@+id/iv_item_my_collect_star3"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
@@ -76,6 +90,7 @@
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
+                    android:id="@+id/iv_item_my_collect_star4"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
@@ -83,6 +98,7 @@
                     android:layout_marginRight="2dp"
                     />
                 <ImageView
+                    android:id="@+id/iv_item_my_collect_star5"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:scaleType="centerCrop"
@@ -90,6 +106,7 @@
                     android:layout_marginRight="2dp"
                     />
                 <TextView
+                    android:id="@+id/tv_item_my_collect_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5.0"
@@ -104,14 +121,18 @@
                 android:background="@color/white"
                 >
                 <TextView
+                    android:id="@+id/tv_item_my_collect_address"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="江苏路长宁区"
                     android:drawableLeft="@drawable/home_address"
                     android:drawablePadding="3dp"
+                    android:paddingRight="10dp"
+                    android:maxLines="1"
                     />
                 <TextView
+                    android:id="@+id/tv_item_my_collect_juli"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1.5KM"
