@@ -206,6 +206,17 @@ public class ApiRequest extends BaseApiRequest {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).getDelAccount(map).enqueue(callBack);
     }
+    //账户充值结束界面数据
+    public static void getPayRecharge(Map map,  MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getPayRecharge(map).enqueue(callBack);
+    }
+
+    //收益-转入余额
+    public static void getCommissionWithdrawals(Map map,  MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getCommissionWithdrawals(map).enqueue(callBack);
+    }
 
 
 }

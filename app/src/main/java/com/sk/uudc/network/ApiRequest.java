@@ -72,5 +72,25 @@ public class ApiRequest extends BaseApiRequest {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).PayInfo(map).enqueue(callBack);
     }
+    public static void getAllCity(Map map,MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getAllCity(map).enqueue(callBack);
+    }
+    //退出登录
+    public static void getLogOut(Map map,MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getLogOut(map).enqueue(callBack);
+    }
+
+    //保存定位信息
+    public static void getLatLng(Map map,MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getLatLng(map).enqueue(callBack);
+    }
+    //保存定位信息
+    public static void fenXiang(Map map,MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).fenXiang(map).enqueue(callBack);
+    }
 
 }

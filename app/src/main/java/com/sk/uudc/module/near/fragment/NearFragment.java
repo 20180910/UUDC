@@ -12,6 +12,7 @@ import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.home.activity.SearchActivity;
 import com.sk.uudc.module.near.activity.NearMapActivity;
 import com.sk.uudc.module.near.adapter.NearFragmentAdapter;
 import com.sk.uudc.module.near.network.ApiRequest;
@@ -95,12 +96,12 @@ public class NearFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_near_search, R.id.iv_near_search, R.id.tv_near_map})
+    @OnClick({R.id.ll_near_search, R.id.tv_near_map})
     public void onViewClick(View view) {
         switch (view.getId()) {
-            case R.id.tv_near_search:
-                break;
-            case R.id.iv_near_search:
+            case R.id.ll_near_search:
+                STActivity(SearchActivity.class);
+//                STActivity(SearchShangJiaActivity.class);
                 break;
             case R.id.tv_near_map:
                 STActivity(NearMapActivity.class);

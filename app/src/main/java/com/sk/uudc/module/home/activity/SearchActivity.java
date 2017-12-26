@@ -134,6 +134,12 @@ public class SearchActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void myReStart() {
+        super.myReStart();
+        getHottestSearch();
+    }
+
     private void getHottestSearch() {
         Map<String,String> map=new HashMap<String,String>();
         String user_id=getUserId();

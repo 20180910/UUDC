@@ -102,7 +102,7 @@ public class BankManageActivity extends BaseActivity {
                             .setNegativeButton((dialog, which) -> dialog.dismiss())
                             .setPositiveButton((dialog, which) -> {
                                 account_id = beanList.get(position).getId();
-                                showProgress();
+
                                 getEditDefault();
                                 dialog.dismiss();
 
@@ -123,6 +123,7 @@ public class BankManageActivity extends BaseActivity {
     }
 
     private void getDelAccount(int position) {
+        showLoading();
         Map<String,String>map=new HashMap<String,String>();
         map.put("account_id",beanList.get(position).getId());
         map.put("user_id",getUserId());
@@ -139,6 +140,7 @@ public class BankManageActivity extends BaseActivity {
     }
 
     private void getEditDefault() {
+        showLoading();
         Map<String, String> map = new HashMap<String, String>();
         map.put("account_id", account_id);
         map.put("user_id", getUserId());
@@ -166,10 +168,11 @@ public class BankManageActivity extends BaseActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        showProgress();
-        initData();
+    protected void myReStart() {
+        super.myReStart();
+        showLoading();
+        getAccount();
+
     }
 
     private void getAccount() {

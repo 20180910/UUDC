@@ -17,13 +17,10 @@
         app:tl_indicator_width="20dp"
         app:tl_textSelectColor="@color/orange"
         app:tl_textUnselectColor="@color/gray_66"
+        android:layout_marginBottom="2px"
         app:tl_textsize="14sp">
 
     </com.flyco.tablayout.CommonTabLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2px"
-        android:background="@color/gray_f4"/>
    <com.sk.uudc.base.ProgressLayout
        android:background="@color/white"
        android:id="@id/pl_load"

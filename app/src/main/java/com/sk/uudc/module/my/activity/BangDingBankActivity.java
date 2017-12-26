@@ -134,13 +134,13 @@ public class BangDingBankActivity extends BaseActivity {
                     showMsg("请输入开户行名称！");
                     return;
                 }
-                showProgress();
                 postAddAccount();
                 break;
         }
     }
 
     private void postAddAccount() {
+        showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("user_id",getUserId());
         map.put("sign", GetSign.getSign(map));

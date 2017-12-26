@@ -18,35 +18,47 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
 import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.SPUtils;
+import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.adapter.BaseRecyclerAdapter;
+import com.github.baseclass.adapter.LoadMoreAdapter;
+import com.github.baseclass.adapter.LoadMoreViewHolder;
 import com.github.baseclass.adapter.RecyclerViewHolder;
+import com.github.baseclass.rx.MySubscriber;
 import com.github.customview.MyLinearLayout;
 import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.MyApplication;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
+import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.home.activity.CitySearchActivity;
 import com.sk.uudc.module.home.activity.GoodsTypeActivity;
 import com.sk.uudc.module.home.activity.SearchActivity;
+import com.sk.uudc.module.home.event.HomePageEvent;
 import com.sk.uudc.module.home.network.ApiRequest;
 import com.sk.uudc.module.home.network.request.HomeRoastingChartBody;
 import com.sk.uudc.module.home.network.response.CityIdObj;
 import com.sk.uudc.module.home.network.response.HomeAnnouncementObj;
 import com.sk.uudc.module.home.network.response.HomeDailybestObj;
+import com.sk.uudc.module.home.network.response.HomeLikeObj;
 import com.sk.uudc.module.home.network.response.HomePageImageObj;
 import com.sk.uudc.module.home.network.response.HomeRoastingChartObj;
 import com.sk.uudc.module.home.network.response.HomeTypeAssemblageObj;
 import com.sk.uudc.module.home.network.response.HomeUnreadNews;
+import com.sk.uudc.module.my.activity.LoginActivity;
+import com.sk.uudc.module.my.activity.MyMessageActivity;
+import com.sk.uudc.module.my.activity.WoYaoHeZuoActivity;
+import com.sk.uudc.module.near.Constant;
+import com.sk.uudc.module.near.activity.ShangJiaActivity;
 import com.sk.uudc.tools.GlideLoader;
 import com.sk.uudc.tools.SpaceItemDecoration;
 import com.sk.uudc.view.AutoVerticalScrollTextView;
 import com.youth.banner.Banner;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,6 +71,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 import static android.os.Looper.getMainLooper;
+import static com.github.baseclass.rx.RxBusHelper.getRxBusEvent;
 
 /**
  * Created by Administrator on 2017/11/4.
@@ -103,14 +116,17 @@ public class HomeFragment extends BaseFragment {
 
     private List<String> bannerList;
     ArrayList<String> arrayList = new ArrayList<>();
-    BaseRecyclerAdapter caiAdapter, canTingAdapter, likeAdapter;
-    String city = "上海市", city_id;
-    private String area="";
+    BaseRecyclerAdapter caiAdapter, canTingAdapter;
+    LoadMoreAdapter likeAdapter;
+    String city = "上海市", city_id,city_id_xuanze;
+    private String area = "";
     int number = 0;
+    String imgId;
 
     Timer timer = new Timer();
     TimerTask task;
-    private boolean isFirstLoc=true;
+    private boolean isFirstLoc = true;
+
     @Override
     protected int getContentView() {
         return R.layout.frag_home;
@@ -118,7 +134,10 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
+        pcfl.disableWhenHorizontalMove(true);
         baiDuMap();
+
 
         caiAdapter = new BaseRecyclerAdapter<HomeTypeAssemblageObj.TypeListBean>(mContext, R.layout.item_home_cai) {
 
@@ -133,12 +152,21 @@ public class HomeFragment extends BaseFragment {
                 tv_item_home_cai.setText(bean.getType_name());
 
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new MyOnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        getCityId(bean.getType_name(), bean.getType_id());
+                    protected void onNoDoubleClick(View view) {
+                city_id_xuanze=SPUtils.getPrefString(mContext, Config.city_id_xuanze, city_id);
+                Intent goodsType = new Intent();
+                goodsType.putExtra("name", bean.getType_name());
+                goodsType.putExtra("typeId", bean.getType_id());
+                goodsType.putExtra("city_id", city_id);
+                goodsType.putExtra("city_id_xuanze", city_id_xuanze);
+                STActivity(goodsType, GoodsTypeActivity.class);
 
 
+
+
+                        ///
                     }
                 });
 
@@ -165,6 +193,16 @@ public class HomeFragment extends BaseFragment {
                         into(iv_home_can_ting);
                 tv_item_home_canting_pingfen.setText(bean.getScoring() + "分");
                 tv_item_home_canting_name.setText(bean.getMerchant_name());
+
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.IParam.merchant_id, bean.getMerchant_id() + "");
+                        STActivity(intent, ShangJiaActivity.class);
+                    }
+                });
             }
         };
         rv_home_can_ting.setNestedScrollingEnabled(false);
@@ -183,13 +221,112 @@ public class HomeFragment extends BaseFragment {
         rv_home_can_ting.addItemDecoration(new SpaceItemDecoration(5));
         rv_home_can_ting.setAdapter(canTingAdapter);
 
-        likeAdapter = new BaseRecyclerAdapter(mContext, R.layout.item_home_like) {
+
+        likeAdapter = new LoadMoreAdapter<HomeLikeObj.MerchantListBean>(mContext, R.layout.item_home_like, pageSize, nsv) {
             @Override
-            public void bindData(RecyclerViewHolder holder, int i, Object o) {
+            public void bindData(LoadMoreViewHolder holder, int i, HomeLikeObj.MerchantListBean bean) {
+                TextView tv_item_home_like_name = holder.getTextView(R.id.tv_item_home_like_name);
+                TextView tv_item_home_like_star_num = holder.getTextView(R.id.tv_item_home_like_star_num);
+                TextView tv_item_home_like_price = holder.getTextView(R.id.tv_item_home_like_price);
+                TextView tv_item_home_like_juli = holder.getTextView(R.id.tv_item_home_like_juli);
+                TextView tv_item_home_like_type1 = holder.getTextView(R.id.tv_item_home_like_type1);
+                TextView tv_item_home_like_type2 = holder.getTextView(R.id.tv_item_home_like_type2);
+                TextView tv_item_home_like_type3 = holder.getTextView(R.id.tv_item_home_like_type3);
+                TextView tv_item_home_like_address = holder.getTextView(R.id.tv_item_home_like_address);
+                ImageView iv_item_home_like_icon = holder.getImageView(R.id.iv_item_home_like_icon);
+                ImageView iv_item_home_like_star1 = holder.getImageView(R.id.iv_item_home_like_star1);
+                ImageView iv_item_home_like_star2 = holder.getImageView(R.id.iv_item_home_like_star2);
+                ImageView iv_item_home_like_star3 = holder.getImageView(R.id.iv_item_home_like_star3);
+                ImageView iv_item_home_like_star4 = holder.getImageView(R.id.iv_item_home_like_star4);
+                ImageView iv_item_home_like_star5 = holder.getImageView(R.id.iv_item_home_like_star5);
+                tv_item_home_like_name.setText(bean.getMerchant_name());
+                tv_item_home_like_star_num.setText(bean.getScoring() + "");
+                tv_item_home_like_price.setText("¥" + bean.getMoney_people() + "/人");
+                tv_item_home_like_address.setText(bean.getMerchant_address());
+                if (bean.getDistance().equals("-1")) {
+                    tv_item_home_like_juli.setVisibility(View.GONE);
+                }else {
+                    tv_item_home_like_juli.setVisibility(View.VISIBLE);
+                }
+                tv_item_home_like_juli.setText(bean.getDistance() );
+                Glide.with(mContext).load(bean.getMerchant_avatar()).error(R.color.c_press).into(iv_item_home_like_icon);
+                if (bean.getScoring() == 1) {
+                    iv_item_home_like_star1.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star2.setVisibility(View.GONE);
+                    iv_item_home_like_star3.setVisibility(View.GONE);
+                    iv_item_home_like_star4.setVisibility(View.GONE);
+                    iv_item_home_like_star5.setVisibility(View.GONE);
+                } else if (bean.getScoring() == 2) {
+                    iv_item_home_like_star1.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star2.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star3.setVisibility(View.GONE);
+                    iv_item_home_like_star4.setVisibility(View.GONE);
+                    iv_item_home_like_star5.setVisibility(View.GONE);
+                } else if (bean.getScoring() == 3) {
+                    iv_item_home_like_star1.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star2.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star3.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star4.setVisibility(View.GONE);
+                    iv_item_home_like_star5.setVisibility(View.GONE);
+                } else if (bean.getScoring() == 4) {
+                    iv_item_home_like_star1.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star2.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star3.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star4.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star5.setVisibility(View.GONE);
+                } else if (bean.getScoring() == 5) {
+                    iv_item_home_like_star1.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star2.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star3.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star4.setVisibility(View.VISIBLE);
+                    iv_item_home_like_star5.setVisibility(View.VISIBLE);
+                } else {
+                    iv_item_home_like_star1.setVisibility(View.GONE);
+                    iv_item_home_like_star2.setVisibility(View.GONE);
+                    iv_item_home_like_star3.setVisibility(View.GONE);
+                    iv_item_home_like_star4.setVisibility(View.GONE);
+                    iv_item_home_like_star5.setVisibility(View.GONE);
+                }
+                if (bean.getLable().size() == 0) {
+                    tv_item_home_like_type1.setVisibility(View.GONE);
+                    tv_item_home_like_type2.setVisibility(View.GONE);
+                    tv_item_home_like_type3.setVisibility(View.GONE);
+                } else if (bean.getLable().size() == 1) {
+                    tv_item_home_like_type1.setVisibility(View.VISIBLE);
+                    tv_item_home_like_type2.setVisibility(View.GONE);
+                    tv_item_home_like_type3.setVisibility(View.GONE);
+                    tv_item_home_like_type1.setText(bean.getLable().get(0));
+
+                } else if (bean.getLable().size() == 2) {
+                    tv_item_home_like_type1.setVisibility(View.VISIBLE);
+                    tv_item_home_like_type2.setVisibility(View.VISIBLE);
+                    tv_item_home_like_type3.setVisibility(View.GONE);
+                    tv_item_home_like_type1.setText(bean.getLable().get(0));
+                    tv_item_home_like_type2.setText(bean.getLable().get(1));
+                } else if (bean.getLable().size() >= 3) {
+                    tv_item_home_like_type1.setVisibility(View.VISIBLE);
+                    tv_item_home_like_type2.setVisibility(View.VISIBLE);
+                    tv_item_home_like_type3.setVisibility(View.VISIBLE);
+                    tv_item_home_like_type1.setText(bean.getLable().get(0));
+                    tv_item_home_like_type2.setText(bean.getLable().get(1));
+                    tv_item_home_like_type3.setText(bean.getLable().get(2));
+
+                }
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.IParam.merchant_id, bean.getMerchant_id() + "");
+                        STActivity(intent, ShangJiaActivity.class);
+
+                    }
+                });
+
 
             }
         };
-        likeAdapter.setTestListSize(3);
+
+        likeAdapter.setOnLoadMoreListener(this);
         rv_home_like.setNestedScrollingEnabled(false);
         rv_home_like.setLayoutManager(new LinearLayoutManager(mContext));
         rv_home_like.addItemDecoration(getItemDivider());
@@ -205,12 +342,14 @@ public class HomeFragment extends BaseFragment {
                 new Handler(getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        avstv_home1.next();
-                        avstv_home2.next();
-                        number++;
-                        avstv_home1.setText(arrayList.get(number % arrayList.size()));
-                        number++;
-                        avstv_home2.setText(arrayList.get(number % arrayList.size()));
+                        if(avstv_home1!=null){
+                            avstv_home1.next();
+                            avstv_home2.next();
+                            number++;
+                            avstv_home1.setText(arrayList.get(number % arrayList.size()));
+                            number++;
+                            avstv_home2.setText(arrayList.get(number % arrayList.size()));
+                        }
                     }
                 });
 
@@ -246,11 +385,74 @@ public class HomeFragment extends BaseFragment {
         getDailybest();
         //公告
         getAnnouncement();
-        if (!TextUtils.isEmpty(getUserId())) {
-            getUnreadNews();
-        }
+        //猜你喜欢
+        getData(1, false);
+
 
     }
+
+    @Override
+    protected void initRxBus() {
+        super.initRxBus();
+       getRxBusEvent(HomePageEvent.class, new MySubscriber<HomePageEvent>() {
+           @Override
+           public void onMyNext(HomePageEvent event) {
+               if (event.type.equals(Config.refresh)) {
+                   showLoading();
+                   getData(1, false);
+
+
+               }
+
+           }
+       });
+
+
+    }
+
+    @Override
+    protected void getData(int page, boolean isLoad) {
+        super.getData(page, isLoad);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", getUserId());
+        map.put("lat", MyApplication.getWeiDu(mContext) + "");
+        map.put("lng", MyApplication.getJingDu(mContext) + "");
+        map.put("pagesize", pageSize + "");
+        map.put("page", page + "");
+        map.put("sign", GetSign.getSign(map));
+        ApiRequest.getGuessYouLike(map, new MyCallBack<HomeLikeObj>(mContext, pcfl, pl_load) {
+            @Override
+            public void onSuccess(HomeLikeObj obj) {
+                if (isLoad) {
+                    pageNum++;
+                    likeAdapter.addList(obj.getMerchantList(), true);
+                } else {
+                    pageNum = 2;
+                    likeAdapter.setList(obj.getMerchantList(), true);
+                }
+
+//                likeAdapter.setList(obj.getMerchantList(), true);
+
+
+            }
+        });
+
+
+    }
+    //    private void getGuessYouLike() {
+////        String user_id=getUserId();
+////        if (TextUtils.isEmpty(user_id)) {
+////            user_id="0";
+////        }
+
+//        ApiRequest.getGuessYouLike(map, new MyCallBack<HomeLikeObj>(mContext,pcfl,pl_load) {
+//            @Override
+//            public void onSuccess(HomeLikeObj obj) {
+//                likeAdapter.setList(obj.getMerchantList(),true);
+//
+//            }
+//        });
+//    }
 
     private void getUnreadNews() {
         Map<String, String> map = new HashMap<String, String>();
@@ -277,7 +479,8 @@ public class HomeFragment extends BaseFragment {
         Map<String, String> map = new HashMap<String, String>();
         map.put("rnd", getRnd());
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getAnnouncement(map, new MyCallBack<List<HomeAnnouncementObj>>(mContext,pcfl,pl_load) {
+
+        ApiRequest.getAnnouncement(map, new MyCallBack<List<HomeAnnouncementObj>>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(List<HomeAnnouncementObj> obj) {
                 for (int i = 0; i < obj.size(); i++) {
@@ -288,7 +491,7 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    private void getCityId(String name, String typeId) {
+    private void getCityId() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("city", city);
         map.put("sign", GetSign.getSign(map));
@@ -296,12 +499,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onSuccess(CityIdObj obj) {
                 city_id = obj.getCity_id();
-                Intent goodsType = new Intent();
-                goodsType.putExtra("name", name);
-                goodsType.putExtra("typeId", typeId);
-                goodsType.putExtra("city_id", city_id);
-                STActivity(goodsType, GoodsTypeActivity.class);
-
+                SPUtils.setPrefString(mContext, Config.city_id_xuanze, city_id);
 
             }
         });
@@ -313,7 +511,7 @@ public class HomeFragment extends BaseFragment {
         map.put("lat", MyApplication.getWeiDu(mContext) + "");
         map.put("lng", MyApplication.getJingDu(mContext) + "");
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getDailybest(map, new MyCallBack<HomeDailybestObj>(mContext,pcfl,pl_load) {
+        ApiRequest.getDailybest(map, new MyCallBack<HomeDailybestObj>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(HomeDailybestObj obj) {
                 canTingAdapter.setList(obj.getDailybest_list(), true);
@@ -327,16 +525,17 @@ public class HomeFragment extends BaseFragment {
         Map<String, String> map = new HashMap<String, String>();
         map.put("rnd", getRnd());
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getHomePageImage(map, new MyCallBack<HomePageImageObj>(mContext,pcfl,pl_load) {
+        ApiRequest.getHomePageImage(map, new MyCallBack<HomePageImageObj>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(HomePageImageObj obj) {
 
 
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                layoutParams.height = (int) (PhoneUtils.getScreenWidth(mContext) / 2.1);
+                layoutParams.height = (int) (PhoneUtils.getScreenWidth(mContext) / 3.75);
                 layoutParams.width = PhoneUtils.getScreenWidth(mContext);
 
                 iv_home_icon.setLayoutParams(layoutParams);
+                imgId=obj.getMerchant_id();
 
                 Glide.with(mContext).
                         load(obj.getImg_url()).
@@ -353,7 +552,7 @@ public class HomeFragment extends BaseFragment {
         Map<String, String> map = new HashMap<String, String>();
         map.put("rnd", getRnd());
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getTypeAssemblage(map, new MyCallBack<HomeTypeAssemblageObj>(mContext,pcfl,pl_load) {
+        ApiRequest.getTypeAssemblage(map, new MyCallBack<HomeTypeAssemblageObj>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(HomeTypeAssemblageObj obj) {
                 caiAdapter.setList(obj.getType_list(), true);
@@ -369,7 +568,7 @@ public class HomeFragment extends BaseFragment {
         HomeRoastingChartBody body = new HomeRoastingChartBody();
         body.setLat(MyApplication.getWeiDu(mContext) + "");
         body.setLng(MyApplication.getJingDu(mContext) + "");
-        ApiRequest.postRoastingChart(map, body, new MyCallBack<HomeRoastingChartObj>(mContext,pcfl,pl_load) {
+        ApiRequest.postRoastingChart(map, body, new MyCallBack<HomeRoastingChartObj>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(HomeRoastingChartObj obj) {
                 bannerList = new ArrayList<String>();
@@ -380,15 +579,17 @@ public class HomeFragment extends BaseFragment {
                 bn_home.setImages(bannerList);
                 bn_home.setImageLoader(new GlideLoader());
                 bn_home.start();
-
+                bn_home.setOnBannerListener(new OnBannerListener() {
+                    @Override
+                    public void OnBannerClick(int position) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.IParam.merchant_id, obj.getRoasting_list().get(position).getMerchant_id() + "");
+                        STActivity(intent, ShangJiaActivity.class);
+                    }
+                });
 
             }
         });
-
-    }
-
-    @Override
-    protected void getData(int page, boolean isLoad) {
 
     }
 
@@ -407,10 +608,21 @@ public class HomeFragment extends BaseFragment {
         if (bn_home != null && bannerList != null) {
             bn_home.startAutoPlay();
         }
+        city=SPUtils.getPrefString(mContext, Config.city, city);
+        tv_home_city.setText(city);
+
+
+
+
+
+
+        if (!TextUtils.isEmpty(getUserId())) {
+            getUnreadNews();
+        }
     }
 
 
-    @OnClick({R.id.tv_home_city, R.id.tv_home_search, R.id.iv_home_msg})
+    @OnClick({R.id.tv_home_city, R.id.tv_home_search, R.id.iv_home_msg,R.id.iv_home_icon})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_home_city:
@@ -420,6 +632,19 @@ public class HomeFragment extends BaseFragment {
                 STActivity(SearchActivity.class);
                 break;
             case R.id.iv_home_msg:
+                if (noLogin()) {
+                    STActivity(LoginActivity.class);
+                } else {
+                    STActivity(MyMessageActivity.class);
+                }
+                break;
+            case R.id.iv_home_icon:
+                /*if (!TextUtils.isEmpty(imgId)) {
+                    Intent intent = new Intent();
+                    intent.putExtra(Constant.IParam.merchant_id, imgId);
+                    STActivity(intent, ShangJiaActivity.class);
+                }*/
+                STActivity(WoYaoHeZuoActivity.class);
                 break;
         }
     }
@@ -435,7 +660,7 @@ public class HomeFragment extends BaseFragment {
         //可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");
         //可选，默认gcj02，设置返回的定位结果坐标系
-        int span=1000;
+        int span = 1000;
         option.setScanSpan(span);
         //可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);
@@ -455,15 +680,29 @@ public class HomeFragment extends BaseFragment {
         mLocClient.setLocOption(option);
         mLocClient.start();
     }
+    long mLastTime=0;
     public class MyLocationListenner extends BDAbstractLocationListener {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
             // map view 销毁后不在处理新接收的位置
-            if (location == null  )
+            if (location == null)
                 return;
 
 //            mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(15).build()));
+            if (mLastTime == 0) {
+                mLastTime = System.currentTimeMillis();
+            }
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - mLastTime > 1000) {
+                float latitude = (float) location.getLatitude();
+                float longitude = (float) location.getLongitude();
+                MyApplication.latitude=latitude;
+                MyApplication.longitude=longitude;
+                SPUtils.setPrefFloat(mContext, Config.longitude,longitude);
+                SPUtils.setPrefFloat(mContext, Config.latitude, latitude);
+            }
+
             if (isFirstLoc) {
                 /*MyLocationData locData = new MyLocationData.Builder()
                         .accuracy(location.getRadius())
@@ -471,19 +710,44 @@ public class HomeFragment extends BaseFragment {
                         .direction(100).latitude(location.getLatitude())
                         .longitude(location.getLongitude()).build();*/
                 isFirstLoc = false;
-                LatLng ll = new LatLng(location.getLatitude(),
-                        location.getLongitude());
-
-                Log.i("===",location.getAddrStr()+"=="+location.getCity()+"==="+location.getDistrict());
-                city=location.getCity();
-                area=location.getDistrict();
-                SPUtils.setPrefString(mContext, Config.city,city);
-                SPUtils.setPrefString(mContext, Config.area,area);
+                /*LatLng ll = new LatLng(location.getLatitude(),
+                        location.getLongitude());*/
+                SPUtils.setPrefFloat(mContext, Config.longitude, (float) location.getLongitude());
+                SPUtils.setPrefFloat(mContext, Config.latitude, (float) location.getLatitude());
+                Log.i("===", location.getAddrStr() + "==" + location.getCity() + "===" + location.getDistrict());
+                city = location.getCity();
+                area = location.getDistrict();
+                SPUtils.setPrefString(mContext, Config.city, city);
+                SPUtils.setPrefString(mContext, Config.dingweicity, city);
+                SPUtils.setPrefString(mContext, Config.area, area);
                 tv_home_city.setText(location.getCity());
+                getCityId();
+                //
+                getLatLng(location.getLongitude(), location.getLatitude());
+
+
             }
         }
 
-        public void onReceivePoi(BDLocation poiLocation) {
-        }
     }
+
+    private void getLatLng(double longitude, double latitude) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", getUserId());
+        map.put("lat", latitude + "");
+        map.put("lng", longitude + "");
+        map.put("sign", GetSign.getSign(map));
+        com.sk.uudc.network.ApiRequest.getLatLng(map, new MyCallBack<BaseObj>(mContext) {
+            @Override
+            public void onSuccess(BaseObj obj) {
+                Log.d("=====", "经度和纬度保存");
+
+            }
+        });
+
+    }
+
+    private void getLatLng() {
+    }
+
 }

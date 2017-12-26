@@ -1,10 +1,12 @@
 package com.sk.uudc.module.my.network.response;
 
+import com.sk.uudc.base.BaseObj;
+
 /**
  * Created by Administrator on 2017/11/23.
  */
 
-public class AccountDefaultObj {
+public class AccountDefaultObj extends BaseObj {
 
     /**
      * id : 3

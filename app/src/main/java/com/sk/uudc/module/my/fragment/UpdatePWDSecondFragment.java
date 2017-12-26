@@ -3,10 +3,13 @@ package com.sk.uudc.module.my.fragment;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.github.androidtools.SPUtils;
 import com.github.customview.MyEditText;
 import com.github.customview.MyTextView;
 import com.github.rxjava.rxbus.RxUtils;
+import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
@@ -29,8 +32,9 @@ import rx.Subscription;
  */
 
 public class UpdatePWDSecondFragment extends BaseFragment {
-    @BindView(R.id.et_update_pwd_second_phone)
-    MyEditText et_update_pwd_second_phone;
+//    @BindView(R.id.et_update_pwd_second_phone)
+//    MyEditText et_update_pwd_second_phone;
+
     @BindView(R.id.et_update_pwd_second_code)
     MyEditText et_update_pwd_second_code;
     @BindView(R.id.tv_update_pwd_second_huoqu)
@@ -43,12 +47,13 @@ public class UpdatePWDSecondFragment extends BaseFragment {
     MyEditText et_update_pwd_second_reset2;
     @BindView(R.id.tv_update_pwd_second_sure)
     MyTextView tv_update_pwd_second_sure;
-
+    @BindView(R.id.tv_update_pwd_second_phone)
+    TextView tv_update_pwd_second_phone;
     @BindView(R.id.ll_update_pwd_second_next)
     LinearLayout ll_update_pwd_second_next;
     @BindView(R.id.ll_update_pwd_second_sure)
     LinearLayout ll_update_pwd_second_sure;
-    String phone, resetPassword, resetPassword2, smsCode,code;
+    String phone, resetPassword, resetPassword2, smsCode, code;
 
     @Override
     protected int getContentView() {
@@ -58,6 +63,7 @@ public class UpdatePWDSecondFragment extends BaseFragment {
     @Override
     protected void initView() {
         ll_update_pwd_second_sure.setVisibility(View.GONE);
+        tv_update_pwd_second_phone.setText(SPUtils.getPrefString(mContext, Config.phone,null));
 
     }
 
@@ -75,47 +81,44 @@ public class UpdatePWDSecondFragment extends BaseFragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_update_pwd_second_huoqu:
-                phone = getSStr(et_update_pwd_second_phone);
-                if (TextUtils.isEmpty(phone)) {
-                    showMsg("手机号不能为空");
-                    return;
-                } else if (!GetSign.isMobile(phone)) {
-                    showMsg("请输入正确手机号");
-                    return;
-                }
+                phone = getSStr(tv_update_pwd_second_phone);
+//                if (TextUtils.isEmpty(phone)) {
+//                    showMsg("手机号不能为空");
+//                    return;
+//                } else if (!GetSign.isMobile(phone)) {
+//                    showMsg("请输入正确手机号");
+//                    return;
+//                }
                 getMsgCode();
                 break;
             case R.id.tv_update_pwd_second_next:
-                code=getSStr(et_update_pwd_second_code);
+                code = getSStr(et_update_pwd_second_code);
 
-                if (TextUtils.isEmpty(phone)) {
-                    showMsg("手机号不能为空");
-                    return;
-                } else if (!GetSign.isMobile(phone)) {
-                    showMsg("请输入正确手机号");
+//                if (TextUtils.isEmpty(phone)) {
+//                    showMsg("手机号不能为空");
+//                    return;
+//                } else if (!GetSign.isMobile(phone)) {
+//                    showMsg("请输入正确手机号");
+//                    return;
+//                } else
+                    if (TextUtils.isEmpty(smsCode) || TextUtils.isEmpty(code) || !code.equals(smsCode)) {
+                    showMsg("请输入正确验证码");
                     return;
                 }
-//                else if(TextUtils.isEmpty(smsCode)||TextUtils.isEmpty(code)||!code.equals(smsCode)){
-//                    showMsg("请输入正确验证码");
-//                    return;
-//                }
-
-
 
 
                 ll_update_pwd_second_next.setVisibility(View.GONE);
                 ll_update_pwd_second_sure.setVisibility(View.VISIBLE);
 
 
-
                 break;
             case R.id.tv_update_pwd_second_sure:
-                resetPassword=getSStr(et_update_pwd_second_reset);
-                resetPassword2=getSStr(et_update_pwd_second_reset2);
-                if(TextUtils.isEmpty(resetPassword)){
+                resetPassword = getSStr(et_update_pwd_second_reset);
+                resetPassword2 = getSStr(et_update_pwd_second_reset2);
+                if (TextUtils.isEmpty(resetPassword)) {
                     showMsg("密码不能为空");
                     return;
-                }else if(!resetPassword.equals(resetPassword2)){
+                } else if (!resetPassword.equals(resetPassword2)) {
                     showMsg("两次密码不一样");
                     return;
                 }
@@ -126,23 +129,22 @@ public class UpdatePWDSecondFragment extends BaseFragment {
     }
 
     private void setResetPwd() {
-            showLoading();
-            Map<String,String>map=new HashMap<String,String>();
-            map.put("username",phone);
-            map.put("newPassword",resetPassword);
-            map.put("sign",GetSign.getSign(map));
-            com.sk.uudc.module.my.network.ApiRequest.forgetPWD(map, new MyCallBack<BaseObj>(mContext) {
-                @Override
-                public void onSuccess(BaseObj obj) {
-                    showMsg(obj.getMsg());
-                    getActivity().finish();
+        showLoading();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("username", phone);
+        map.put("newPassword", resetPassword);
+        map.put("sign", GetSign.getSign(map));
+        com.sk.uudc.module.my.network.ApiRequest.forgetPWD(map, new MyCallBack<BaseObj>(mContext) {
+            @Override
+            public void onSuccess(BaseObj obj) {
+                showMsg(obj.getMsg());
+                getActivity().finish();
 
-                }
-            });
+            }
+        });
 
 
-
-        }
+    }
 
     private void getMsgCode() {
         showLoading();

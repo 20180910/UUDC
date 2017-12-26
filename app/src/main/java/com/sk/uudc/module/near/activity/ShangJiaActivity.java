@@ -1,7 +1,11 @@
 package com.sk.uudc.module.near.activity;
 
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -11,13 +15,18 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.github.androidtools.PhoneUtils;
 import com.github.baseclass.rx.MySubscriber;
 import com.github.customview.MyTextView;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.BaseBody;
+import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.home.activity.SearchActivity;
+import com.sk.uudc.module.my.activity.LoginActivity;
 import com.sk.uudc.module.near.Constant;
 import com.sk.uudc.module.near.event.JieSuanEvent;
 import com.sk.uudc.module.near.event.YuYueEvent;
@@ -26,6 +35,7 @@ import com.sk.uudc.module.near.fragment.ShangJiaJieShaoFragment;
 import com.sk.uudc.module.near.fragment.ShangJiaShangPinFragment;
 import com.sk.uudc.module.near.fragment.ShangjiaYuyueFragment;
 import com.sk.uudc.module.near.network.ApiRequest;
+import com.sk.uudc.module.near.network.request.ShowOrderBody;
 import com.sk.uudc.module.near.network.response.ShangJiaObj;
 import com.sk.uudc.tools.TabEntity;
 
@@ -43,6 +53,8 @@ import butterknife.OnClick;
 
 public class ShangJiaActivity extends BaseActivity {
 
+    @BindView(R.id.v_shang_jia_top)
+    View v_shang_jia_top;
     @BindView(R.id.iv_shangjia_icon)
     ImageView iv_shangjia_icon;
     @BindView(R.id.tv_shangjia_name)
@@ -87,6 +99,8 @@ public class ShangJiaActivity extends BaseActivity {
     FrameLayout fl_shangjia;
     @BindView(R.id.ctl_shang_jia)
     CommonTabLayout ctl_shang_jia;
+    @BindView(R.id.tv_yuyue_commit)
+    TextView tv_yuyue_commit;
     private String[] titles = new String[]{"预约", "商品", "评价", "商家"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private ArrayList<Fragment> fragments = new ArrayList<>();
@@ -94,6 +108,17 @@ public class ShangJiaActivity extends BaseActivity {
     private YuYueEvent yuYueEvent;
 
     private double minMoney;
+    private ShangjiaYuyueFragment shangjiaYuyueFragment;
+    private boolean isCollect;
+    private String actionType;
+    private String orderId;
+    private ShangJiaShangPinFragment jiaShangPinFragment;
+    private ShangJiaEvaluateFragment evaluateFragment;
+    private ShangJiaJieShaoFragment jiaJieShaoFragment;
+    private int fragmentHeight;
+    private ArrayList<Integer> manList;
+    private ArrayList<Integer> jianList;
+
     @Override
     protected int getContentView() {
         return R.layout.act_shang_jia;
@@ -101,18 +126,39 @@ public class ShangJiaActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        actionType=getIntent().getAction();
+        orderId = getIntent().getStringExtra(Constant.IParam.orderId);
+        int screenWidth = PhoneUtils.getScreenWidth(mContext);
+        ll_shangjia_top.getBackground().mutate().setAlpha(0);
+        nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY >= 0 && scrollY <= screenWidth/3) {
+                    double alpha = (double) scrollY / screenWidth*3;
+                    ll_shangjia_top.getBackground().mutate().setAlpha((int) (alpha * 255));
+                    v_shang_jia_top.setVisibility(View.INVISIBLE);
+                    if(isCollect){
+                        iv_shangjia_collection.setImageResource(R.drawable.collection_select);
+                    }else{
+                        iv_shangjia_collection.setImageResource(R.drawable.shangjia_xing);
+                    }
+                    iv_shangjia_share.setImageResource(R.drawable.shangjia_share);
+                } else {
+                    v_shang_jia_top.setVisibility(View.VISIBLE);
+                    if(isCollect){
+                        iv_shangjia_collection.setImageResource(R.drawable.collection_select);
+                    }else{
+                        iv_shangjia_collection.setImageResource(R.drawable.collection_normal);
+                    }
+                    iv_shangjia_share.setImageResource(R.drawable.shangjia_share1);
+                    ll_shangjia_top.getBackground().mutate().setAlpha(255);
+                }
+            }
+        });
         //
         merchantId = getIntent().getStringExtra(Constant.IParam.merchant_id);
 
-//        ctl_shang_jia.setOnTabSelectListener(new OnTabSelectListener() {
-//            @Override
-//            public void onTabSelect(int position) {
-//            }
-//
-//            @Override
-//            public void onTabReselect(int position) {
-//            }
-//        });
+
         initTabLayout();
     }
 
@@ -123,29 +169,54 @@ public class ShangJiaActivity extends BaseActivity {
             @Override
             public void onMyNext(YuYueEvent event) {
                 yuYueEvent=event;
+                tv_yuyue_commit.setVisibility(View.GONE);
                 ctl_shang_jia.setCurrentTab(1);
+                selectYuYue();
             }
         });
         getRxBusEvent(JieSuanEvent.class, new MySubscriber<JieSuanEvent>() {
             @Override
             public void onMyNext(JieSuanEvent event) {
+                event.body.setUser_id(getUserId());
+                event.body.setMerchant_id(merchantId);
+                if(!TextUtils.isEmpty(actionType)){
+                    jiaCai(event.body);
+                    return;
+                }
                 if(yuYueEvent==null){
                     showMsg("请先选择预约时间");
                 }else{
-                    event.body.setUser_id(getUserId());
-                    event.body.setMerchant_id(merchantId);
                     event.body.setDine_time(yuYueEvent.yuYueDate);
                     event.body.setTime_id(yuYueEvent.timeId);
                     event.body.setDine_num_people(yuYueEvent.renShu);
                     event.body.setIs_require_rooms(yuYueEvent.needBaoJian?1:0);
-                    Intent jiesuan = new Intent();
+                    Intent jiesuan = new Intent(com.sk.uudc.module.near.Constant.IParam.jiaCai);
                     jiesuan.putExtra(Constant.IParam.orderBody,event.body);
+                    jiesuan.putExtra(Constant.IParam.orderId,orderId);
                     STActivity(jiesuan,TiJiaoOrderActivity.class);
                 }
 
             }
         });
+    }
 
+    private void jiaCai(ShowOrderBody body) {
+        Intent place=new Intent(mContext,OrderPayActivity.class);
+        body.setOrder_id(orderId);
+        place.putExtra(Constant.IParam.jiaCaiBody,body);
+        startActivityForResult(place,200);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case 200:
+                    finish();
+                break;
+            }
+        }
     }
 
     private void initTabLayout() {
@@ -176,12 +247,19 @@ public class ShangJiaActivity extends BaseActivity {
 
             @Override
             public void onSuccess(ShangJiaObj obj) {
-                ArrayList<Integer> manList=new ArrayList<Integer>();
-                ArrayList<Integer> jianList=new ArrayList<Integer>();
+                isCollect = obj.getIs_collect()==1;
+                if(isCollect){
+                    iv_shangjia_collection.setImageResource(R.drawable.collection_select);
+                }else{
+                    iv_shangjia_collection.setImageResource(R.drawable.shangjia_xing);
+                }
+                manList = new ArrayList<Integer>();
+                jianList = new ArrayList<Integer>();
                 if (notEmpty(obj.getActivity())) {
                     ll_shangjia_manjian.setVisibility(View.VISIBLE);
                     tv_shangjia_huodong_content.setText(listObjToString(obj.getActivity()));
-                    tv_shangjia_huaodong_num.setText(obj.getActivity().size()+"个活动");
+                    Log.i(TAG+"===","==="+listObjToString(obj.getActivity()));
+//                    tv_shangjia_huaodong_num.setText(obj.getActivity().size()+"个活动");
                     for (int i = 0; i < obj.getActivity().size(); i++) {
                         manList.add(obj.getActivity().get(i).getFull_amount());
                         jianList.add(obj.getActivity().get(i).getSubtract_amount());
@@ -193,12 +271,69 @@ public class ShangJiaActivity extends BaseActivity {
                 tv_shangjia_name.setText(obj.getMerchant_name());
                 tv_shangjia_num.setText(obj.getScoring()+"");
                 minMoney = obj.getMin_money();
-                fragments.add(ShangjiaYuyueFragment.newInstance(merchantId));
-                fragments.add(ShangJiaShangPinFragment.newInstance(merchantId,minMoney,manList,jianList));
-                fragments.add(ShangJiaEvaluateFragment.newInstance(merchantId));
-                fragments.add(ShangJiaJieShaoFragment.newInstance(merchantId));
-                ctl_shang_jia.setTabData(mTabEntities, ShangJiaActivity.this, R.id.fl_shangjia, fragments);
 
+                shangjiaYuyueFragment = ShangjiaYuyueFragment.newInstance(merchantId,obj.getIs_provide_rooms());
+                addFragment(R.id.fl_shangjia,shangjiaYuyueFragment);
+
+
+                ctl_shang_jia.setTabData(mTabEntities);
+//                ctl_shang_jia.setTabData(mTabEntities, ShangJiaActivity.this, R.id.fl_shangjia, fragments);
+                if(!TextUtils.isEmpty(actionType)){//加菜
+                    new Handler(getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_yuyue_commit.setVisibility(View.GONE);
+                            ctl_shang_jia.setCurrentTab(1);
+                            selectYuYue();
+                        }
+                    });
+                }
+                ctl_shang_jia.setOnTabSelectListener(new OnTabSelectListener() {
+                    @Override
+                    public void onTabSelect(int position) {
+                        if(position==0){
+                            tv_yuyue_commit.setVisibility(View.VISIBLE);
+                        }else{
+                            tv_yuyue_commit.setVisibility(View.GONE);
+                        }
+                        switch (position){
+                            case 0:
+                                showFragment(shangjiaYuyueFragment);
+                                hideFragment(jiaShangPinFragment);
+                                hideFragment(evaluateFragment);
+                                hideFragment(jiaJieShaoFragment);
+                            break;
+                            case 1:
+                                selectYuYue();
+                                break;
+                            case 2:
+                                if (evaluateFragment == null) {
+                                    evaluateFragment = ShangJiaEvaluateFragment.newInstance(merchantId);
+                                    addFragment(R.id.fl_shangjia,evaluateFragment);
+                                }else{
+                                    showFragment(evaluateFragment);
+                                }
+                                hideFragment(jiaShangPinFragment);
+                                hideFragment(shangjiaYuyueFragment);
+                                hideFragment(jiaJieShaoFragment);
+                                break;
+                            case 3:
+                                if (jiaJieShaoFragment == null) {
+                                    jiaJieShaoFragment = ShangJiaJieShaoFragment.newInstance(merchantId);
+                                    addFragment(R.id.fl_shangjia,jiaJieShaoFragment);
+                                }else{
+                                    showFragment(jiaJieShaoFragment);
+                                }
+                                hideFragment(shangjiaYuyueFragment);
+                                hideFragment(jiaShangPinFragment);
+                                hideFragment(evaluateFragment);
+                                break;
+                        }
+                    }
+                    @Override
+                    public void onTabReselect(int position) {
+                    }
+                });
 
                 if(obj.getScoring()>=5){
                     iv_shangjia_star1.setVisibility(View.VISIBLE);
@@ -245,9 +380,6 @@ public class ShangJiaActivity extends BaseActivity {
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < list.size(); i++) {
                     sb.append("满"+list.get(i).getFull_amount()+"减"+list.get(i).getSubtract_amount()).append(",");
-                    if(i%2!=0){
-                        sb.append("\n");
-                    }
                 }
                 return sb.toString().substring(0, sb.toString().length() - 1);
             }
@@ -255,19 +387,74 @@ public class ShangJiaActivity extends BaseActivity {
 
     }
 
+    private void selectYuYue() {
+        Log.i(TAG+"===","fragmentHeight==="+fragmentHeight);
+        if (jiaShangPinFragment == null) {
+            jiaShangPinFragment = ShangJiaShangPinFragment.newInstance(fragmentHeight,merchantId, minMoney, manList, jianList, actionType);
+            addFragment(R.id.fl_shangjia,jiaShangPinFragment);
+        }else{
+            showFragment(jiaShangPinFragment);
+        }
+        hideFragment(shangjiaYuyueFragment);
+        hideFragment(evaluateFragment);
+        hideFragment(jiaJieShaoFragment);
+    }
 
+    @Override
+    public void onAttachFragment(android.app.Fragment fragment) {
+        super.onAttachFragment(fragment);
+        fragmentHeight = fl_shangjia.getHeight();
+    }
 
-    @OnClick({R.id.iv_shangjia_back, R.id.iv_shangjia_collection, R.id.iv_shangjia_share})
+    @OnClick({R.id.iv_shangjia_back,
+            R.id.iv_shangjia_collection,
+            R.id.iv_shangjia_share,
+            R.id.tv_yuyue_commit,
+            R.id. tv_shangjia_search})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.iv_shangjia_back:
                 finish();
                 break;
+            case R.id.tv_yuyue_commit:
+                if(shangjiaYuyueFragment!=null){
+                    shangjiaYuyueFragment.startYuYue();
+                }
+                break;
             case R.id.iv_shangjia_collection:
+                if(noLogin()){
+                    STActivity(LoginActivity.class);
+                }else{
+                    collectShangJia();
+                }
                 break;
             case R.id.iv_shangjia_share:
+                showFenXiang();
+                break;
+            case R.id.tv_shangjia_search:
+                STActivity(SearchActivity.class);
                 break;
         }
+    }
+
+    private void collectShangJia() {
+        showLoading();
+        Map<String,String>map=new HashMap<String,String>();
+        map.put("user_id",getUserId());
+        map.put("merchant_id",merchantId);
+        map.put("sign",GetSign.getSign(map));
+        ApiRequest.collectShangJia(map, new MyCallBack<BaseObj>(mContext) {
+            @Override
+            public void onSuccess(BaseObj obj) {
+                isCollect=obj.getIs_collect()==1;
+                if(isCollect){
+                    iv_shangjia_collection.setImageResource(R.drawable.collection_select);
+                }else{
+                    iv_shangjia_collection.setImageResource(R.drawable.shangjia_xing);
+                }
+            }
+        });
+
     }
 
 

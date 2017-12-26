@@ -5,15 +5,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.github.androidtools.SPUtils;
 import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.github.baseclass.adapter.LoadMoreViewHolder;
 import com.github.customview.MyTextView;
+import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.MyShouyiObj;
+import com.sk.uudc.module.my.network.response.ShouyiObj;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +40,7 @@ public class MyShouYiActivity extends BaseActivity {
     @BindView(R.id.tv_my_shouyi_zhuanchuyue)
     MyTextView tv_my_shouyi_zhuanchuyue;
     LoadMoreAdapter adapter;
+    double amount;
 
     @Override
     protected int getContentView() {
@@ -98,6 +102,7 @@ public class MyShouYiActivity extends BaseActivity {
                 }else{
                     pageNum=2;
                     adapter.setList(obj.getCommissiondetail(),true);
+                    amount=obj.getCommission();
                     tv_my_shouyi.setText(obj.getCommission()+"");
                     tv_my_shouyi_lishi.setText(obj.getHistory_commission()+"");
                     tv_my_shouyi_zuotian.setText(obj.getZuori_commission()+"");
@@ -116,5 +121,34 @@ public class MyShouYiActivity extends BaseActivity {
 
     @OnClick(R.id.tv_my_shouyi_zhuanchuyue)
     public void onClick() {
+        if (amount==0) {
+           showMsg("收益为0.0元不能转出到余额");
+            return;
+        }
+
+
+        getCommissionWithdrawals();
+
+
+    }
+
+    private void getCommissionWithdrawals() {
+        showLoading();
+        Map<String,String>map=new HashMap<String,String>();
+        map.put("user_id",getUserId());
+        map.put("amount",amount+"");
+        map.put("sign",GetSign.getSign(map));
+        ApiRequest.getCommissionWithdrawals(map, new MyCallBack<ShouyiObj>(mContext,pcfl,pl_load) {
+            @Override
+            public void onSuccess(ShouyiObj obj) {
+                showMsg(obj.getMsg());
+                showLoading();
+                getData(1,false);
+                SPUtils.setPrefString(mContext, Config.amount, obj.getAmount() + "");
+
+
+            }
+        });
+
     }
 }

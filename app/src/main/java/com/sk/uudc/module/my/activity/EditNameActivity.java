@@ -47,13 +47,27 @@ public class EditNameActivity extends BaseActivity {
 
     private void getValue() {
         type=getIntent().getStringExtra("type");
+        name=getIntent().getStringExtra("name");
+        //  Name.putExtra("name",name);
         if (type.equals("name")) {
             setAppTitle("编辑姓名");
-            et_edit_name.setHint("请输入姓名");
+            if (TextUtils.isEmpty(name)) {
+                et_edit_name.setHint("请输入姓名");
+            }else {
+                et_edit_name.setText(name);
+            }
+
         }else {
             setAppTitle("编辑昵称");
-            et_edit_name.setHint("请输入昵称");
+            if (TextUtils.isEmpty(name)) {
+                et_edit_name.setHint("请输入昵称");
+            }else {
+                et_edit_name.setText(name);
+            }
+
+
         }
+
 
     }
     @Override
@@ -79,6 +93,7 @@ public class EditNameActivity extends BaseActivity {
     }
 
     private void editName() {
+        showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("rnd",getRnd());
         map.put("sign", GetSign.getSign(map));

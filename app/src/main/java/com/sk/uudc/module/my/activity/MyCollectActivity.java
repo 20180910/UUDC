@@ -1,5 +1,6 @@
 package com.sk.uudc.module.my.activity;
 
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,8 @@ import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.request.DelMyCollectionBody;
 import com.sk.uudc.module.my.network.response.CollectObj;
+import com.sk.uudc.module.near.Constant;
+import com.sk.uudc.module.near.activity.ShangJiaActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -136,6 +139,17 @@ public class MyCollectActivity extends BaseActivity {
                         ((CollectObj.MyCollectionBean) adapter.getList().get(position)).setSelect(ch_item_my_collect.isChecked());
                     }
                 });
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.IParam.merchant_id, bean.getMerchant_id() + "");
+                        STActivity(intent, ShangJiaActivity.class);
+
+
+                    }
+                });
             }
         };
         adapter.setOnLoadMoreListener(this);
@@ -217,6 +231,7 @@ public class MyCollectActivity extends BaseActivity {
     }
 
     private void delMyCollect( List<DelMyCollectionBody> body) {
+        showLoading();
 
         Map<String,String>map=new HashMap<String,String>();
         map.put("user_id",getUserId());
@@ -224,10 +239,7 @@ public class MyCollectActivity extends BaseActivity {
         ApiRequest.delMyCollection(map, body, new MyCallBack<BaseObj>(mContext) {
             @Override
             public void onSuccess(BaseObj obj) {
-                initData();
-
-
-
+                getData(1, false);
             }
         });
 

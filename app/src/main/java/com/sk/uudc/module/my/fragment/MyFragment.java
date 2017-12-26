@@ -13,6 +13,7 @@ import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.home.network.response.HomeUnreadNews;
 import com.sk.uudc.module.my.activity.MyBalanceActivity;
 import com.sk.uudc.module.my.activity.MyCollectActivity;
 import com.sk.uudc.module.my.activity.MyDataActivity;
@@ -78,6 +79,7 @@ public class MyFragment extends BaseFragment {
     protected void initData() {
         showProgress();
         getUserInfo();
+        getUnreadNews();
 
     }
 
@@ -93,6 +95,8 @@ public class MyFragment extends BaseFragment {
             return;
         }
         getUserInfo();
+        getUnreadNews();
+
     }
     private void getUserInfo() {
         if(TextUtils.isEmpty(SPUtils.getPrefString(mContext,Config.user_id,null))){
@@ -116,6 +120,26 @@ public class MyFragment extends BaseFragment {
                 getInfo(obj);
             }
         });
+    }
+    private void getUnreadNews() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", getUserId());
+        map.put("sign", GetSign.getSign(map));
+        com.sk.uudc.module.home.network.ApiRequest.getUnreadNews(map, new MyCallBack<HomeUnreadNews>(mContext) {
+            @Override
+            public void onSuccess(HomeUnreadNews obj) {
+                if (obj.getIs_check().equals("1")) {
+                    tv_my_message.setCompoundDrawablesRelativeWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.my_message2),null,null,null);
+
+                } else {
+                    tv_my_message.setCompoundDrawablesRelativeWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.my_message),null,null,null);
+
+
+                }
+
+            }
+        });
+
     }
 
     private void getInfo(UserInfoObj obj) {

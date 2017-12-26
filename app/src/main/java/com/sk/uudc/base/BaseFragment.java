@@ -56,8 +56,11 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
     protected void initRxBus(){};
     protected void getData(int page,boolean isLoad){};
     protected Unbinder mUnBind;
-
+    protected String TAG=this.getClass().getSimpleName();
     protected ProgressLayout pl_load;
+    protected boolean isPause;
+    protected void myReStart() {
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
         if(null!=view.findViewById(R.id.pcfl_refresh)){
             pcfl = (PtrClassicFrameLayout) view.findViewById(R.id.pcfl_refresh);
             pcfl.setLastUpdateTimeRelateObject(this);
+            pcfl.disableWhenHorizontalMove(true);
             pcfl.setPtrHandler(new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
@@ -89,6 +93,30 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
         initRxBus();
         isPrepared=true;
         setUserVisibleHint(true);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        isPause =true;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden){
+            isPause =true;
+        }else{
+            isPause =false;
+            myReStart();
+        }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(isPause){
+            isPause =false;
+            myReStart();
+        }
     }
     public void showProgress(){
         if (pl_load != null) {
@@ -146,6 +174,13 @@ public abstract class BaseFragment extends IBaseFragment implements View.OnClick
     }
     protected String getUserId(){
         return SPUtils.getPrefString(mContext,Config.user_id,"0");
+    }
+    public boolean noLogin(){
+        if("0".equals(getUserId())){
+            return true;
+        }else{
+            return false;
+        }
     }
     protected String getSign(){
         return getSign("user_id",getUserId());

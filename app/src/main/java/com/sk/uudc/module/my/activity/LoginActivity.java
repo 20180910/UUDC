@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.androidtools.SPUtils;
+import com.github.baseclass.rx.RxBus;
 import com.github.customview.MyEditText;
 import com.github.customview.MyTextView;
 import com.sk.uudc.Config;
@@ -14,8 +15,10 @@ import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.home.event.HomePageEvent;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.LoginObj;
+import com.sk.uudc.module.order.event.OrdersEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,9 +64,18 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+//    @Override
+//    protected void onRestart() {
+//        super.onRestart();
+//        phone=SPUtils.getPrefString(mContext, Config.phone,null);
+//        if (!TextUtils.isEmpty(phone)) {
+//            et_login_phone.setText(phone);
+//        }
+//    }
+
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void myReStart() {
+        super.myReStart();
         phone=SPUtils.getPrefString(mContext, Config.phone,null);
         if (!TextUtils.isEmpty(phone)) {
             et_login_phone.setText(phone);
@@ -130,6 +142,9 @@ public class LoginActivity extends BaseActivity {
 //        SPUtils.setPrefBoolean(mContext, Config.user_switch, obj.getMessage_sink()==1?true:false);
 
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(Config.Bro.operation));
+        RxBus.getInstance().post(new OrdersEvent(Config.refresh));
+        RxBus.getInstance().post(new HomePageEvent(Config.refresh));
+
 
         finish();
     }

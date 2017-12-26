@@ -38,10 +38,11 @@
                 android:textSize="14sp"/>
 
             <TextView
+                android:id="@+id/tv_cancel_reason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="*在下单后的3小时内可以免手续费取消，如果超出时间，则扣20%的违约金，距离约定饭前两个小时取消不退款."
+                tools:text="*在下单后的3小时内可以免手续费取消，如果超出时间，则扣20%的违约金，距离约定饭前两个小时取消不退款."
                 android:textSize="12sp"/>
 
             <com.github.customview.MyTextView

@@ -148,14 +148,17 @@ public class MyDataActivity extends BaseActivity {
                 showSelectPhotoDialog();
                 break;
             case R.id.ll_my_data_name:
-                Intent name=new Intent();
-                name.putExtra("type","name");
-                STActivityForResult(name,EditNameActivity.class,001);
+                Intent Name=new Intent();
+                Name.putExtra("type","name");
+                Name.putExtra("name",name);
+
+                STActivityForResult(Name,EditNameActivity.class,001);
                 break;
             case R.id.ll_my_data_nickname:
-                Intent nickname=new Intent();
-                nickname.putExtra("type","nickname");
-                STActivityForResult(nickname,EditNameActivity.class,002);
+                Intent Nickname=new Intent();
+                Nickname.putExtra("type","nickname");
+                Nickname.putExtra("name",nickname);
+                STActivityForResult(Nickname,EditNameActivity.class,002);
                 break;
             case R.id.ll_my_data_sex:
                 selectSex();
@@ -215,6 +218,7 @@ public class MyDataActivity extends BaseActivity {
     }
 
     private void editUserInfo(String type) {
+        showLoading();
         Map<String,String>map=new HashMap<String,String>();
         map.put("rnd",getRnd());
         map.put("sign",GetSign.getSign(map));

@@ -3,6 +3,7 @@ package com.sk.uudc.module.near.activity;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -73,6 +74,8 @@ public class NearMapActivity extends BaseActivity {
     BaiduMap mBaiduMap;
     private boolean isFirstLoc=true;
     private List<OverlayOptions> optionsList= new ArrayList<>();;
+    private double weiDu;
+    private double jingDu;
 
     @Override
     protected int getContentView() {
@@ -82,6 +85,12 @@ public class NearMapActivity extends BaseActivity {
     @Override
     protected void initView() {
         setBaiDuMap();
+        weiDu =getIntent().getDoubleExtra(Constant.IParam.weiDu,0.0);
+        jingDu =getIntent().getDoubleExtra(Constant.IParam.jingDu,0.0);
+        if(weiDu>0){
+            dingWeiShangJia(weiDu, jingDu);
+            Log.i("===",weiDu+"==="+jingDu);
+        }
         adapter = new LoadMoreAdapter<NearListObj.MerchantListBean>(mContext, R.layout.item_near, pageSize) {
             public String listToString(List list) {
                 if(isEmpty(list)){
@@ -179,6 +188,12 @@ public class NearMapActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+
+    private void dingWeiShangJia(double x, double y) {
+        MapStatus.Builder builder = new MapStatus.Builder();
+        builder.target(new LatLng(x,y));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(builder.build()));
     }
 
     @Override
@@ -288,6 +303,9 @@ public class NearMapActivity extends BaseActivity {
         /*BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory
                 .fromResource(R.drawable.back);*/
         MyLocationConfiguration config = new MyLocationConfiguration( MyLocationConfiguration.LocationMode.NORMAL, true, null);
+
+// 设置定位数据
+
         mBaiduMap.setMyLocationConfiguration(config);
 
 // 定位初始化
@@ -297,6 +315,8 @@ public class NearMapActivity extends BaseActivity {
         option.setOpenGps(true);// 打开gps
         option.setCoorType("bd09ll"); // 设置坐标类型
         option.setScanSpan(1000);
+
+
         mLocClient.setLocOption(option);
         mLocClient.start();
     }

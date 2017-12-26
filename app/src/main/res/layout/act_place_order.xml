@@ -203,6 +203,7 @@
                     android:background="@color/gray_f4"/>
                 <com.github.customview.MyCheckBox
                     android:id="@+id/cb_place_order_baojian"
+                    android:enabled="false"
                     android:background="@color/white"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

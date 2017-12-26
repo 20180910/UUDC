@@ -56,4 +56,10 @@ public class ApiRequest extends BaseApiRequest {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return;}
         getGeneralClient(IRequest.class).postPublishComment(map,body).enqueue(callBack);
     }
+
+    //取消订单(未付款的)
+    public static void getCancelsOrder(Map map ,MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return;}
+        getGeneralClient(IRequest.class).getCancelsOrder(map).enqueue(callBack);
+    }
 }

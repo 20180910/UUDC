@@ -41,7 +41,7 @@ public class HomeTypeMerchantListObj extends BaseObj {
         private String merchant_name;
         private double money_people;
         private String merchant_address;
-        private double scoring;
+        private int scoring;
         private String Distance;
         private String lat;
         private String lng;
@@ -89,11 +89,11 @@ public class HomeTypeMerchantListObj extends BaseObj {
             this.merchant_address = merchant_address;
         }
 
-        public double getScoring() {
+        public int getScoring() {
             return scoring;
         }
 
-        public void setScoring(double scoring) {
+        public void setScoring(int scoring) {
             this.scoring = scoring;
         }
 

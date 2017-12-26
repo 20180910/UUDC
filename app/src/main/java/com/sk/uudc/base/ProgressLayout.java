@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.androidtools.inter.MyOnClickListener;
 import com.sk.uudc.R;
@@ -21,6 +22,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProgressLayout extends RelativeLayout {
+    public View againView;
+    public TextView tv_load_error_msg;
+
     public interface OnAgainInter {
         void again();
     }
@@ -68,7 +72,6 @@ public class ProgressLayout extends RelativeLayout {
 //            mProgressView = new ProgressBar(getContext());
             View inflate = LayoutInflater.from(getContext()).inflate(R.layout.loading_view, null);
             mProgressView=inflate;
-
             layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             layoutParams.addRule(CENTER_IN_PARENT);
 
@@ -100,8 +103,9 @@ public class ProgressLayout extends RelativeLayout {
         layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams.addRule(CENTER_IN_PARENT);
         mErrorTextView = LayoutInflater.from(getContext()).inflate(R.layout.load_view, null);
-        View viewById = mErrorTextView.findViewById(R.id.again);
-        viewById.setOnClickListener(new MyOnClickListener() {
+        tv_load_error_msg = mErrorTextView.findViewById(R.id.tv_load_error_msg);
+        againView = mErrorTextView.findViewById(R.id.again);
+        againView.setOnClickListener(new MyOnClickListener() {
             @Override
             protected void onNoDoubleClick(View view) {
                 inter.again();
@@ -132,6 +136,9 @@ public class ProgressLayout extends RelativeLayout {
     }
 
     public void showErrorText() {
+        if(tv_load_error_msg!=null){
+            tv_load_error_msg.setText("数据获取失败");
+        }
         switchState(State.ERROR, null, Collections.<Integer>emptyList());
     }
 

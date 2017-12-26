@@ -1,10 +1,10 @@
 package com.sk.uudc.module.my.activity;
 
-import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.github.customview.MyTextView;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
@@ -12,7 +12,6 @@ import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.FenxiaoObj;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,8 +65,9 @@ public class MyFenXiaoActivity extends BaseActivity {
                 tv_my_fenxiao_ma.setText(obj.getDistribution_yard());
                 tv_my_fenxiao_conten.setText(obj.getContent());
                 yaoqingma=obj.getDistribution_yard();
-               Bitmap mBitmap = CodeUtils.createImage(yaoqingma, 300, 300, null);
-                iv_my_fenxiao_icon.setImageBitmap(mBitmap);
+//               Bitmap mBitmap = CodeUtils.createImage(yaoqingma, 300, 300, null);
+//                iv_my_fenxiao_icon.setImageBitmap(mBitmap);
+                Glide.with(mContext).load(obj.getDistribution_url()).error(R.color.c_press).into(iv_my_fenxiao_icon);
             }
         });
     }
@@ -80,5 +80,6 @@ public class MyFenXiaoActivity extends BaseActivity {
 
     @OnClick(R.id.tv_my_fenxiao_yaoqing)
     public void onClick() {
+        showFenXiang();
     }
 }

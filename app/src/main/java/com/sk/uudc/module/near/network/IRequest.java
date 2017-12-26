@@ -54,6 +54,10 @@ public interface IRequest {
     @GET("api/MerchantCenter/GetMerchantInformation")
     Call<ResponseObj<ShangJiaInfoObj>> getShangJiaInfo(@QueryMap Map<String, String> map );
 
+    //商家收藏和取消收藏
+    @GET("api/MerchantCenter/GetCollectMerchant")
+    Call<ResponseObj<BaseObj>> collectShangJia(@QueryMap Map<String, String> map );
+
     //商家评价数量
     @GET("api/MerchantCenter/GetScoringNum")
     Call<ResponseObj<ShangJiaEvaluateNumObj>> getShangJiaEvaluateNum(@QueryMap Map<String, String> map );
@@ -81,6 +85,10 @@ public interface IRequest {
     //提交订单
     @POST("api/Order/PostSaveOrder")
     Call<ResponseObj<CommitOrderResultObj>> commitOrder(@QueryMap Map<String, String> map, @Body CommitOrderBody body );
+
+    //加菜-提交订单
+    @POST("api/Order/PostAddFoodOrder")
+    Call<ResponseObj<TiJiaoOrderObj>> commitJiaCaiOrder(@QueryMap Map<String, String> map, @Body CommitOrderBody body );
 
     //余额支付订单
     @GET("api/Order/GetBalancePayment")

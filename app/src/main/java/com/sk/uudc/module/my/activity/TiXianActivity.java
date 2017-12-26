@@ -2,7 +2,6 @@ package com.sk.uudc.module.my.activity;
 
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +22,6 @@ import com.sk.uudc.module.my.network.response.WithdrawalsObj;
 import com.sk.uudc.tools.AndroidUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -50,8 +48,10 @@ public class TiXianActivity extends BaseActivity {
     TextView tv_tixian_yue;
     @BindView(R.id.tv_tixian_liji)
     MyTextView tv_tixian_liji;
-    String yueStr,amountStr,account_id;
-    double amount,yue;
+    @BindView(R.id.ll_tixian_no)
+    MyLinearLayout ll_tixian_no;
+    String yueStr, amountStr, account_id ,codeId;
+    double amount, yue;
 
 
     @Override
@@ -62,18 +62,17 @@ public class TiXianActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        yueStr= SPUtils.getPrefString(mContext, Config.amount,"0.00");
+        yueStr = SPUtils.getPrefString(mContext, Config.amount, "0.00");
         tv_tixian_yue.setText(yueStr);
-        yue=AndroidUtils.round(Double.parseDouble(yueStr));
+        yue = AndroidUtils.round(Double.parseDouble(yueStr));
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("=====","onRestart");
-        showProgress();
-        getAccountDefault();
 
+    @Override
+    protected void myReStart() {
+        super.myReStart();
+        showLoading();
+        getAccountDefault();
     }
 
     @Override
@@ -84,66 +83,86 @@ public class TiXianActivity extends BaseActivity {
     }
 
     private void getAccountDefault() {
-        Map<String,String> map=new HashMap<String,String>();
-        map.put("user_id",getUserId());
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", getUserId());
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getAccountDefault(map, new MyCallBack<List<AccountDefaultObj>>(mContext) {
+        ApiRequest.getAccountDefault(map, new MyCallBack<AccountDefaultObj>(mContext, pcfl, pl_load) {
             @Override
-            public void onSuccess(List<AccountDefaultObj> obj) {
-                Glide.with(mContext).
-                        load(obj.get(0).getBank_image()).
-                        error(R.color.c_press).
-                        into(iv_tixian_icon);
-                tv_tixian_name.setText(obj.get(0).getBank_name());
-                tv_tixian_type.setText(obj.get(0).getCard_type());
-                tv_tixian_weihao.setText(obj.get(0).getBank_card());
-                account_id=obj.get(0).getId();
+            public void onSuccess(AccountDefaultObj obj) {
+                codeId=obj.getId();
+                if (obj.getId().equals("0")) {
+                    ll_tixian_no.setVisibility(View.VISIBLE);
+                    ll_tiixan.setVisibility(View.GONE);
+                    account_id = "";
+                } else {
+                    ll_tixian_no.setVisibility(View.GONE);
+                    ll_tiixan.setVisibility(View.VISIBLE);
+                    Glide.with(mContext).
+                            load(obj.getBank_image()).
+                            error(R.color.c_press).
+                            into(iv_tixian_icon);
+                    tv_tixian_name.setText(obj.getBank_name());
+                    tv_tixian_type.setText(obj.getCard_type());
+                    tv_tixian_weihao.setText(obj.getBank_card());
+                    account_id = obj.getId();
+
+                }
             }
         });
     }
 
 
-    @OnClick({R.id.ll_tiixan, R.id.tv_tixian_liji})
+    @OnClick({R.id.ll_tiixan, R.id.tv_tixian_liji, R.id.ll_tixian_no})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.ll_tiixan:
-                Intent intent=new Intent();
-                intent.putExtra("type","2");
-                STActivity(intent,BankManageActivity.class);
+                Intent intent = new Intent();
+                intent.putExtra("type", "2");
+                STActivity(intent, BankManageActivity.class);
                 break;
             case R.id.tv_tixian_liji:
-                amountStr=getSStr(et_tixian_jine);
+                amountStr = getSStr(et_tixian_jine);
+                if (codeId.equals("0")) {
+                    showMsg("请先选择银行卡！");
+                    return;
+                }
+                if (yue == 0) {
+                    showMsg("余额为0.00元，不能提现");
+                    return;
+                }
                 if (TextUtils.isEmpty(amountStr)) {
                     showMsg("请输入提现金额！");
                     return;
                 }
-                amount= AndroidUtils.round(Double.parseDouble(amountStr));
-                if (amount>yue) {
+
+                amount = AndroidUtils.round(Double.parseDouble(amountStr));
+                if (amount > yue) {
                     showMsg("输入提现金额有误！");
-
+                    return;
                 }
-                showProgress();
+
                 getWithdrawals();
-
-
-
-
-
+                break;
+            case R.id.ll_tixian_no:
+                Intent tixian_no = new Intent();
+                tixian_no.putExtra("type", "2");
+                STActivity(tixian_no, BankManageActivity.class);
                 break;
         }
     }
 
     private void getWithdrawals() {
-        Map<String,String>map=new HashMap<String,String>();
-        map.put("user_id",getUserId());
-        map.put("account_id",account_id);
-        map.put("amount",amount+"");
-        map.put("sign",GetSign.getSign(map));
+        showLoading();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("user_id", getUserId());
+        map.put("account_id", account_id);
+        map.put("amount", amount + "");
+        map.put("sign", GetSign.getSign(map));
         ApiRequest.getWithdrawals(map, new MyCallBack<WithdrawalsObj>(mContext) {
             @Override
             public void onSuccess(WithdrawalsObj obj) {
                 showMsg(obj.getMsg());
-                SPUtils.setPrefString(mContext,Config.amount,obj.getAmount()+"");
+                SPUtils.setPrefString(mContext, Config.amount, obj.getAmount() + "");
                 finish();
 
             }

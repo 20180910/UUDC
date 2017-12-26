@@ -2,8 +2,10 @@ package com.sk.uudc.network;
 
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.ResponseObj;
+import com.sk.uudc.module.home.network.response.CitySearchObj;
 import com.sk.uudc.module.my.network.request.UploadImgBody;
 import com.sk.uudc.module.my.network.response.ProvinceObj;
+import com.sk.uudc.network.response.FenXiangObj;
 
 import java.util.List;
 import java.util.Map;
@@ -50,6 +52,22 @@ public interface IRequest {
     //获取支付信息
     @GET("api/Lib/GetPayInfo")
     Call<ResponseObj<BaseObj>> PayInfo(@QueryMap Map<String, String> map);
+
+    //获取所有城市
+    @GET("api/Lib/GetAllCity")
+    Call<ResponseObj<List<CitySearchObj>>> getAllCity(@QueryMap Map<String, String> map);
+
+    //退出登录
+    @GET("api/Lib/GetLogOut")
+    Call<ResponseObj<BaseObj>> getLogOut(@QueryMap Map<String, String> map);
+
+    //保存定位信息
+    @GET("api/Lib/GetLatLng")
+    Call<ResponseObj<BaseObj>> getLatLng(@QueryMap Map<String, String> map);
+
+    //获取分享信息
+    @GET("api/Lib/GetShareInformation")
+    Call<ResponseObj<FenXiangObj>> fenXiang(@QueryMap Map<String, String> map);
 
 
 

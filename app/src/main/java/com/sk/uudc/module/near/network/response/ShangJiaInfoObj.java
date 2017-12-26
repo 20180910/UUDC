@@ -16,6 +16,7 @@ public class ShangJiaInfoObj extends BaseObj {
      * merchant_photo_list : ["http://121.40.186.118:5019/upload/jjt.jpg","http://121.40.186.118:5019/upload/jjt.jpg","http://121.40.186.118:5019/upload/jjt.jpg"]
      * scheduled_time : 10:00~23:00
      * merchant_remark :
+     * "merchant_tel": "13845673210"
      * activity : [{"full_amount":50,"subtract_amount":20},{"full_amount":100,"subtract_amount":50},{"full_amount":200,"subtract_amount":100}]
      */
 
@@ -23,8 +24,17 @@ public class ShangJiaInfoObj extends BaseObj {
     private String merchant_address;
     private String scheduled_time;
     private String merchant_remark;
+    private String merchant_tel;
     private List<String> merchant_photo_list;
     private List<ActivityBean> activity;
+
+    public String getMerchant_tel() {
+        return merchant_tel;
+    }
+
+    public void setMerchant_tel(String merchant_tel) {
+        this.merchant_tel = merchant_tel;
+    }
 
     public int getMerchant_id() {
         return merchant_id;

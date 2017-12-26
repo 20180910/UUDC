@@ -43,6 +43,7 @@
                     android:orientation="horizontal"
                     app:my_ll_corner_radius="4dp"
                     app:my_ll_solid="#F3F3F3"
+                    android:padding="4dp"
                     >
 
                     <TextView
@@ -60,18 +61,17 @@
                         android:textSize="13sp"
                         />
 
+                    <ImageView
+                        android:id="@+id/iv_near_search"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:padding="5dp"
+                        android:src="@drawable/shangjia_search"
+                        />
 
                 </com.github.customview.MyLinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_near_search"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:padding="10dp"
-                    android:src="@drawable/shangjia_search"
-                    />
 
                 <TextView
                     android:id="@+id/tv_near_map"

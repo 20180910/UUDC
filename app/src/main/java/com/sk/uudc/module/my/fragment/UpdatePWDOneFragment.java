@@ -79,6 +79,7 @@ public class UpdatePWDOneFragment extends BaseFragment {
     }
 
     private void setNewPassword() {
+        showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("user_id",getUserId());
         map.put("oldPassword",oldPwd);

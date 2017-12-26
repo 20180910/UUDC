@@ -18,6 +18,9 @@ public class Constant {
     public static final int tomorrow=2;
     public static final int houTian=3;
     public static class IParam{
+        public static final String imgIndex="imgIndex";
+        public static final String imgEvaluate="imgEvaluate";
+        public static final String imgList="imgList";
         public static final String tuanType="tuanType";
         public static final String noTuan="noTuan";
         public static final String canTuan="canTuan";
@@ -41,5 +44,6 @@ public class Constant {
         public static final String pinPaiId="pinPaiId";
         public static final String msgId="msgId";
         public static final String amount="amount";
+        public static final String order_no="order_no";
     }
 }

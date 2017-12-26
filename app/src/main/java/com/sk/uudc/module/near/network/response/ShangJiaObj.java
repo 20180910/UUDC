@@ -27,12 +27,21 @@ public class ShangJiaObj extends BaseObj {
     private String merchant_name;
     private String merchant_avatar;
     private double scoring;
-    private int is_collect;
+//    private int is_collect;
     private double min_money;
+    private int is_provide_rooms;//0不提供包间，1提供包间
     private List<ActivityBean> activity;
 
     public int getMerchant_id() {
         return merchant_id;
+    }
+
+    public int getIs_provide_rooms() {
+        return is_provide_rooms;
+    }
+
+    public void setIs_provide_rooms(int is_provide_rooms) {
+        this.is_provide_rooms = is_provide_rooms;
     }
 
     public void setMerchant_id(int merchant_id) {
@@ -63,13 +72,13 @@ public class ShangJiaObj extends BaseObj {
         this.scoring = scoring;
     }
 
-    public int getIs_collect() {
+  /*  public int getIs_collect() {
         return is_collect;
     }
 
     public void setIs_collect(int is_collect) {
         this.is_collect = is_collect;
-    }
+    }*/
 
     public double getMin_money() {
         return min_money;

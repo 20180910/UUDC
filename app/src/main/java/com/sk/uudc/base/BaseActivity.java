@@ -6,11 +6,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -34,6 +36,14 @@ import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.module.near.activity.ShangJiaActivity;
+import com.sk.uudc.network.ApiRequest;
+import com.sk.uudc.network.response.FenXiangObj;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,7 +51,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import butterknife.ButterKnife;
@@ -75,9 +87,9 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     private View status_bar, v_bottom_line;
     private boolean hiddenBottomLine;
     protected PtrClassicFrameLayout pcfl;
-
+    protected boolean isPause;
     protected ProgressLayout pl_load;
-
+    protected String TAG=this.getClass().getSimpleName();
     /****************************************************/
     protected abstract int getContentView();
 
@@ -89,13 +101,30 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
 
     protected void initRxBus() {
     }
+    protected void myReStart() {
+    }
 
-    ;
+
 
     protected void getData(int page, boolean isLoad) {
     }
 
-    ;
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isPause =true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isPause){
+            isPause =false;
+            myReStart();
+        }
+    }
 
     protected void hiddenBottomLine() {
         hiddenBottomLine = true;
@@ -156,18 +185,20 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         mContext = this;
         if (getContentView() != 0) {
             setContentView(getContentView());
-            View rootView = ((ViewGroup) this.findViewById(android.R.id.content))
-                    .getChildAt(0);
-            int navigationBarHeight = PhoneUtils.getNavigationBarHeight(mContext);
-            if(navigationBarHeight>0){
-                rootView.setPadding(0,0,0,navigationBarHeight);
-            }
+//            View rootView = ((ViewGroup) this.findViewById(android.R.id.content))
+//                    .getChildAt(0);
+//            int navigationBarHeight = PhoneUtils.getNavigationBarHeight(mContext);
+//            if(navigationBarHeight>0){
+//                rootView.setPadding(0,0,0,navigationBarHeight);
+//            }
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 //            StatusBarUtils.setTransparent(this);
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
             localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
+        }else{
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
 
         ButterKnife.bind(this);
@@ -237,7 +268,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         if (null != findViewById(R.id.pcfl_refresh)) {
             pcfl = (PtrClassicFrameLayout) findViewById(R.id.pcfl_refresh);
             pcfl.setLastUpdateTimeRelateObject(this);
-
+            pcfl.disableWhenHorizontalMove(true);
             pcfl.setPtrHandler(new PtrDefaultHandler() {
                 @Override
                 public void onRefreshBegin(PtrFrameLayout frame) {
@@ -352,7 +383,13 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     protected String getUserId() {
         return SPUtils.getPrefString(mContext, Config.user_id, "0");
     }
-
+    public boolean noLogin(){
+        if("0".equals(getUserId())){
+            return true;
+        }else{
+            return false;
+        }
+    }
     protected String getSign() {
         return getSign("user_id", getUserId());
     }
@@ -528,20 +565,20 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
                 .build();
         startActivity(intent);
     }
-
     */
 
-    /*****************************************************************第三方分享********************************************************************************//*
-    protected void fenXiang(SHARE_MEDIA shareMedia,String  fenXiangId) {
+/*****************************************************************第三方分享********************************************************************************/
+    protected void fenXiang(SHARE_MEDIA shareMedia) {
         showLoading();
         Map<String,String> map=new HashMap<String,String>();
-        map.put("goods_id",fenXiangId);
+        map.put("user_id",getUserId());
+        map.put("rnd",getRnd());
         map.put("sign",GetSign.getSign(map));
         ApiRequest.fenXiang(map, new MyCallBack<FenXiangObj>(mContext,true) {
             @Override
             public void onSuccess(FenXiangObj obj) {
                 UMWeb web = new UMWeb(obj.getShare_link());
-                UMImage image=new UMImage(mContext,R.drawable.app_default);
+                UMImage image=new UMImage(mContext,R.drawable.app_img);
                 web.setTitle(obj.getTitle());//标题
                 web.setThumb(image);  //缩略图
                 web.setDescription(obj.getContent());//描述
@@ -566,18 +603,15 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
                 dismissLoading();
                 Log.i("============","============onStart");
             }
-
             @Override
             public void onResult(SHARE_MEDIA share_media) {
                 Log.i("============","============onResult");
             }
-
             @Override
             public void onError(SHARE_MEDIA share_media, Throwable throwable) {
                 showMsg(throwable.getMessage());
                 Log.i("============","============onError");
             }
-
             @Override
             public void onCancel(SHARE_MEDIA share_media) {
                 Log.i("============","============onCancel");
@@ -585,7 +619,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         };
     }
     BottomSheetDialog fenXiangDialog;
-    public void showFenXiang(String fenXiangId){
+    public void showFenXiang(){
         if (fenXiangDialog == null) {
             View sexView= LayoutInflater.from(mContext).inflate(R.layout.popu_fen_xiang,null);
             sexView.findViewById(R.id.iv_yaoqing_wx).setOnClickListener(new MyOnClickListener() {
@@ -595,7 +629,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
                         showMsg("请安装微信之后再试");
                         return;
                     }
-                    fenXiang(SHARE_MEDIA.WEIXIN,fenXiangId);
+                    fenXiang(SHARE_MEDIA.WEIXIN);
                     fenXiangDialog.dismiss();
 
                 }
@@ -607,7 +641,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
                         showMsg("请安装微信之后再试");
                         return;
                     }
-                    fenXiang(SHARE_MEDIA.WEIXIN_CIRCLE,fenXiangId);
+                    fenXiang(SHARE_MEDIA.WEIXIN_CIRCLE);
                     fenXiangDialog.dismiss();
 
                 }
@@ -619,7 +653,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
                         showMsg("请安装QQ之后再试");
                         return;
                     }
-                    fenXiang(SHARE_MEDIA.QQ,fenXiangId);
+                    fenXiang(SHARE_MEDIA.QQ);
                     fenXiangDialog.dismiss();
                 }
             });
@@ -630,14 +664,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
                         showMsg("请安装QQ之后再试");
                         return;
                     }
-                    fenXiang(SHARE_MEDIA.QZONE,fenXiangId);
-                    fenXiangDialog.dismiss();
-                }
-            });
-            sexView.findViewById(R.id.iv_yaoqing_sina).setOnClickListener(new MyOnClickListener() {
-                @Override
-                protected void onNoDoubleClick(View view) {
-                    showMsg("正在开发中");
+                    fenXiang(SHARE_MEDIA.QZONE);
                     fenXiangDialog.dismiss();
                 }
             });
@@ -654,7 +681,6 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         }
         fenXiangDialog.show();
     }
-*/
     public boolean keJian(View view) {
         int screenWidth = PhoneUtils.getScreenWidth(mContext);
         int screenHeight = PhoneUtils.getScreenHeight(mContext);
@@ -664,7 +690,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         view.getLocationInWindow(location);
         System.out.println(Arrays.toString(location));
         // Rect ivRect=new Rect(imageView.getLeft(),imageView.getTop(),imageView.getRight(),imageView.getBottom());
-        if (view.getLocalVisibleRect(rect)) {/*rect.contains(ivRect)*/
+        if (view.getLocalVisibleRect(rect)) {
             return true;
         } else {
             return false;

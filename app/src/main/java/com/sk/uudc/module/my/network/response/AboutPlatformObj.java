@@ -15,6 +15,15 @@ public class AboutPlatformObj extends BaseObj {
 
     private String image;
     private String edition;
+    /**
+     * tel_wechat :
+     * QQ :
+     * email :
+     */
+
+    private String tel_wechat;
+    private String QQ;
+    private String email;
 
     public String getImage() {
         return image;
@@ -30,5 +39,29 @@ public class AboutPlatformObj extends BaseObj {
 
     public void setEdition(String edition) {
         this.edition = edition;
+    }
+
+    public String getTel_wechat() {
+        return tel_wechat;
+    }
+
+    public void setTel_wechat(String tel_wechat) {
+        this.tel_wechat = tel_wechat;
+    }
+
+    public String getQQ() {
+        return QQ;
+    }
+
+    public void setQQ(String QQ) {
+        this.QQ = QQ;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -61,6 +61,7 @@ public class BalanceDetailActivity extends BaseActivity {
                 tv_item_balance_detail_value.setText(bean.getValue());
             }
         };
+        adapter.setOnLoadMoreListener(this);
         rv_balance_detail.setLayoutManager(new LinearLayoutManager(mContext));
         rv_balance_detail.setNestedScrollingEnabled(false);
         rv_balance_detail.setAdapter(adapter);

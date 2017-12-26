@@ -13,9 +13,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.baseclass.adapter.BaseRecyclerAdapter;
 import com.github.baseclass.adapter.RecyclerViewHolder;
+import com.github.baseclass.rx.RxBus;
 import com.github.customview.MyCheckBox;
 import com.github.customview.MyEditText;
 import com.github.customview.MyRadioButton;
+import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
@@ -26,6 +28,7 @@ import com.sk.uudc.module.near.network.request.CommitOrderBody;
 import com.sk.uudc.module.near.network.request.ShowOrderBody;
 import com.sk.uudc.module.near.network.response.CommitOrderResultObj;
 import com.sk.uudc.module.near.network.response.TiJiaoOrderObj;
+import com.sk.uudc.module.order.event.OrdersEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -215,6 +218,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
         ApiRequest.commitOrder(map,body,new MyCallBack<CommitOrderResultObj>(mContext) {
             @Override
             public void onSuccess(CommitOrderResultObj obj) {
+                RxBus.getInstance().post(new OrdersEvent(Config.refresh));
                 Intent place=new Intent(mContext,OrderPayActivity.class);
                 place.putExtra(Constant.IParam.orderPayInfo,obj);
                 startActivity(place);

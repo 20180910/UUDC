@@ -9,6 +9,7 @@ import com.sk.uudc.module.home.network.response.AreaBusinessCircleObj;
 import com.sk.uudc.module.home.network.response.CityIdObj;
 import com.sk.uudc.module.home.network.response.HomeAnnouncementObj;
 import com.sk.uudc.module.home.network.response.HomeDailybestObj;
+import com.sk.uudc.module.home.network.response.HomeLikeObj;
 import com.sk.uudc.module.home.network.response.HomePageImageObj;
 import com.sk.uudc.module.home.network.response.HomeRoastingChartObj;
 import com.sk.uudc.module.home.network.response.HomeTypeAssemblageObj;
@@ -80,6 +81,10 @@ public interface IRequest {
     //搜索商家
     @POST("api/MerchantCenter/PostSearchMerchant")
     Call<ResponseObj<SearchResultObj>>postSearchMerchant(@QueryMap Map<String, String> map, @Body SearchResultBody body);
+
+    //猜你喜欢
+    @GET("api/Information/GetGuessYouLike")
+    Call<ResponseObj<HomeLikeObj>>getGuessYouLike(@QueryMap Map<String, String> map);
 
 
 

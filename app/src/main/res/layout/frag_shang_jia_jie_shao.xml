@@ -11,111 +11,138 @@
         android:id="@id/pl_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:background="@color/background_f2"
-            >
-            <TextView
-                android:id="@+id/tv_shangjia_info_address"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                tools:text="普陀区什么什么路"
-                android:gravity="center_vertical"
-                android:background="@color/white"
-                android:drawableLeft="@drawable/dingwei"
-                android:paddingLeft="10dp"
-                android:drawablePadding="10dp"
-                android:textColor="@color/gray_33"
-                />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_shang_jia_jie_shao"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:paddingLeft="10dp"
-                android:paddingBottom="10dp"
-                >
-            </android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:gravity="center_vertical"
-                android:background="@color/white"
-                android:layout_marginTop="10dp"
-                android:paddingLeft="10dp"
+                android:background="@color/background_f2"
                 >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/clock"
-                    />
-                <TextView
-                    android:id="@+id/tv_shangjia_info_time"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="可预订时间:10:00~23:00"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:background="@color/white"
-                    android:paddingLeft="10dp"
-                    android:drawablePadding="10dp"
-                    android:textColor="@color/gray_33"
-                    />
-            </LinearLayout>
+                    >
+                    <TextView
+                        android:id="@+id/tv_shangjia_info_address"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        tools:text="普陀区什么什么路"
+                        android:gravity="center_vertical"
+                        android:background="@color/white"
+                        android:drawableLeft="@drawable/dingwei"
+                        android:padding="10dp"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/gray_33"
+                        />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="20dp"
+                        android:background="@color/background_f2"/>
+                    <ImageView
+                        android:padding="10dp"
+                        android:id="@+id/iv_shangjia_jieshao_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/shangjia_phone"
+                        />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@color/white"
-                android:layout_marginTop="2px"
-                android:paddingLeft="10dp"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/clock"
-                    />
-                <TextView
-                    android:id="@+id/tv_shangjia_info_remark"
+
+                </LinearLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_shang_jia_jie_shao"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    tools:text="请在规定时间内预约用餐,时间一边准备"
-                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:paddingLeft="10dp"
-                    android:paddingTop="0dp"
-                    android:drawablePadding="10dp"
+                    android:paddingBottom="10dp"
+                    >
+                </android.support.v7.widget.RecyclerView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/white"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/clock"
+                        />
+                    <TextView
+                        android:id="@+id/tv_shangjia_info_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="可预订时间:10:00~23:00"
+                        android:gravity="center_vertical"
+                        android:background="@color/white"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/gray_33"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="@color/white"
+                    android:layout_marginTop="2px"
+                    android:paddingLeft="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/shangjia_jieshao"
+                        android:layout_marginLeft="2px"
+                        />
+                    <TextView
+                        android:id="@+id/tv_shangjia_info_remark"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="请在规定时间内预约用餐,时间一边准备"
+                        android:gravity="center_vertical"
+                        android:background="@color/white"
+                        android:padding="10dp"
+                        android:drawablePadding="10dp"
+                        android:textColor="@color/gray_33"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="满减活动"
                     android:textColor="@color/gray_33"
+                    android:textSize="16sp"
+                    android:background="@color/white"
+                    android:paddingLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="10dp"
                     />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_shang_jia_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2px"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
             </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:text="满减活动"
-                android:textColor="@color/gray_33"
-                android:textSize="16sp"
-                android:background="@color/white"
-                android:paddingLeft="10dp"
-                android:gravity="center_vertical"
-                android:layout_marginTop="10dp"
-                />
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_shang_jia_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2px"
-                >
 
-            </android.support.v7.widget.RecyclerView>
-
-        </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </com.sk.uudc.base.ProgressLayout>
 
 </LinearLayout>

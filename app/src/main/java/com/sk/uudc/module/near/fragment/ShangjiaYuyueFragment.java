@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -57,16 +58,17 @@ public class ShangjiaYuyueFragment extends BaseFragment {
     MyRadioButton rbShangjiaYuyueNo;
     @BindView(R.id.rgShangjiaYuyue)
     RadioGroup rgShangjiaYuyue;
-    @BindView(R.id.tv_yuyue_commit)
-    TextView tv_yuyue_commit;
+    @BindView(R.id.ll_shangjia_baojian)
+    LinearLayout ll_shangjia_baojian;
     BaseRecyclerAdapter yuyuemAdapter;
     private String merchantId;
     private int yuYuePosition=-1;
 
-    public static ShangjiaYuyueFragment newInstance(String merchantId) {
+    public static ShangjiaYuyueFragment newInstance(String merchantId, int is_provide_rooms) {
         ShangjiaYuyueFragment newFragment = new ShangjiaYuyueFragment();
         Bundle bundle = new Bundle();
         bundle.putString(Constant.merchantId, merchantId);
+        bundle.putInt(Constant.isProvideRooms, is_provide_rooms);
         newFragment.setArguments(bundle);
         return newFragment;
     }
@@ -78,6 +80,11 @@ public class ShangjiaYuyueFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        if(getArguments().getInt(Constant.isProvideRooms,0)==1){
+            ll_shangjia_baojian.setVisibility(View.VISIBLE);
+        }else{
+            ll_shangjia_baojian.setVisibility(View.GONE);
+        }
         tv_yuyue_date.setText(DateUtils.dateToString(new Date()));
         merchantId = getArguments().getString(Constant.merchantId);
         yuyuemAdapter=new BaseRecyclerAdapter<YuYueTimeObj>(mContext,R.layout.item_shangjia_yuyue) {
@@ -87,15 +94,18 @@ public class ShangjiaYuyueFragment extends BaseFragment {
                String endTimeStr  = bean.getEnd_time();
                 holder.setText(R.id.tv_yuyue_time,beginTimeStr+"-"+endTimeStr);
                 ImageView iv_yuyue_img = holder.getImageView(R.id.iv_yuyue_img);
-                if(yuYuePosition>=getList().size()-1){
+                if(yuYuePosition>=getList().size()){
                     yuYuePosition=-1;
                 }
                 if(bean.getIs_gouxuan()==1){
                     iv_yuyue_img.setImageResource(R.drawable.time_full);
+                    holder.itemView.setEnabled(false);
                 }else if(yuYuePosition==i){
                     iv_yuyue_img.setImageResource(R.drawable.time_select);
+                    holder.itemView.setEnabled(false);
                 }else{
                     iv_yuyue_img.setImageResource(R.drawable.time_empty);
+                    holder.itemView.setEnabled(true);
                 }
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -139,7 +149,7 @@ public class ShangjiaYuyueFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.tv_yuyue_date, R.id.tv_yuyue_commit})
+    @OnClick({R.id.tv_yuyue_date })
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_yuyue_date:
@@ -157,21 +167,20 @@ public class ShangjiaYuyueFragment extends BaseFragment {
                 }).setRangDate(Calendar.getInstance(),instance).setType(new boolean[]{true, true, true, false, false, false}).build();
                 pvTime.show();
                 break;
-            case R.id.tv_yuyue_commit:
-                if(TextUtils.isEmpty(getSStr(etShangjiaYuyueNum))){
-                    showMsg("请输入用餐人数");
-                    return;
-                }else if(yuYuePosition==-1){
-                    showMsg("请选择预约时间");
-                    return;
-                }
-
-                PhoneUtils.hiddenKeyBoard(mContext,etShangjiaYuyueNum);
-                yuYue();
-                break;
         }
     }
+    public void startYuYue(){
+        if(TextUtils.isEmpty(getSStr(etShangjiaYuyueNum))){
+            showMsg("请输入用餐人数");
+            return;
+        }else if(yuYuePosition==-1){
+            showMsg("请选择预约时间");
+            return;
+        }
 
+        PhoneUtils.hiddenKeyBoard(mContext,etShangjiaYuyueNum);
+        yuYue();
+    }
     private void yuYue() {
         showLoading();
         YuYueTimeObj yueTimeObj = (YuYueTimeObj) yuyuemAdapter.getList().get(yuYuePosition);

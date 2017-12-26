@@ -35,6 +35,7 @@ public class YudingSuccessActivity extends BaseActivity {
     RecyclerView rvYudingSuccess;
     BaseRecyclerAdapter mAdapter;
     private String orderId;
+    private String orderNo;
 
     @Override
     protected int getContentView() {
@@ -46,6 +47,7 @@ public class YudingSuccessActivity extends BaseActivity {
     @Override
     protected void initView() {
         orderId =  getIntent().getStringExtra(Constant.IParam.order_id);
+        orderNo =  getIntent().getStringExtra(Constant.IParam.orderNo);
 
         mAdapter=new BaseRecyclerAdapter<PaySuccessObj.ListBean>(mContext,R.layout.item_yuding_success) {
             @Override
@@ -84,6 +86,7 @@ public class YudingSuccessActivity extends BaseActivity {
         Map<String,String> map=new HashMap<String,String>();
         map.put("user_id",getUserId());
         map.put("order_id",orderId);
+        map.put("order_no",orderNo);
         map.put("sign", GetSign.getSign(map));
         ApiRequest.payTuiJianShangJia(map, new MyCallBack<PaySuccessObj>(mContext,pl_load,pcfl) {
             @Override

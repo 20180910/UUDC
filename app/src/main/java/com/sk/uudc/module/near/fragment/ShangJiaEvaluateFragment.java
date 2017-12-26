@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -80,48 +81,55 @@ public class ShangJiaEvaluateFragment extends BaseFragment {
                         .setText(R.id.tv_shangjia_evaluate_time,bean.getDeadline());
                 
                 
-                ImageView iv_shangjia_star1 = holder.getImageView(R.id.iv_shangjia_star1);
-                ImageView iv_shangjia_star2 = holder.getImageView(R.id.iv_shangjia_star1);
-                ImageView iv_shangjia_star3 = holder.getImageView(R.id.iv_shangjia_star1);
-                ImageView iv_shangjia_star4 = holder.getImageView(R.id.iv_shangjia_star1);
-                ImageView iv_shangjia_star5 = holder.getImageView(R.id.iv_shangjia_star1);
+                ImageView iv_shangjia_star1 = holder.getImageView(R.id.iv_shangjia_evaluate_star1);
+                ImageView iv_shangjia_star2 = holder.getImageView(R.id.iv_shangjia_evaluate_star2);
+                ImageView iv_shangjia_star3 = holder.getImageView(R.id.iv_shangjia_evaluate_star3);
+                ImageView iv_shangjia_star4 = holder.getImageView(R.id.iv_shangjia_evaluate_star4);
+                ImageView iv_shangjia_star5 = holder.getImageView(R.id.iv_shangjia_evaluate_star5);
 
-                if(bean.getScoring()>=5){
+                if(bean.getScoring()==1){
+                    Log.d("=====","bean.getScoring()="+bean.getScoring());
+                    iv_shangjia_star1.setVisibility(View.VISIBLE);
+                    iv_shangjia_star2.setVisibility(View.GONE);
+                    iv_shangjia_star3.setVisibility(View.GONE);
+                    iv_shangjia_star4.setVisibility(View.GONE);
+                    iv_shangjia_star5.setVisibility(View.GONE);
+                }else if(bean.getScoring()==2){
+                    Log.d("=====","bean.getScoring()="+bean.getScoring());
+                    iv_shangjia_star1.setVisibility(View.VISIBLE);
+                    iv_shangjia_star2.setVisibility(View.VISIBLE);
+                    iv_shangjia_star3.setVisibility(View.GONE);
+                    iv_shangjia_star4.setVisibility(View.GONE);
+                    iv_shangjia_star5.setVisibility(View.GONE);
+                }else if(bean.getScoring()==3){
+                    Log.d("=====","bean.getScoring()="+bean.getScoring());
+                    iv_shangjia_star1.setVisibility(View.VISIBLE);
+                    iv_shangjia_star2.setVisibility(View.VISIBLE);
+                    iv_shangjia_star3.setVisibility(View.VISIBLE);
+                    iv_shangjia_star4.setVisibility(View.GONE);
+                    iv_shangjia_star5.setVisibility(View.GONE);
+                }else if(bean.getScoring()==4){
+                    Log.d("=====","bean.getScoring()="+bean.getScoring());
+                    iv_shangjia_star1.setVisibility(View.VISIBLE);
+                    iv_shangjia_star2.setVisibility(View.VISIBLE);
+                    iv_shangjia_star3.setVisibility(View.VISIBLE);
+                    iv_shangjia_star4.setVisibility(View.VISIBLE);
+                    iv_shangjia_star5.setVisibility(View.GONE);
+                }else if(bean.getScoring()==5){
+                    Log.d("=====","bean.getScoring()="+bean.getScoring());
                     iv_shangjia_star1.setVisibility(View.VISIBLE);
                     iv_shangjia_star2.setVisibility(View.VISIBLE);
                     iv_shangjia_star3.setVisibility(View.VISIBLE);
                     iv_shangjia_star4.setVisibility(View.VISIBLE);
                     iv_shangjia_star5.setVisibility(View.VISIBLE);
-                }else if(bean.getScoring()==4){
-                    iv_shangjia_star1.setVisibility(View.VISIBLE);
-                    iv_shangjia_star2.setVisibility(View.VISIBLE);
-                    iv_shangjia_star3.setVisibility(View.VISIBLE);
-                    iv_shangjia_star4.setVisibility(View.VISIBLE);
-                    iv_shangjia_star5.setVisibility(View.INVISIBLE);
-                }else if(bean.getScoring()==3){
-                    iv_shangjia_star1.setVisibility(View.VISIBLE);
-                    iv_shangjia_star2.setVisibility(View.VISIBLE);
-                    iv_shangjia_star3.setVisibility(View.VISIBLE);
-                    iv_shangjia_star4.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star5.setVisibility(View.INVISIBLE);
-                }else if(bean.getScoring()==2){
-                    iv_shangjia_star1.setVisibility(View.VISIBLE);
-                    iv_shangjia_star2.setVisibility(View.VISIBLE);
-                    iv_shangjia_star3.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star4.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star5.setVisibility(View.INVISIBLE);
-                }else if(bean.getScoring()==1){
-                    iv_shangjia_star1.setVisibility(View.VISIBLE);
-                    iv_shangjia_star2.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star3.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star4.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star5.setVisibility(View.INVISIBLE);
-                }else if(bean.getScoring()==0){
-                    iv_shangjia_star1.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star2.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star3.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star4.setVisibility(View.INVISIBLE);
-                    iv_shangjia_star5.setVisibility(View.INVISIBLE);
+                }else {
+                    Log.d("=====","bean.getScoring()="+bean.getScoring());
+                    iv_shangjia_star1.setVisibility(View.GONE);
+                    iv_shangjia_star2.setVisibility(View.GONE);
+                    iv_shangjia_star3.setVisibility(View.GONE);
+                    iv_shangjia_star4.setVisibility(View.GONE);
+                    iv_shangjia_star5.setVisibility(View.GONE);
+
                 }
             }
         };
@@ -154,7 +162,6 @@ public class ShangJiaEvaluateFragment extends BaseFragment {
             }
         });
 
-
     }
 
     @Override
@@ -185,16 +192,19 @@ public class ShangJiaEvaluateFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.tv_shangjia_evaluate_all:
                 if(checkView(tv_shangjia_evaluate_all)){
+                    showLoading();
                     selectData(0);
                 }
                 break;
             case R.id.tv_shangjia_evaluate_good:
                 if(checkView(tv_shangjia_evaluate_good)){
+                    showLoading();
                     selectData(1);
                 }
                 break;
             case R.id.tv_shangjia_evaluate_bad:
                 if(checkView(tv_shangjia_evaluate_bad)){
+                    showLoading();
                     selectData(2);
                 }
                 break;

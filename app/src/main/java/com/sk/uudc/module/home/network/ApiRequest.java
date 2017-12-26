@@ -125,7 +125,6 @@ public class ApiRequest extends BaseApiRequest {
         }
         getGeneralClient(IRequest.class).getDelRecentlySearch(map).enqueue(callBack);
     }
-
     //搜索商家
     public static void postSearchMerchant(Map map, SearchResultBody body, MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) {
@@ -133,5 +132,14 @@ public class ApiRequest extends BaseApiRequest {
             return;
         }
         getGeneralClient(IRequest.class).postSearchMerchant(map,body).enqueue(callBack);
+    }
+
+    //猜你喜欢
+    public static void getGuessYouLike(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) {
+            callBack.onFailure(null, new NoNetworkException(Config.noNetWork));
+            return;
+        }
+        getGeneralClient(IRequest.class).getGuessYouLike(map).enqueue(callBack);
     }
 }

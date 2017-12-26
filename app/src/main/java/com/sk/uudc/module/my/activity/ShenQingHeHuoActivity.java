@@ -69,6 +69,9 @@ public class ShenQingHeHuoActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+//        et_shenqinghezuo_zijin.clearFocus();
+        //setFocusable
+//        et_shenqinghezuo_zijin.setFocusable(false);
 
     }
 
@@ -86,7 +89,6 @@ public class ShenQingHeHuoActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_shenqinghehuo_province:
-                showProgress();
                 getProvince();
                 break;
             case R.id.ll_shenqinghehuo_city:
@@ -94,7 +96,6 @@ public class ShenQingHeHuoActivity extends BaseActivity {
                     showMsg("请先选择省份！");
                     return;
                 }
-                showProgress();
                 getCity();
                 break;
             case R.id.ll_shenqinghehuo_area:
@@ -102,7 +103,6 @@ public class ShenQingHeHuoActivity extends BaseActivity {
                     showMsg("请先选择城市！");
                     return;
                 }
-                showProgress();
                 getArea();
                 break;
             case R.id.tv_shenqinghezuo_tijiao:
@@ -151,7 +151,6 @@ public class ShenQingHeHuoActivity extends BaseActivity {
                     showMsg("请输入申请理由");
                     return;
                 }
-                showProgress();
                 getApplyForPartner();
 
 
@@ -160,6 +159,7 @@ public class ShenQingHeHuoActivity extends BaseActivity {
     }
 
     private void getApplyForPartner() {
+        showLoading();
         Map<String,String>map=new HashMap<String,String>();
         map.put("user_id",getUserId());
         map.put("province",province);
@@ -182,6 +182,7 @@ public class ShenQingHeHuoActivity extends BaseActivity {
     }
 
     private void getArea() {
+        showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("city_id",city_id);
         map.put("sign", GetSign.getSign(map));
@@ -196,6 +197,7 @@ public class ShenQingHeHuoActivity extends BaseActivity {
     }
 
     private void getCity() {
+        showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("parent_id",parent_id);
         map.put("sign", GetSign.getSign(map));
@@ -210,6 +212,7 @@ public class ShenQingHeHuoActivity extends BaseActivity {
     }
 
     private void getProvince() {
+        showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("rnd",getRnd());
         map.put("sign", GetSign.getSign(map));

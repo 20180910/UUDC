@@ -9,6 +9,8 @@ public class Constant {
     public static final String title="title";
     public static final String typeId="typeId";
     public static final String merchantId="merchantId";
+    public static final String isProvideRooms="isProvideRooms";
+    public static final String actionType="actionType";
     public static final String minMoney="minMoney";
     public static final String actManList="actManList";
     public static final String actJianList="actJianList";
@@ -21,13 +23,22 @@ public class Constant {
     public static final int today=1;
     public static final int tomorrow=2;
     public static final int houTian=3;
+    public static final String fragmentHeight="fragmentHeight";
     public static class IParam{
 
+        public static final String orderNo="orderNo";
+        public static final String jiaCai="jiaCai";
+        public static final String jiaCaiBody="jiaCaiBody";
         public static final String type="type";
         public static final String merchant_id="merchant_id";
+        public static final String orderId="orderId";
         public static final String orderBody="orderBody";
         public static final String orderPayInfo="orderPayInfo";
         public static final String order_id="order_id";
+        public static final String weiDu="weiDu";
+        public static final String jingDu="jingDu";
+        public static final String imgList="imgList";
+        public static final String imgIndex="imgIndex";
 
     }
 }

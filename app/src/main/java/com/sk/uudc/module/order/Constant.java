@@ -19,6 +19,7 @@ public class Constant {
     public static final int houTian=3;
     public static class IParam{
         public static final String orderId="orderId";
+        public static final String merchant_id="merchant_id";
         public static final String shangjiaImg="shangjiaImg";
         public static final String shangjiaName="shangjiaName";
         public static final String tuanType="tuanType";

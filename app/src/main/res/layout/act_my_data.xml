@@ -28,11 +28,12 @@
             android:textSize="16sp"
             />
         <com.github.customview.MyImageView
+            android:scaleType="centerCrop"
             android:id="@+id/im_my_data_icon"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@drawable/people"
-            app:my_iv_radius="21dp"
+            app:my_iv_radius="22dp"
             />
         <ImageView
             android:layout_width="wrap_content"

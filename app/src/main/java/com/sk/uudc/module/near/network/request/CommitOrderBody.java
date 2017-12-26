@@ -26,6 +26,7 @@ public class CommitOrderBody  {
      */
 
     private String user_id;
+    private String order_id;
     private String merchant_id;
     private String dine_time;
     private int time_id;
@@ -49,6 +50,14 @@ public class CommitOrderBody  {
 
     public String getMerchant_id() {
         return merchant_id;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 
     public void setMerchant_id(String merchant_id) {

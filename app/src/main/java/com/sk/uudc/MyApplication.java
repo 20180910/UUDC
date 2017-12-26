@@ -1,24 +1,28 @@
 package com.sk.uudc;
 
 
-import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.github.androidtools.SPUtils;
 import com.github.retrofitutil.NetWorkManager;
+import com.umeng.socialize.PlatformConfig;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by administartor on 2017/8/8.
  */
 
-public class MyApplication extends Application {
- /*   @Override
+public class MyApplication extends MultiDexApplication {
+    @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-    }*/
+    }
     @Override
     public void onCreate() {
 //        SpeechUtility.createUtility(this, "appid=" + Config.xunfei_app_id);
@@ -27,35 +31,26 @@ public class MyApplication extends Application {
         NetWorkManager.getInstance(getApplicationContext(),"http://121.40.186.118:5019/",BuildConfig.DEBUG).complete();
         //二维码
         ZXingLibrary.initDisplayOpinion(this);
-
 //        ZXingLibrary.initDisplayOpinion(this);
         SDKInitializer.initialize(getApplicationContext());
 
-//        PlatformConfig.setWeixin(Config.weixing_id, Config.weixing_AppSecret);
-//        PlatformConfig.setQQZone(Config.qq_id, Config.qq_key);
+        PlatformConfig.setWeixin(Config.weixing_id, Config.weixing_AppSecret);
+        PlatformConfig.setQQZone(Config.qq_id, Config.qq_key);
 //        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
 
 //        UMShareAPI.get(this);
-//        huanXin();
+        JPushInterface.setDebugMode(BuildConfig.DEBUG); 	// 设置开启日志,发布时请关闭日志
+        JPushInterface.init(this);     		// 初始化 JPush
+
+        //清除本地经纬度
+        SPUtils.removeKey(getApplicationContext(),Config.longitude);
+        SPUtils.removeKey(getApplicationContext(),Config.latitude);
     }
 
-   /* private void huanXin() {
-        ChatClient.Options options = new ChatClient.Options();
-        options.setAppkey(Config.hx_appKey);//必填项，appkey获取地址：kefu.easemob.com，“管理员模式 > 渠道管理 > 手机APP”页面的关联的“AppKey”
-        options.setTenantId(Config.hx_tenantId);//必填项，tenantId获取地址：kefu.easemob.com，“管理员模式 > 设置 > 企业信息”页面的“租户ID”
-
-        // Kefu SDK 初始化
-        if (!ChatClient.getInstance().init(this, options)){
-            return;
-        }
-        // Kefu EaseUI的初始化
-        UIProvider.getInstance().init(this);
-        //后面可以设置其他属性
-    }*/
    //经度
-   public static double longitude=121.432986;
+   public static double longitude;//=121.432986;
     //纬度
-   public static double latitude=31.229504;
+   public static double latitude;//=31.229504;
 
     /**
      * 经度
@@ -64,7 +59,8 @@ public class MyApplication extends Application {
      */
     public static double getJingDu(Context context){
         if(longitude==0){
-            return SPUtils.getPrefFloat(context,Config.longitude,121.47f );
+            longitude=SPUtils.getPrefFloat(context,Config.longitude,0);
+            return longitude;
         }else{
             return longitude;
         }
@@ -77,7 +73,8 @@ public class MyApplication extends Application {
      */
     public static double getWeiDu(Context context){
         if(latitude==0){
-            return SPUtils.getPrefFloat(context,Config.latitude,31.23f);
+            latitude=SPUtils.getPrefFloat(context,Config.latitude,0);
+            return latitude;
         }else{
             return latitude;
         }
@@ -89,7 +86,8 @@ public class MyApplication extends Application {
      */
     public static double Lng(Context context){
         if(longitude==0){
-            return SPUtils.getPrefFloat(context,Config.longitude,0);
+            longitude=SPUtils.getPrefFloat(context,Config.longitude,0);
+            return longitude;
         }else{
             return longitude;
         }
@@ -101,7 +99,8 @@ public class MyApplication extends Application {
      */
     public static double Lat(Context context){
         if(latitude==0){
-            return SPUtils.getPrefFloat(context,Config.latitude,0);
+            latitude=SPUtils.getPrefFloat(context,Config.latitude,0);
+            return latitude;
         }else{
             return latitude;
         }

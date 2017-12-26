@@ -10,6 +10,7 @@ import com.sk.uudc.module.my.network.response.AboutPlatformObj;
 import com.sk.uudc.module.my.network.response.AccountDefaultObj;
 import com.sk.uudc.module.my.network.response.AccountObj;
 import com.sk.uudc.module.my.network.response.ChongzhiCreateOrderObj;
+import com.sk.uudc.module.my.network.response.ChongzhiSuccessObj;
 import com.sk.uudc.module.my.network.response.CollectObj;
 import com.sk.uudc.module.my.network.response.ComperationObj;
 import com.sk.uudc.module.my.network.response.DaiEvaluateObj;
@@ -19,6 +20,7 @@ import com.sk.uudc.module.my.network.response.MessageDetailObj;
 import com.sk.uudc.module.my.network.response.MessageListObj;
 import com.sk.uudc.module.my.network.response.MyEvaluateObj;
 import com.sk.uudc.module.my.network.response.MyShouyiObj;
+import com.sk.uudc.module.my.network.response.ShouyiObj;
 import com.sk.uudc.module.my.network.response.UserInfoObj;
 import com.sk.uudc.module.my.network.response.WithdrawalsObj;
 import com.sk.uudc.module.my.network.response.YueMingxiObj;
@@ -113,7 +115,7 @@ public interface IRequest {
 
     //获取默认账户
     @GET("api/CashWithdrawal/GetAccountDefault")
-    Call<ResponseObj<List<AccountDefaultObj>>> getAccountDefault(@QueryMap Map<String, String> map );
+    Call<ResponseObj<AccountDefaultObj>> getAccountDefault(@QueryMap Map<String, String> map );
 
     //设置默认-提现账户
     @GET("api/CashWithdrawal/GetEditDefalut")
@@ -141,6 +143,14 @@ public interface IRequest {
     //删除-我的账户(银行卡)列表
     @GET(" api/CashWithdrawal/GetDelAccount")
     Call<ResponseObj<BaseObj>> getDelAccount(@QueryMap Map<String, String> map );
+
+    //账户充值结束界面数据
+    @GET("api/Order/GetPayRecharge")
+    Call<ResponseObj<ChongzhiSuccessObj>> getPayRecharge(@QueryMap Map<String, String> map );
+
+    //收益-转入余额
+    @GET("api/CashWithdrawal/GetCommissionWithdrawals")
+    Call<ResponseObj<ShouyiObj>> getCommissionWithdrawals(@QueryMap Map<String, String> map );
 
 
 

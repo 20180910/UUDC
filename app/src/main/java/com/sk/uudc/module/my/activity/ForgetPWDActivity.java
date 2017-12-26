@@ -89,10 +89,10 @@ public class ForgetPWDActivity extends BaseActivity {
                 }else if(!GetSign.isMobile(phone)){
                     showMsg("请输入正确手机号");
                     return;
-                }/*else if(TextUtils.isEmpty(smsCode)||TextUtils.isEmpty(code)||!code.equals(smsCode)){
+                }else if(TextUtils.isEmpty(smsCode)||TextUtils.isEmpty(code)||!code.equals(smsCode)){
                     showMsg("请输入正确验证码");
                     return;
-                }*/else if(TextUtils.isEmpty(password)){
+                }else if(TextUtils.isEmpty(password)){
                     showMsg("密码不能为空");
                     return;
                 }

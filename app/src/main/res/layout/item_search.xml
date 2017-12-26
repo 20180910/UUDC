@@ -20,7 +20,7 @@
         android:textColor="@color/gray_66"
         android:textSize="13sp"
         app:my_tv_corner_radius="5dp"
-        app:my_tv_solid="@color/gray_d7"
+        app:my_tv_solid="@color/gray_f3"
         tools:text="需要"/>
 
 </LinearLayout>

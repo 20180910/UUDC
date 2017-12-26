@@ -2,6 +2,7 @@ package com.sk.uudc.module.my.activity;
 
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,10 +54,19 @@ public class MyBalanceActivity extends BaseActivity {
 
     }
 
+
+
+
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void myReStart() {
+        super.myReStart();
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("====","onResume====MyBalanceActivity");
     }
 
     @OnClick({R.id.tv_my_balance_chongzhi, R.id.tv_my_balance_tixiang, R.id.iv_my_balance_yinhangka,R.id.app_right_tv})

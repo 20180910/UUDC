@@ -39,7 +39,11 @@ public class ApiRequest extends BaseApiRequest {
     }
     public static void getShangJiaEvaluateNum(Map map, MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
-        getGeneralClient(IRequest.class).getShangJiaEvaluateNum(map ).enqueue(callBack);
+         getGeneralClient(IRequest.class).getShangJiaEvaluateNum(map).enqueue(callBack);;
+    }
+    public static void collectShangJia(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).collectShangJia(map ).enqueue(callBack);
     }
     public static void getShangJiaEvaluateList(Map map, MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
@@ -64,6 +68,10 @@ public class ApiRequest extends BaseApiRequest {
     public static void commitOrder(Map map, CommitOrderBody body, MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).commitOrder(map,body ).enqueue(callBack);
+    }
+    public static void commitJiaCaiOrder(Map map, CommitOrderBody body, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).commitJiaCaiOrder(map,body ).enqueue(callBack);
     }
     public static void yuePay(Map map,  MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }

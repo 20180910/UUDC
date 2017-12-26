@@ -173,6 +173,8 @@
                 </com.github.customview.MyLinearLayout>
             </LinearLayout>
                 <LinearLayout
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:orientation="horizontal"
@@ -197,6 +199,7 @@
                             />
                     </LinearLayout>
                     <com.github.customview.MyLinearLayout
+
                         android:layout_width="0dp"
                         android:layout_weight="2"
                         android:layout_height="match_parent"
@@ -209,7 +212,7 @@
                         <com.github.customview.MyEditText
                             android:id="@+id/et_shenqinghezuo_zijin"
                             android:layout_width="0dp"
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:layout_weight="1"
                             android:layout_height="match_parent"
                             android:inputType="numberDecimal"
@@ -253,7 +256,7 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:id="@+id/et_shenqinghezuo_name"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -300,7 +303,7 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:id="@+id/et_shenqinghezuo_phone"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -394,7 +397,7 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:id="@+id/et_shenqinghezuo_youxiang"
                             android:layout_width="0dp"
                             android:layout_weight="1"
@@ -441,7 +444,7 @@
                         android:layout_marginRight="15dp"
                         >
                         <com.github.customview.MyEditText
-                            android:gravity="center"
+                            android:gravity="center_vertical"
                             android:id="@+id/et_shenqinghezuo_liyou"
                             android:layout_width="0dp"
                             android:layout_weight="1"

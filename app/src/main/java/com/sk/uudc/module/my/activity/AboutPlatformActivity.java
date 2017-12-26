@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/11/7.
@@ -28,6 +29,12 @@ public class AboutPlatformActivity extends BaseActivity {
     TextView tv_about_platform_title;
     @BindView(R.id.tv_about_platform_edition)
     TextView tv_about_platform_edition;
+    @BindView(R.id.tv_about_platform_phone)
+    TextView tv_about_platform_phone;
+    @BindView(R.id.tv_about_platform_qq)
+    TextView tv_about_platform_qq;
+    @BindView(R.id.tv_about_platform_email)
+    TextView tv_about_platform_email;
 
     @Override
     protected int getContentView() {
@@ -54,14 +61,33 @@ public class AboutPlatformActivity extends BaseActivity {
         Map<String, String> map = new HashMap<String, String>();
         map.put("rnd", getRnd());
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getAboutPlatform(map, new MyCallBack<AboutPlatformObj>(mContext) {
+        ApiRequest.getAboutPlatform(map, new MyCallBack<AboutPlatformObj>(mContext,pcfl,pl_load) {
             @Override
             public void onSuccess(AboutPlatformObj obj) {
                 Glide.with(mContext).
-                        load(obj.getPayment_url()).
+                        load(obj.getImage()).
                         error(R.color.gray).
                         into(iv_about_platform_icon);
                 tv_about_platform_edition.setText(obj.getEdition());
+                if (obj.getTel_wechat().equals("")) {
+                    tv_about_platform_phone.setVisibility(View.GONE);
+                }else {
+                    tv_about_platform_phone.setVisibility(View.VISIBLE);
+                    tv_about_platform_phone.setText("联系电话："+obj.getTel_wechat());
+                }
+                if (obj.getQQ().equals("")) {
+                    tv_about_platform_qq.setVisibility(View.GONE);
+                }else {
+                    tv_about_platform_qq.setVisibility(View.VISIBLE);
+                    tv_about_platform_qq.setText("QQ："+obj.getQQ());
+                }
+                if (obj.getEmail().equals("")) {
+                    tv_about_platform_email.setVisibility(View.GONE);
+                }else {
+                    tv_about_platform_email.setVisibility(View.VISIBLE);
+                    tv_about_platform_email.setText("email："+obj.getEmail());
+                }
+
 
 
             }
@@ -73,5 +99,17 @@ public class AboutPlatformActivity extends BaseActivity {
     @Override
     protected void onViewClick(View v) {
 
+    }
+
+    @OnClick({R.id.tv_about_platform_phone, R.id.tv_about_platform_qq, R.id.tv_about_platform_email})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_about_platform_phone:
+                break;
+            case R.id.tv_about_platform_qq:
+                break;
+            case R.id.tv_about_platform_email:
+                break;
+        }
     }
 }

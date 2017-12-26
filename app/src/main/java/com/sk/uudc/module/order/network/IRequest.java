@@ -8,7 +8,6 @@ import com.sk.uudc.module.order.network.response.OrderCancelReasonObj;
 import com.sk.uudc.module.order.network.response.OrderDetailsObj;
 import com.sk.uudc.module.order.network.response.OrderObj;
 
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -37,7 +36,7 @@ public interface IRequest {
 
     //取消订单原因
     @GET(" api/Order/GetCancelReason")
-    Call<ResponseObj<List<OrderCancelReasonObj>>> getCancelReason(@QueryMap Map<String, String> map);
+    Call<ResponseObj <OrderCancelReasonObj>> getCancelReason(@QueryMap Map<String, String> map);
 
     //提交-取消订单
     @GET("api/Order/GetCancelOrder")
@@ -46,5 +45,9 @@ public interface IRequest {
     //发表商家评价
     @POST("api/Order/PostPublishComment")
     Call<ResponseObj<BaseObj>>postPublishComment(@QueryMap Map<String, String> map, @Body BusinessEvaluationBody body);
+
+    //取消订单(未付款的)
+    @GET("api/Order/GetCancelsOrder")
+    Call<ResponseObj<BaseObj>>getCancelsOrder(@QueryMap Map<String, String> map);
 
 }

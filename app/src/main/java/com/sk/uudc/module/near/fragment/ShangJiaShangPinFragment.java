@@ -1,14 +1,18 @@
 package com.sk.uudc.module.near.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +29,7 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.near.Constant;
+import com.sk.uudc.module.near.activity.NewImageDetailActivity;
 import com.sk.uudc.module.near.event.JieSuanEvent;
 import com.sk.uudc.module.near.network.ApiRequest;
 import com.sk.uudc.module.near.network.request.ShowOrderBody;
@@ -82,10 +87,12 @@ public class ShangJiaShangPinFragment extends BaseFragment {
     private int totalNum=0;
     private double totalPrice=0;
     private double minMoney;
-    public static ShangJiaShangPinFragment newInstance(String merchantId, double minMoney, ArrayList<Integer> manList, ArrayList<Integer> jianList) {
+    public static ShangJiaShangPinFragment newInstance(int fragmentHeight,String merchantId, double minMoney, ArrayList<Integer> manList, ArrayList<Integer> jianList,String actionType) {
         ShangJiaShangPinFragment newFragment = new ShangJiaShangPinFragment();
         Bundle bundle = new Bundle();
+        bundle.putInt(Constant.fragmentHeight, fragmentHeight);
         bundle.putString(Constant.merchantId, merchantId);
+        bundle.putString(Constant.actionType, actionType);
         bundle.putDouble(Constant.minMoney, minMoney);
         bundle.putIntegerArrayList(Constant.actManList,manList);
         bundle.putIntegerArrayList(Constant.actJianList,jianList);
@@ -100,16 +107,25 @@ public class ShangJiaShangPinFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        if(getArguments().getInt(Constant.fragmentHeight,0)!=0){
+            rv_shang_pin_cai.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getArguments().getInt(Constant.fragmentHeight,0)));
+            Log.i(TAG+"===","=11=="+getArguments().getInt(Constant.fragmentHeight,0));
+        }
         xuanFuHeight = PhoneUtils.dip2px(mContext, 30);
         merchantId = getArguments().getString(Constant.merchantId);
         minMoney = getArguments().getDouble(Constant.minMoney);
-        tv_shangpin_jiesuan.setText("还差¥"+minMoney);
 
-        ArrayList<Integer> manList = getArguments().getIntegerArrayList(Constant.actManList);
-        if(notEmpty(manList)){
-            ArrayList<Integer> jianList = getArguments().getIntegerArrayList(Constant.actJianList);
-            tv_shangpin_youhui.setText("满"+manList.get(0)+"减"+jianList.get(0));
+        if(TextUtils.isEmpty( getArguments().getString(Constant.actionType))){//如果有加菜的标识就不显示满减
+            tv_shangpin_jiesuan.setText("¥"+minMoney+"起订");
+            ArrayList<Integer> manList = getArguments().getIntegerArrayList(Constant.actManList);
+            if(notEmpty(manList)){
+                ArrayList<Integer> jianList = getArguments().getIntegerArrayList(Constant.actJianList);
+                tv_shangpin_youhui.setText("满"+manList.get(0)+"减"+jianList.get(0));
+            }
+        }else{
+            tv_shangpin_jiesuan.setText("去加菜");
         }
+
 
 
         typeAdapter = new BaseRecyclerAdapter<ShangJiaShangPingObj.MerchantClassListBean>(mContext, R.layout.item_shang_jia_goods_type) {
@@ -153,6 +169,18 @@ public class ShangJiaShangPinFragment extends BaseFragment {
             @Override
             public void bindData(RecyclerViewHolder holder, int position, ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean) {
                 ImageView imageView = holder.getImageView(R.id.iv_goods_img);
+                Log.i(TAG+"===","==="+position);
+                imageView.setOnClickListener(new MyOnClickListener() {
+                    @Override
+                    protected void onNoDoubleClick(View view) {
+                        Intent intent=new Intent();
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(bean.getGoods_image());
+                        intent.putStringArrayListExtra(Constant.IParam.imgList,imgList);
+                        intent.putExtra(Constant.IParam.imgIndex,position);
+                        STActivity(intent,NewImageDetailActivity.class);
+                    }
+                });
                 Glide.with(mContext).load(bean.getGoods_image()).skipMemoryCache(false).override(PhoneUtils.dip2px(mContext,70), PhoneUtils.dip2px(mContext,70)) .error(R.color.c_press).into(imageView);
 
                 holder.setText(R.id.tv_goods_name, bean.getGoods_name())
@@ -253,6 +281,9 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
+                if(goodsAdapter.getList().size()<=1){
+                    return;
+                }
                 ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean = (ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean) goodsAdapter.getList().get(firstVisibleItemPosition);
                 ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean nextBean = (ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean) goodsAdapter.getList().get(firstVisibleItemPosition + 1);
                 View view = layoutManager.findViewByPosition(firstVisibleItemPosition + 1);
@@ -285,41 +316,64 @@ public class ShangJiaShangPinFragment extends BaseFragment {
 
         }
         tv_shangpin_price.setText("¥"+totalPrice);
-        if(totalPrice<minMoney){
-
-            tv_shangpin_jiesuan.setText("还差¥"+AndroidUtils.jianFa(minMoney,totalPrice));
-            tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.gray_99));
-            tv_shangpin_jiesuan.setEnabled(false);
+        if(totalPrice<=0){
+            tv_shangpin_price.setText("购物车为空");
+        }
+        if(isJiaCai()){
+            if(totalPrice<=0){
+                tv_shangpin_jiesuan.setText("加菜");
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.gray_99));
+                tv_shangpin_jiesuan.setEnabled(false);
+            }else{
+                tv_shangpin_jiesuan.setText("加菜");
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.orange));
+                tv_shangpin_jiesuan.setEnabled(true);
+            }
         }else{
-            tv_shangpin_jiesuan.setText("结算");
-            tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.orange));
-            tv_shangpin_jiesuan.setEnabled(true);
-        }
-
-        ArrayList<Integer> manList = getArguments().getIntegerArrayList(Constant.actManList);
-        ArrayList<Integer> jianList = getArguments().getIntegerArrayList(Constant.actJianList);
-        if(isEmpty(manList)){
-            return;
-        }
-        int index=-1;
-        double v=0;
-        for (int i = 0; i < manList.size(); i++) {
-            Integer integer = manList.get(i);
-            v = AndroidUtils.jianFa(integer, totalPrice);
-            if(v>0){
-                index=i;
-                break;
+            if(totalPrice<minMoney){
+                if(totalPrice<=0){
+                    tv_shangpin_jiesuan.setText("¥"+minMoney+"起订");
+                }else{
+                    tv_shangpin_jiesuan.setText("还差¥"+AndroidUtils.jianFa(minMoney,totalPrice));
+                }
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.gray_99));
+                tv_shangpin_jiesuan.setEnabled(false);
+            }else{
+                tv_shangpin_jiesuan.setText("结算");
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.orange));
+                tv_shangpin_jiesuan.setEnabled(true);
             }
         }
-        if(totalPrice>=manList.get(manList.size()-1)){
-            tv_shangpin_youhui.setText("满"+manList.get(manList.size()-1)+"减"+jianList.get(manList.size()-1));
-        }else{
-            if(index!=-1){
-                tv_shangpin_youhui.setText("满"+manList.get(index)+"减"+jianList.get(index)+","+"还差"+v+"元可减"+jianList.get(index));
+
+        if(TextUtils.isEmpty( getArguments().getString(Constant.actionType))) {//如果有加菜的标识就不显示满减
+            ArrayList<Integer> manList = getArguments().getIntegerArrayList(Constant.actManList);
+            ArrayList<Integer> jianList = getArguments().getIntegerArrayList(Constant.actJianList);
+            if(isEmpty(manList)){
+                return;
+            }
+            int index=-1;
+            double v=0;
+            for (int i = 0; i < manList.size(); i++) {
+                Integer integer = manList.get(i);
+                v = AndroidUtils.jianFa(integer, totalPrice);
+                if(v>0){
+                    index=i;
+                    break;
+                }
+            }
+            if(totalPrice>=manList.get(manList.size()-1)){
+                tv_shangpin_youhui.setText("满"+manList.get(manList.size()-1)+"减"+jianList.get(manList.size()-1));
+            }else{
+                if(index!=-1){
+                    tv_shangpin_youhui.setText("满"+manList.get(index)+"减"+jianList.get(index)+","+"还差"+v+"元可减"+jianList.get(index));
+                }
             }
         }
+
     }
-
+    public boolean isJiaCai(){
+        return !TextUtils.isEmpty(getArguments().getString(Constant.actionType));
+    }
     @Override
     protected void initData() {
         showProgress();
@@ -348,6 +402,9 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                     list.addAll(classList.get(i).getGoods_list());
                     sparseType.put(typeBean.getNavigation_id(), i);
                     sparseTypeTitle.put(typeBean.getNavigation_id(), typeBean.getNavigation_name());
+                }
+                if(notEmpty(classList)){
+                    tv_goods_xuanfu_title.setText(classList.get(0).getNavigation_name());
                 }
                 typeAdapter.setList(classList, true);
 

@@ -22,7 +22,7 @@ public class BaseObj implements Serializable {
     private String img;
     private int payment_type;
     private String payment_url;
-    private int is_thumbup;//帖子点赞
+    private int is_collect;//1收藏，0没收藏
     private double account_balance;//账户余额
     public String getImg() {
         return img;
@@ -48,12 +48,12 @@ public class BaseObj implements Serializable {
         this.img = img;
     }
 
-    public int getIs_thumbup() {
-        return is_thumbup;
+    public int getIs_collect() {
+        return is_collect;
     }
 
-    public void setIs_thumbup(int is_thumbup) {
-        this.is_thumbup = is_thumbup;
+    public void setIs_collect(int is_collect) {
+        this.is_collect = is_collect;
     }
 
     public String getSMSCode() {

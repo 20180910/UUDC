@@ -23,9 +23,11 @@ import com.bumptech.glide.Glide;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.rx.IOCallBack;
 import com.github.baseclass.rx.MySubscriber;
+import com.github.baseclass.rx.RxBus;
 import com.github.customview.MyCheckBox;
 import com.github.customview.MyEditText;
 import com.github.customview.MyTextView;
+import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
@@ -35,6 +37,7 @@ import com.sk.uudc.module.my.network.request.UploadImgBody;
 import com.sk.uudc.module.order.Constant;
 import com.sk.uudc.module.order.adapter.AddImgAdapter;
 import com.sk.uudc.module.order.event.AddImgEvent;
+import com.sk.uudc.module.order.event.OrdersEvent;
 import com.sk.uudc.module.order.network.request.BusinessEvaluationBody;
 import com.sk.uudc.network.ApiRequest;
 import com.sk.uudc.tools.BitmapUtils;
@@ -236,8 +239,6 @@ public class BusinessEvaluationActivity extends BaseActivity {
                 }
 
 
-
-                showProgress();
                 postPublishComment();
 
 
@@ -246,6 +247,7 @@ public class BusinessEvaluationActivity extends BaseActivity {
     }
 
     private void postPublishComment() {
+        showLoading();
         Map<String,String>map=new HashMap<String,String>();
         map.put("user_id",getUserId());
         map.put("sign",GetSign.getSign(map));
@@ -266,6 +268,7 @@ public class BusinessEvaluationActivity extends BaseActivity {
             @Override
             public void onSuccess(BaseObj obj) {
                 showMsg(obj.getMsg());
+                RxBus.getInstance().post(new OrdersEvent(Config.refresh));
                 finish();
 
             }

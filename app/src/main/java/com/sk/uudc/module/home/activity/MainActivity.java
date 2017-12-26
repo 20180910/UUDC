@@ -3,6 +3,7 @@ package com.sk.uudc.module.home.activity;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +30,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * Created by Administrator on 2017/11/4.
@@ -81,6 +83,11 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        String registrationID = JPushInterface.getRegistrationID(mContext);
+        Log.i("registrationID","registrationID====="+registrationID);
+        if(!TextUtils.isEmpty(registrationID)){
+            SPUtils.setPrefString(mContext,Config.jiguangRegistrationId,registrationID);
+        }
         getPaymentURL(1);//获取支付宝回传地址
         getPaymentURL(2);//获取微信回传地址
     }
@@ -114,11 +121,16 @@ public class MainActivity extends BaseActivity {
                 selectNear();
                 break;
             case R.id.rb_home_order:
+                if ("0".equals(getUserId())) {
+                    selectButton.setChecked(true);
+                    STActivity(LoginActivity.class);
+                    return;
+                }
                 status_bar.setBackgroundColor(getResources().getColor(R.color.white));
                 selectOrder();
                 break;
             case R.id.rb_home_my:
-                if (TextUtils.isEmpty(getUserId())) {
+                if ("0".equals(getUserId())) {
                     selectButton.setChecked(true);
                     STActivity(LoginActivity.class);
                     return;

@@ -14,17 +14,28 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.androidtools.SPUtils;
+import com.sk.uudc.Config;
+import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
-import com.sk.uudc.db.DBManager;
+import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.home.network.response.CityIdObj;
 import com.sk.uudc.module.home.network.response.CitySearchObj;
+import com.sk.uudc.network.ApiRequest;
 import com.sk.uudc.tools.MyLetterListView;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/11/28.
@@ -49,6 +60,9 @@ public class CitySearchActivity extends BaseActivity {
     ArrayList<CitySearchObj> names;
     String proName[];
     private OverlayThread overlayThread;
+    private List<CitySearchObj> cityList;
+    String city = "上海市";
+    String city_id_xuanze="";
 
     @Override
     protected int getContentView() {
@@ -58,21 +72,60 @@ public class CitySearchActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        DBManager dbManager = new DBManager(this);
+        //  SPUtils.setPrefString(mContext, Config.city,city);
+        tv_city_search.setText(SPUtils.getPrefString(mContext, Config.dingweicity, city));
+
+
+
+
+       /* DBManager dbManager = new DBManager(this);
         dbManager.openDateBase();
         dbManager.closeDatabase();
-        database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
-        mCityNames = getCityNames();
-        database.close();
-        mllv_city_search.setOnTouchingLetterChangedListener(new LetterListViewListener());
-        alphaIndexer = new HashMap<String, Integer>();
-        handler = new Handler();
-        overlayThread = new OverlayThread();
-        initOverlay();
+        database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);*/
+        showProgress();
+        getAllCity();
 
-        setAdapter(mCityNames);
-        lv_city_search.setOnItemClickListener(new CityListOnItemClick());
 
+    }
+
+    private void getAllCity() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("rnd", getRnd());
+        map.put("sign", GetSign.getSign(map));
+        ApiRequest.getAllCity(map, new MyCallBack<List<CitySearchObj>>(mContext, pcfl, pl_load) {
+
+            @Override
+            public void onSuccess(List<CitySearchObj> list) {
+                cityList = list;
+                sortListByZiMu(cityList);
+//                mCityNames = getCityNames();
+//                database.close();
+                mllv_city_search.setOnTouchingLetterChangedListener(new LetterListViewListener());
+                alphaIndexer = new HashMap<String, Integer>();
+                handler = new Handler();
+                overlayThread = new OverlayThread();
+                initOverlay();
+
+                setAdapter(cityList);
+                lv_city_search.setOnItemClickListener(new CityListOnItemClick());
+            }
+        });
+
+    }
+
+    private void sortListByZiMu(List<CitySearchObj> list) {
+        //获取名字首字母-大写
+        for (CitySearchObj contant : list) {
+            String cahr = PinyinHelper.toHanyuPinyinStringArray(contant.getTitle().charAt(0))[0].substring(0, 1).toUpperCase();
+            contant.setNameSort(cahr);
+        }
+        //根据首字母排序
+        Collections.sort(list, new Comparator<CitySearchObj>() {
+            @Override
+            public int compare(CitySearchObj contant, CitySearchObj t1) {
+                return contant.getNameSort().compareTo(t1.getNameSort());
+            }
+        });
     }
 
     /**
@@ -93,6 +146,35 @@ public class CitySearchActivity extends BaseActivity {
         return names;
     }
 
+    @OnClick(R.id.tv_city_search)
+    public void onClick() {
+        SPUtils.setPrefString(mContext, Config.city, getSStr(tv_city_search));
+        city= getSStr(tv_city_search);
+//      STActivity(CitySearchActivity.class);
+//        finish();
+        getCityId();
+
+    }
+
+
+
+
+
+    private void getCityId() {
+        showLoading();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("city", city);
+        map.put("sign", GetSign.getSign(map));
+        com.sk.uudc.module.home.network.ApiRequest.getCityId(map, new MyCallBack<CityIdObj>(mContext) {
+            @Override
+            public void onSuccess(CityIdObj obj) {
+                city_id_xuanze = obj.getCity_id();
+                SPUtils.setPrefString(mContext, Config.city_id_xuanze, city_id_xuanze);
+                finish();
+            }
+        });
+    }
+
     /**
      * 城市列表点击事件(返回城市名字)
      *
@@ -103,16 +185,9 @@ public class CitySearchActivity extends BaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
             cityModel = (CitySearchObj) lv_city_search.getAdapter().getItem(pos);
-//            //判断回到那个页面
-//            Intent intent;
-//            if(yemian==0){
-//                intent=new Intent(CityList.this,PersonActivity.class);
-//            }else {
-//                intent=new Intent(CityList.this,EnrollFragment.class);
-//            }
-//            intent.putExtra("cityName",cityModel.getCityName());
-//            setResult(5, intent);
-//            finish();
+            city = cityModel.getTitle();
+            SPUtils.setPrefString(mContext, Config.city, city);
+            getCityId();
 
         }
 
@@ -166,7 +241,7 @@ public class CitySearchActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            return list.size();
+            return list == null ? 0 : list.size();
         }
 
         @Override
@@ -192,7 +267,7 @@ public class CitySearchActivity extends BaseActivity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.name.setText(list.get(position).getCityName());
+            holder.name.setText(list.get(position).getTitle());
             String currentStr = list.get(position).getNameSort();
             String previewStr = (position - 1) >= 0 ? list.get(position - 1).getNameSort() : " ";
             if (!previewStr.equals(currentStr)) {

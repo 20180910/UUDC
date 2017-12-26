@@ -42,6 +42,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
@@ -55,27 +56,28 @@ public class GoodsTypeActivity extends BaseActivity {
     @BindView(R.id.ddm_goods_type)
     DropDownMenu ddm_goods_type;
     LoadMoreAdapter adapter;
-//    private String headers[] = {"全部分类", "附近", "智能排序", "筛选"};
+    //    private String headers[] = {"全部分类", "附近", "智能排序", "筛选"};
     private List<View> popupViews = new ArrayList<>();
     private String zhineng[] = {"智能排序", "离我最近", "人气最高"};
-    private String screen[] = {"不限","早餐", "午餐", "晚餐","下午茶","夜宵"};
+    private String screen[] = {"不限", "早餐", "午餐", "晚餐", "下午茶", "夜宵"};
     String[] titles = {"商圈", "地铁"};
     ArrayList<CustomTabEntity> tabEntities = new ArrayList<>();
-    int paixuCheck=0,screenCheck=-1,nearYijiCheck=0,nearErjiCheck=-1;
-    BaseRecyclerAdapter allmAdapter,zhinengmAdapter,screenmAdapter,nearYijimAdapter,nearerjimAdapter;
+    int paixuCheck = 0, screenCheck = -1, nearYijiCheck = -1, nearErjiCheck = -1;
+    BaseRecyclerAdapter allmAdapter, zhinengmAdapter, screenmAdapter, nearYijimAdapter, nearerjimAdapter;
     String name,
             type_id,
-            city="上海市",
+            city = "上海市",
             city_id,//城市ID
-            distance="0",//附近距离(传0是默认距离,)
-            parentId="1",
-            area_id="0",//商圈ID(没选传0,)
-            sequencing="0",//排序(0智能排序,1离我最近,2人气最高,,,,)
-            is_provide_rooms="0",//是否需要包间(0默认 1需要 2不需要)
-            dinner_time="0";//用餐时段(0不限,1早餐,2午餐,3晚餐,4下午茶,5夜宵)
-    List<AreaBusinessCircleObj.PcaListBean> childList=new ArrayList<>();
-    List<AreaBusinessCircleObj> parentList=new ArrayList<>();
-    List<String>headers=new ArrayList<>();
+            city_id_xuanze,//选择城市id
+            distance = "0",//附近距离(传0是默认距离,)
+            parentId = "1",
+            area_id = "0",//商圈ID(没选传0,)
+            sequencing = "0",//排序(0智能排序,1离我最近,2人气最高,,,,)
+            is_provide_rooms = "0",//是否需要包间(0默认 1需要 2不需要)
+            dinner_time = "0";//用餐时段(0不限,1早餐,2午餐,3晚餐,4下午茶,5夜宵)
+    List<AreaBusinessCircleObj.PcaListBean> childList = new ArrayList<>();
+    List<AreaBusinessCircleObj> parentList = new ArrayList<>();
+    List<String> headers = new ArrayList<>();
     private View mainView;
 
 
@@ -91,15 +93,16 @@ public class GoodsTypeActivity extends BaseActivity {
     @Override
     protected void initView() {
         mainView = getLayoutInflater().inflate(R.layout.item_shangjia_list, null);
-        pl_load= mainView.findViewById(R.id.pl_load);
+        pl_load = mainView.findViewById(R.id.pl_load);
         pl_load.setInter(this);
-        pcfl= mainView.findViewById(R.id.pcfl_refresh);
+        pcfl = mainView.findViewById(R.id.pcfl_refresh);
         pcfl.setLastUpdateTimeRelateObject(this);
 
         pcfl.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                getData(1,false);
+                showLoading();
+                getData(1, false);
             }
         });
         getValue();
@@ -110,11 +113,12 @@ public class GoodsTypeActivity extends BaseActivity {
 
     private void getValue() {
 
-        name=getIntent().getStringExtra("name");
-        type_id=getIntent().getStringExtra("typeId");
-        city_id=getIntent().getStringExtra("city_id");
+        name = getIntent().getStringExtra("name");
+        type_id = getIntent().getStringExtra("typeId");
+        city_id = getIntent().getStringExtra("city_id");
+        city_id_xuanze = getIntent().getStringExtra("city_id_xuanze");
         headers.add(name);
-        headers.add("附近");
+        headers.add("全城");
         headers.add("智能排序");
         headers.add("筛选");
         setAppTitle(name);
@@ -128,7 +132,7 @@ public class GoodsTypeActivity extends BaseActivity {
         getTypeAssemblage();
         //获得商圈
         getAreaBusinessCircle();
-        getData(1,false);
+        getData(1, false);
 
 
     }
@@ -149,15 +153,16 @@ public class GoodsTypeActivity extends BaseActivity {
 //    }
 
     private void getAreaBusinessCircle() {
-        Map<String,String>map=new HashMap<String,String>();
-        map.put("city_id",city_id);
-        map.put("sign",GetSign.getSign(map));
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("city_id", city_id_xuanze);
+        map.put("localize_city_id", city_id);
+        map.put("sign", GetSign.getSign(map));
         ApiRequest.getAreaBusinessCircle(map, new MyCallBack<List<AreaBusinessCircleObj>>(mContext) {
             @Override
             public void onSuccess(List<AreaBusinessCircleObj> obj) {
 
-                parentList=obj;
-                nearYijimAdapter.setList(obj,true);
+                parentList = obj;
+                nearYijimAdapter.setList(obj, true);
 
 //               List<AreaBusinessCircleObj.PcaListBean>pca_list=new ArrayList<AreaBusinessCircleObj.PcaListBean>();
 
@@ -181,22 +186,19 @@ public class GoodsTypeActivity extends BaseActivity {
     private void intiRcv() {
 
 
-
-
 //        rcAll.setLayoutManager(new LinearLayoutManager(mContext));
 //        rcAll.setNestedScrollingEnabled(false);
 //        rcAll.setAdapter(allmAdapter);
 
 
-
         //全部
         final RecyclerView rcAll = new RecyclerView(this);
-        allmAdapter=new BaseRecyclerAdapter<HomeTypeAssemblageObj.TypeListBean>(mContext,R.layout.item_goods_type_all) {
+        allmAdapter = new BaseRecyclerAdapter<HomeTypeAssemblageObj.TypeListBean>(mContext, R.layout.item_goods_type_all) {
             @Override
             public void bindData(RecyclerViewHolder holder, int i, HomeTypeAssemblageObj.TypeListBean bean) {
                 TextView tvItemGoodsType = holder.getTextView(R.id.tvItemGoodsType);
-                tvItemGoodsType.setText(bean.getType_name() );
-                if (type_id.equals(bean.getType_id()) ) {
+                tvItemGoodsType.setText(bean.getType_name());
+                if (type_id.equals(bean.getType_id())) {
                     tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
                 } else {
                     tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.gray_33));
@@ -204,18 +206,19 @@ public class GoodsTypeActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        type_id=bean.getType_id();
+                        type_id = bean.getType_id();
                         tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
                         allmAdapter.notifyDataSetChanged();
                         ddm_goods_type.setTabText(bean.getType_name());
                         ddm_goods_type.closeMenu();
                         setAppTitle(bean.getType_name());
-                        showProgress();
-                        getData(1,false);
+                        showLoading();
+                        getData(1, false);
                     }
                 });
             }
         };
+
         rcAll.setLayoutManager(new LinearLayoutManager(mContext));
         rcAll.setNestedScrollingEnabled(false);
         rcAll.setAdapter(allmAdapter);
@@ -226,13 +229,13 @@ public class GoodsTypeActivity extends BaseActivity {
         CommonTabLayout ctlGoodsTypeNear = ButterKnife.findById(nearView, R.id.ctlGoodsTypeNear);
         RecyclerView rvGoodsTypeYiji = ButterKnife.findById(nearView, R.id.rvGoodsTypeYiji);
         RecyclerView rvGoodsTypeErji = ButterKnife.findById(nearView, R.id.rvGoodsTypeErji);
-            initTabLayout(ctlGoodsTypeNear);
-        nearYijimAdapter=new BaseRecyclerAdapter<AreaBusinessCircleObj>(mContext,R.layout.item_goods_type_all) {
+        initTabLayout(ctlGoodsTypeNear);
+        nearYijimAdapter = new BaseRecyclerAdapter<AreaBusinessCircleObj>(mContext, R.layout.item_goods_type_all) {
             @Override
             public void bindData(RecyclerViewHolder holder, int i, AreaBusinessCircleObj list) {
                 TextView tvItemGoodsType = holder.getTextView(R.id.tvItemGoodsType);
                 ImageView ivItemGoodsType = holder.getImageView(R.id.ivItemGoodsType);
-                tvItemGoodsType.setText(list.getTitle() );
+                tvItemGoodsType.setText(list.getTitle());
 
                 if (nearYijiCheck == i) {
                     tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
@@ -243,24 +246,23 @@ public class GoodsTypeActivity extends BaseActivity {
                     ivItemGoodsType.setVisibility(View.GONE);
                 }
                 if (parentId.equals("1")) {
-                    nearYijiCheck=i;
-                    nearerjimAdapter.setList(parentList.get(0).getPca_list(),true);
-                }else {
+                    nearYijiCheck = i;
+                    nearerjimAdapter.setList(parentList.get(0).getPca_list(), true);
+                } else {
 
-            }
-
+                }
 
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        nearYijiCheck=i;
+                        nearYijiCheck = i;
                         tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
                         ivItemGoodsType.setVisibility(View.VISIBLE);
                         notifyDataSetChanged();
-                            nearerjimAdapter.setList(list.getPca_list(),true);
-                        nearErjiCheck=-1;
-                        parentId=list.getId();
+                        nearerjimAdapter.setList(list.getPca_list(), true);
+                        nearErjiCheck = -1;
+                        parentId = list.getId();
 
 
                     }
@@ -271,12 +273,12 @@ public class GoodsTypeActivity extends BaseActivity {
         rvGoodsTypeYiji.setNestedScrollingEnabled(false);
         rvGoodsTypeYiji.setAdapter(nearYijimAdapter);
 
-        nearerjimAdapter=new BaseRecyclerAdapter<AreaBusinessCircleObj.PcaListBean>(mContext,R.layout.item_goods_type_all) {
+        nearerjimAdapter = new BaseRecyclerAdapter<AreaBusinessCircleObj.PcaListBean>(mContext, R.layout.item_goods_type_all) {
             @Override
             public void bindData(RecyclerViewHolder holder, int i, AreaBusinessCircleObj.PcaListBean childList) {
                 TextView tvItemGoodsType = holder.getTextView(R.id.tvItemGoodsType);
                 ImageView ivItemGoodsType = holder.getImageView(R.id.ivItemGoodsType);
-                tvItemGoodsType.setText(childList.getTitle() );
+                tvItemGoodsType.setText(childList.getTitle());
                 if (nearErjiCheck == i) {
                     tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
                     ivItemGoodsType.setVisibility(View.VISIBLE);
@@ -287,13 +289,13 @@ public class GoodsTypeActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        nearErjiCheck=i;
+                        nearErjiCheck = i;
                         if (parentId.equals("1")) {
-                            distance=childList.getId();
-                            area_id="0";
-                        }else {
-                            area_id=childList.getId();
-                            distance="0";
+                            distance = childList.getId();
+                            area_id = "0";
+                        } else {
+                            area_id = childList.getId();
+                            distance = "0";
                         }
 
                         tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
@@ -301,8 +303,8 @@ public class GoodsTypeActivity extends BaseActivity {
                         notifyDataSetChanged();
                         ddm_goods_type.setTabText(childList.getTitle());
                         ddm_goods_type.closeMenu();
-                        showProgress();
-                        getData(1,false);
+                        showLoading();
+                        getData(1, false);
                     }
                 });
             }
@@ -312,15 +314,13 @@ public class GoodsTypeActivity extends BaseActivity {
         rvGoodsTypeErji.setAdapter(nearerjimAdapter);
 
 
-
-
         // 智能排序
         final RecyclerView rczhineng = new RecyclerView(this);
-        zhinengmAdapter=new BaseRecyclerAdapter<String>(mContext,R.layout.item_goods_type_all) {
+        zhinengmAdapter = new BaseRecyclerAdapter<String>(mContext, R.layout.item_goods_type_all) {
             @Override
             public void bindData(RecyclerViewHolder holder, int i, String zhineng) {
                 TextView tvItemGoodsType = holder.getTextView(R.id.tvItemGoodsType);
-                tvItemGoodsType.setText(zhineng );
+                tvItemGoodsType.setText(zhineng);
                 if (paixuCheck == i) {
                     tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
                 } else {
@@ -329,14 +329,14 @@ public class GoodsTypeActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        paixuCheck=i;
-                        sequencing=i+"";
+                        paixuCheck = i;
+                        sequencing = i + "";
                         tvItemGoodsType.setTextColor(mContext.getResources().getColor(R.color.home_green));
                         notifyDataSetChanged();
                         ddm_goods_type.setTabText(zhineng);
                         ddm_goods_type.closeMenu();
-                        showProgress();
-                        getData(1,false);
+                        showLoading();
+                        getData(1, false);
                     }
                 });
             }
@@ -354,11 +354,11 @@ public class GoodsTypeActivity extends BaseActivity {
         MyRadioButton rbGoodsTypeNeed = ButterKnife.findById(screenView, R.id.rbGoodsTypeNeed);
         MyRadioButton rbGoodsTypeNo = ButterKnife.findById(screenView, R.id.rbGoodsTypeNo);
 
-        screenmAdapter=new BaseRecyclerAdapter<String>(mContext,R.layout.item_goods_type_screen) {
+        screenmAdapter = new BaseRecyclerAdapter<String>(mContext, R.layout.item_goods_type_screen) {
             @Override
             public void bindData(RecyclerViewHolder holder, int i, String screen) {
                 TextView tvItemGoodsTypeScreen = holder.getTextView(R.id.tvItemGoodsTypeScreen);
-                tvItemGoodsTypeScreen.setText(screen );
+                tvItemGoodsTypeScreen.setText(screen);
 
                 if (screenCheck == i) {
                     tvItemGoodsTypeScreen.setTextColor(mContext.getResources().getColor(R.color.home_green));
@@ -372,8 +372,8 @@ public class GoodsTypeActivity extends BaseActivity {
                 tvItemGoodsTypeScreen.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        screenCheck=i;
-                        dinner_time=i+"";
+                        screenCheck = i;
+                        dinner_time = i + "";
                         tvItemGoodsTypeScreen.setTextColor(mContext.getResources().getColor(R.color.home_green));
                         tvItemGoodsTypeScreen.setBackground(mContext.getResources().getDrawable(R.drawable.shape_green_stoke));
                         notifyDataSetChanged();
@@ -386,7 +386,7 @@ public class GoodsTypeActivity extends BaseActivity {
         };
 
         screenmAdapter.setList(Arrays.asList(screen));
-        rvGoodsTypeScreen.setLayoutManager(new GridLayoutManager(mContext,4));
+        rvGoodsTypeScreen.setLayoutManager(new GridLayoutManager(mContext, 4));
         rvGoodsTypeScreen.setNestedScrollingEnabled(false);
         rvGoodsTypeScreen.setAdapter(screenmAdapter);
         tvItemGoodsTypeComplete.setOnClickListener(new View.OnClickListener() {
@@ -395,19 +395,19 @@ public class GoodsTypeActivity extends BaseActivity {
 
                 ddm_goods_type.setTabText(screen[screenCheck]);
                 ddm_goods_type.closeMenu();
-                showProgress();
-                getData(1,false);
+                showLoading();
+                getData(1, false);
             }
         });
         tvItemGoodsTypeReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                screenCheck=-1;
+                screenCheck = -1;
                 screenmAdapter.notifyDataSetChanged();
                 rbGoodsTypeNeed.setChecked(false);
                 rbGoodsTypeNo.setChecked(false);
-                is_provide_rooms="0";
-                dinner_time="0";
+                is_provide_rooms = "0";
+                dinner_time = "0";
 
 
             }
@@ -416,18 +416,15 @@ public class GoodsTypeActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (rbGoodsTypeNeed.isChecked()) {
-                    is_provide_rooms="1";
-                }else if (rbGoodsTypeNo.isChecked()){
-                    is_provide_rooms="2";
-                }else {
-                    is_provide_rooms="0";
+                    is_provide_rooms = "1";
+                } else if (rbGoodsTypeNo.isChecked()) {
+                    is_provide_rooms = "2";
+                } else {
+                    is_provide_rooms = "0";
                 }
                 ddm_goods_type.closeMenu();
-                showProgress();
-                getData(1,false);
-
-
-
+                showLoading();
+                getData(1, false);
 
 
             }
@@ -440,9 +437,8 @@ public class GoodsTypeActivity extends BaseActivity {
         popupViews.add(screenView);
 
 
-
-        RecyclerView rv_goods_type=mainView.findViewById(R.id.rv_goods_type);
-        adapter = new LoadMoreAdapter<HomeTypeMerchantListObj.MerchantListBean>(mContext, R.layout.item_near_type,pageSize) {
+        RecyclerView rv_goods_type = mainView.findViewById(R.id.rv_goods_type);
+        adapter = new LoadMoreAdapter<HomeTypeMerchantListObj.MerchantListBean>(mContext, R.layout.item_near_type, pageSize) {
             @Override
             public void bindData(LoadMoreViewHolder holder, int position, HomeTypeMerchantListObj.MerchantListBean bean) {
                 ImageView iv_item_near_type_icon = holder.getImageView(R.id.iv_item_near_type_icon);
@@ -465,85 +461,84 @@ public class GoodsTypeActivity extends BaseActivity {
                         error(R.color.c_press).
                         into(iv_item_near_type_icon);
                 tv_item_near_type_name.setText(bean.getMerchant_name());
-                tv_item_near_type_star_num.setText(bean.getScoring()+"");
-                tv_item_near_type_price.setText("¥"+bean.getMoney_people()+"/人");
+                tv_item_near_type_star_num.setText(bean.getScoring() + "");
+                tv_item_near_type_price.setText("¥" + bean.getMoney_people() + "/人");
                 tv_item_near_type_address.setText(bean.getMerchant_address());
                 tv_item_near_type_type.setText(bean.getCuisine());
                 tv_item_near_type_distance.setText(bean.getDistance());
-                if (bean.getScoring()>0&&bean.getScoring()<0.5) {
-                    iv_item_near_type_star1.setVisibility(View.GONE);
-                    iv_item_near_type_star2.setVisibility(View.GONE);
-                    iv_item_near_type_star3.setVisibility(View.GONE);
-                    iv_item_near_type_star4.setVisibility(View.GONE);
-                    iv_item_near_type_star5.setVisibility(View.GONE);
-                }else if (bean.getScoring()>=0.5&&bean.getScoring()<1.5){
+                if (bean.getScoring() == 1) {
                     iv_item_near_type_star1.setVisibility(View.VISIBLE);
                     iv_item_near_type_star2.setVisibility(View.GONE);
                     iv_item_near_type_star3.setVisibility(View.GONE);
                     iv_item_near_type_star4.setVisibility(View.GONE);
                     iv_item_near_type_star5.setVisibility(View.GONE);
-                }else if (bean.getScoring()>=1.5&&bean.getScoring()<2.5){
+                } else if (bean.getScoring() == 2) {
                     iv_item_near_type_star1.setVisibility(View.VISIBLE);
                     iv_item_near_type_star2.setVisibility(View.VISIBLE);
                     iv_item_near_type_star3.setVisibility(View.GONE);
                     iv_item_near_type_star4.setVisibility(View.GONE);
                     iv_item_near_type_star5.setVisibility(View.GONE);
-                }else if (bean.getScoring()>=2.5&&bean.getScoring()<3.5){
+                } else if (bean.getScoring() == 3) {
                     iv_item_near_type_star1.setVisibility(View.VISIBLE);
                     iv_item_near_type_star2.setVisibility(View.VISIBLE);
                     iv_item_near_type_star3.setVisibility(View.VISIBLE);
                     iv_item_near_type_star4.setVisibility(View.GONE);
                     iv_item_near_type_star5.setVisibility(View.GONE);
-                }else if (bean.getScoring()>=3.5&&bean.getScoring()<4.5){
+                } else if (bean.getScoring() == 4) {
                     iv_item_near_type_star1.setVisibility(View.VISIBLE);
                     iv_item_near_type_star2.setVisibility(View.VISIBLE);
                     iv_item_near_type_star3.setVisibility(View.VISIBLE);
                     iv_item_near_type_star4.setVisibility(View.VISIBLE);
                     iv_item_near_type_star5.setVisibility(View.GONE);
-                }else if (bean.getScoring()>=4.5){
+                } else if (bean.getScoring() == 5) {
                     iv_item_near_type_star1.setVisibility(View.VISIBLE);
                     iv_item_near_type_star2.setVisibility(View.VISIBLE);
                     iv_item_near_type_star3.setVisibility(View.VISIBLE);
                     iv_item_near_type_star4.setVisibility(View.VISIBLE);
                     iv_item_near_type_star5.setVisibility(View.VISIBLE);
+                } else {
+                    iv_item_near_type_star1.setVisibility(View.GONE);
+                    iv_item_near_type_star2.setVisibility(View.GONE);
+                    iv_item_near_type_star3.setVisibility(View.GONE);
+                    iv_item_near_type_star4.setVisibility(View.GONE);
+                    iv_item_near_type_star5.setVisibility(View.GONE);
                 }
-                String type="";
-                if (bean.getLable().size()==0) {
+                String type = "";
+                if (bean.getLable().size() == 0) {
                     tv_item_near_type_type2.setVisibility(View.GONE);
-                }else {
+                } else {
                     tv_item_near_type_type2.setVisibility(View.VISIBLE);
                     for (int i = 0; i < bean.getLable().size(); i++) {
-                        String type2=bean.getLable().get(i);
-                        type=type+","+type2;
+                        String type2 = bean.getLable().get(i);
+                        type = type + "," + type2;
                     }
-                    tv_item_near_type_type2.setText(type.substring(1,type.length()));
+                    tv_item_near_type_type2.setText(type.substring(1, type.length()));
                 }
-                if (bean.getActivity().size()==0) {
+                if (bean.getActivity().size() == 0) {
                     tv_item_near_type_huodong.setVisibility(View.GONE);
                     tv_item_near_type_huodong2.setVisibility(View.GONE);
-                }else {
+                } else {
                     tv_item_near_type_huodong.setVisibility(View.VISIBLE);
                     tv_item_near_type_huodong2.setVisibility(View.VISIBLE);
-                    String man="满";
-                    String jian="减";
-                    String yuan="元";
-                    String youhui="";
+                    String man = "满";
+                    String jian = "减";
+                    String yuan = "元";
+                    String youhui = "";
                     for (int i = 0; i < bean.getActivity().size(); i++) {
-                       String youhui2=man+bean.getActivity().get(i).getFull_amount()+jian+bean.getActivity().get(i).getSubtract_amount()+yuan;
-                        youhui=youhui+","+youhui2;
+                        String youhui2 = man + bean.getActivity().get(i).getFull_amount() + jian + bean.getActivity().get(i).getSubtract_amount() + yuan;
+                        youhui = youhui + "," + youhui2;
                     }
-                    tv_item_near_type_huodong2.setText(youhui.substring(1,youhui.length()));
+                    tv_item_near_type_huodong2.setText(youhui.substring(1, youhui.length()));
                 }
-
 
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                            Intent intent=new Intent();
-                            intent.putExtra(Constant.IParam.merchant_id,bean.getMerchant_id()+"");
-                            STActivity(intent,ShangJiaActivity.class);
+                        Intent intent = new Intent();
+                        intent.putExtra(Constant.IParam.merchant_id, bean.getMerchant_id() + "");
+                        STActivity(intent, ShangJiaActivity.class);
 
 
                     }
@@ -559,12 +554,7 @@ public class GoodsTypeActivity extends BaseActivity {
         rv_goods_type.setAdapter(adapter);
 
 
-
-
-
-
-        ddm_goods_type.setDropDownMenu(headers, popupViews,mainView);
-
+        ddm_goods_type.setDropDownMenu(headers, popupViews, mainView);
 
 
     }
@@ -594,37 +584,34 @@ public class GoodsTypeActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onViewClick(View v) {
 
-    }
 
     @Override
     protected void getData(int page, boolean isLoad) {
         super.getData(page, isLoad);
-        Map<String,String>map=new HashMap<String,String>();
-        map.put("pagesize",pageSize+"");
-        map.put("page",page+"");
-        map.put("sign",GetSign.getSign(map));
-        HomeTypeMerchantListBody body=new HomeTypeMerchantListBody();
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("pagesize", pageSize + "");
+        map.put("page", page + "");
+        map.put("sign", GetSign.getSign(map));
+        HomeTypeMerchantListBody body = new HomeTypeMerchantListBody();
         body.setType_id(type_id);
-        body.setLat(MyApplication.getWeiDu(mContext)+"");
-        body.setLng(MyApplication.getJingDu(mContext)+"");
-        body.setCity_id(city_id);
+        body.setLat(MyApplication.getWeiDu(mContext) + "");
+        body.setLng(MyApplication.getJingDu(mContext) + "");
+        body.setCity_id(city_id_xuanze);
         body.setArea_id(area_id);
         body.setIs_provide_rooms(is_provide_rooms);
         body.setDistance(distance);
         body.setSequencing(sequencing);
         body.setDinner_time(dinner_time);
-        ApiRequest.postMerchantList(map, body, new MyCallBack<HomeTypeMerchantListObj>(mContext,pcfl,pl_load) {
+        ApiRequest.postMerchantList(map, body, new MyCallBack<HomeTypeMerchantListObj>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(HomeTypeMerchantListObj obj) {
-                if(isLoad){
+                if (isLoad) {
                     pageNum++;
-                    adapter.addList(obj.getMerchantList(),true);
-                }else{
-                    pageNum=2;
-                    adapter.setList(obj.getMerchantList(),true);
+                    adapter.addList(obj.getMerchantList(), true);
+                } else {
+                    pageNum = 2;
+                    adapter.setList(obj.getMerchantList(), true);
                 }
 
 
@@ -644,5 +631,15 @@ public class GoodsTypeActivity extends BaseActivity {
         }
     }
 
+
+    @OnClick({R.id.app_right_iv})
+    public void onViewClick(View v) {
+        switch (v.getId()){
+            case R.id.app_right_iv:
+
+                STActivity(SearchActivity.class);
+            break;
+        }
+    }
 
 }

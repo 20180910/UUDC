@@ -13,6 +13,15 @@ public class HomePageImageObj extends BaseObj {
      */
 
     private String img_url;
+    private String merchant_id;
+
+    public String getMerchant_id() {
+        return merchant_id;
+    }
+
+    public void setMerchant_id(String merchant_id) {
+        this.merchant_id = merchant_id;
+    }
 
     public String getImg_url() {
         return img_url;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="com.sk.uudc"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -9,6 +10,8 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+
+
 
     <!-- 摄像头、手电筒 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -25,6 +28,7 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <!-- 拨号权限 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -38,7 +42,6 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
 
-
     <!-- 支付宝支付权限 -->
 
     <!--<uses-permission android:name="android.permission.INTERNET" />-->
@@ -47,24 +50,18 @@
     <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
     <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
 
-    <!--支付宝支付-->
 
-    <activity
-        android:name="com.alipay.sdk.app.H5PayActivity"
-        android:configChanges="orientation|keyboardHidden|navigation"
-        android:exported="false"
-        android:screenOrientation="behind"
-        android:windowSoftInputMode="adjustResize|stateHidden" >
-    </activity>
+    <!-- Required -->
+    <permission
+        android:name="${applicationId}.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
 
-    <activity
-        android:name="com.alipay.sdk.auth.AuthActivity"
-        android:configChanges="orientation|keyboardHidden|navigation"
-        android:exported="false"
-        android:screenOrientation="behind" >
-    </activity>
-    <!-- alipay sdk end -->
+    <!-- Required -->
+    <uses-permission android:name="${applicationId}.permission.JPUSH_MESSAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
 
+    <!-- Optional. Required for location feature -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
 
     <application
         android:allowBackup="true"
@@ -74,7 +71,7 @@
         android:supportsRtl="true"
         android:name=".MyApplication"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".module.home.activity.MainActivity"
+        <activity android:name=".module.home.activity.SpalshActivity"
                   android:label="@string/app_name"
                   android:theme="@style/AppTheme.NoActionBar"
                   android:windowSoftInputMode="adjustNothing">
@@ -84,6 +81,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".module.home.activity.MainActivity" android:windowSoftInputMode="adjustNothing"/>
+
+
         <activity android:name=".module.my.activity.MyShouYiActivity"/>
         <activity android:name=".module.my.activity.MyFenXiaoActivity"/>
         <activity android:name=".module.my.activity.WoYaoHeZuoActivity"/>
@@ -102,7 +104,7 @@
         <activity android:name=".module.my.activity.MyDataActivity"/>
         <activity android:name=".module.my.activity.EditNameActivity"/>
         <activity android:name=".module.my.activity.LoginActivity" android:windowSoftInputMode="adjustNothing"/>
-        <activity android:name=".module.my.activity.RegisterActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".module.my.activity.RegisterActivity" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".module.my.activity.ForgetPWDActivity"/>
         <activity android:name=".module.order.activity.ShangJiaActivity"/>
         <activity android:name=".module.order.activity.OrderActivity"/>
@@ -111,15 +113,37 @@
                   android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".module.order.activity.CancelReasonsActivity"/>
         <activity android:name=".module.home.activity.GoodsTypeActivity"/>
-        <activity android:name=".module.near.activity.ShangJiaActivity" android:launchMode="singleTop" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".module.near.activity.TiJiaoOrderActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".module.near.activity.ShangJiaActivity" android:launchMode="singleTop" android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".module.near.activity.TiJiaoOrderActivity" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".module.near.activity.OrderPayActivity"/>
         <activity android:name=".module.near.activity.YudingSuccessActivity"/>
         <activity android:name=".module.my.activity.UpdatePWDActivity"/>
         <activity android:name=".module.my.activity.MyMessageActivity"/>
         <activity android:name=".module.my.activity.BangDingBankActivity"/>
         <activity android:name=".module.near.activity.NearMapActivity"/>
+        <!--支付宝支付2个-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.app.H5AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind"
+            android:windowSoftInputMode="adjustResize|stateHidden" >
+        </activity>
 
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <!-- alipay sdk end -->
 
         <!--百度地图-->
         <meta-data
@@ -137,32 +161,89 @@
         </service>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <activity android:name=".module.my.activity.DaiEvaluateActivity"/>
-        <activity android:name=".module.home.activity.SearchActivity"/>
+        <activity android:name=".module.home.activity.SearchActivity" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".module.home.activity.SearchResultActivity"/>
         <activity android:name=".module.home.activity.CitySearchActivity"/>
+        <activity android:name=".module.near.activity.SearchShangJiaActivity"/>
 
 
+
+        <!--友盟分享-->
+
+        <activity
+            android:name="com.umeng.socialize.media.WBShareCallBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="false"
+            android:screenOrientation="portrait" >
+        </activity>
+        <!--qq-->
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1106315352" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity android:name=".module.near.activity.ImageDetailActivity"/>
+        <activity android:name=".module.near.activity.NewImageDetailActivity"/>
+        <activity android:name=".module.order.activity.ShangJiaMapAddress"/>
+        <activity android:name=".wxapi.PayResultActivity"/>
+        <!--qq空间-->
+        <!--友盟-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5a1fc606a40fa321f6000110" >
+        </meta-data>
+        <!--友盟分享-->
+
+
+        <!--微信-->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".wxapi.WXPayEntryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="wx84ef2f811b19ad6b"/>
+            </intent-filter>
+        </activity>
+
+
+        <!--极光推送-->
+        <service android:name="cn.jpush.android.service.PushService"
+                 android:process=":multiprocess"
+                 tools:node="replace" >
+        </service>
+        <receiver
+            android:name=".broadcast.JpushReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_CLICK_ACTION" />
+                <action android:name="cn.jpush.android.intent.CONNECTION" />
+                <category android:name="${applicationId}" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

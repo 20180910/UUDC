@@ -66,7 +66,7 @@ public class MyEvaluateActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        adapter = new LoadMoreAdapter<MyEvaluateObj.ListBean>(mContext, R.layout.item_my_evaluate, pageSize) {
+        adapter = new LoadMoreAdapter<MyEvaluateObj.ListBean>(mContext, R.layout.item_my_evaluate, pageSize,nsv) {
             @Override
             public void bindData(LoadMoreViewHolder holder, int position, MyEvaluateObj.ListBean bean) {
                 TextView tv_item_my_evaluate_content = holder.getTextView(R.id.tv_item_my_evaluate_content);
@@ -155,10 +155,13 @@ public class MyEvaluateActivity extends BaseActivity {
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        initData();
+    protected void myReStart() {
+        super.myReStart();
+        showLoading();
+        getData(1,false);
+
     }
+
 
     @Override
     protected void getData(int page, boolean isLoad) {

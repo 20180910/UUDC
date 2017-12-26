@@ -63,9 +63,9 @@
                 android:id="@+id/tv_shangpin_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="¥0"
+                android:text="购物车为空"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:layout_marginTop="5dp"
                 />
             <TextView
@@ -83,7 +83,7 @@
             android:layout_height="match_parent"
             android:background="@color/gray_99"
             android:gravity="center"
-            android:text="去结算"
+            tools:text="¥50起订"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:enabled="false"

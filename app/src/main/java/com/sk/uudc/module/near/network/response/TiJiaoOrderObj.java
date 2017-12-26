@@ -31,6 +31,9 @@ public class TiJiaoOrderObj extends BaseObj {
     private int dine_num_people;
     private int is_require_rooms;
     private List<GoodsListBean> goods_list;
+    private String order_id;
+    private String order_no;
+    private String pay_status;
 
     public int getMerchant_id() {
         return merchant_id;
@@ -42,6 +45,30 @@ public class TiJiaoOrderObj extends BaseObj {
 
     public void setTime_id(int time_id) {
         this.time_id = time_id;
+    }
+
+    public String getOrder_no() {
+        return order_no;
+    }
+
+    public void setOrder_no(String order_no) {
+        this.order_no = order_no;
+    }
+
+    public String getPay_status() {
+        return pay_status;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public void setPay_status(String pay_status) {
+        this.pay_status = pay_status;
     }
 
     public void setMerchant_id(int merchant_id) {

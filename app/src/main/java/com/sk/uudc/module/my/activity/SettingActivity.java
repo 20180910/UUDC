@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.github.androidtools.SPUtils;
+import com.github.baseclass.view.MyDialog;
 import com.github.customview.MyTextView;
 import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
@@ -115,7 +116,17 @@ public class SettingActivity extends BaseActivity {
                 STActivity(AboutPlatformActivity.class);
                 break;
             case R.id.tv_setting_tuichu:
-               exitLogin();
+
+                mDialog = new MyDialog.Builder(mContext);
+                mDialog.setMessage("是否确认退出登录?")
+                        .setNegativeButton((dialog, which) -> dialog.dismiss())
+                        .setPositiveButton((dialog, which) -> {
+                            dialog.dismiss();
+                            startExit();
+                            exitLogin();
+
+                        });
+                mDialog.create().show();
                 break;
         }
     }
@@ -126,5 +137,17 @@ public class SettingActivity extends BaseActivity {
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
         STActivity(LoginActivity.class);
         finish();
+    }
+    private void startExit() {
+        Map<String,String>map=new HashMap<String,String>();
+        map.put("user_id",getUserId());
+        map.put("sign",GetSign.getSign(map));
+        com.sk.uudc.network.ApiRequest.getLogOut(map, new MyCallBack<BaseObj>(mContext) {
+            @Override
+            public void onSuccess(BaseObj obj) {
+
+            }
+        });
+
     }
 }

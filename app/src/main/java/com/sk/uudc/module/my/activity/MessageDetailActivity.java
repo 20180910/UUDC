@@ -55,7 +55,7 @@ public class MessageDetailActivity extends BaseActivity {
         Map<String,String> map=new HashMap<String,String>();
         map.put("news_id",msgId);
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getNewsDetail(map, new MyCallBack<MessageDetailObj >(mContext) {
+        ApiRequest.getNewsDetail(map, new MyCallBack<MessageDetailObj >(mContext,pcfl,pl_load) {
             @Override
             public void onSuccess(MessageDetailObj obj) {
                 tv_message_details_title.setText(obj.getTitle());

@@ -157,6 +157,7 @@ public class RegisterActivity extends BaseActivity {
                  code=getSStr(et_register_code);
                  pwd=getSStr(et_register_password1);
                  rePwd=getSStr(et_register_password2);
+                yaoQingMa=getSStr(et_register_yaoqingma);
 
                 if(TextUtils.isEmpty(getSStr(et_register_phone))){
                     showMsg("手机号不能为空");
@@ -164,17 +165,21 @@ public class RegisterActivity extends BaseActivity {
                 }else if(!GetSign.isMobile(getSStr(et_register_phone))){
                     showMsg("请输入正确手机号");
                     return;
-                }/*else if(TextUtils.isEmpty(smsCode)||TextUtils.isEmpty(code)||!code.equals(smsCode)){
+                }else if(TextUtils.isEmpty(smsCode)||TextUtils.isEmpty(code)||!code.equals(smsCode)){
                     showMsg("请输入正确验证码");
                     return;
-                }*/else if(TextUtils.isEmpty(pwd)){
+                }else if(TextUtils.isEmpty(pwd)){
                     showMsg("密码不能为空");
                     return;
                 }else if(!pwd.equals(rePwd)){
                     showMsg("两次密码不一样");
                     return;
+                }else if(TextUtils.isEmpty(yaoQingMa)){
+                    showMsg("请输入好友邀请码！");
+                    return;
+
                 }
-                yaoQingMa=getSStr(et_register_yaoqingma);
+
                 register();
 
 

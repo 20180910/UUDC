@@ -19,6 +19,7 @@
        <com.yyydjk.library.DropDownMenu
            android:id="@+id/ddm_goods_type"
            android:layout_width="match_parent"
+
            android:layout_height="wrap_content"
            app:ddmenuTextSize="13sp"
            app:ddtextUnselectedColor="@color/drop_down_unselected"

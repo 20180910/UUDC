@@ -53,7 +53,7 @@ public class MyMessageActivity extends BaseActivity {
                 tv_item_my_message_time.setText(bean.getAdd_time());
                 tv_item_my_message_zhaiyao.setText(bean.getContent());
                 if (bean.getIs_check()==0) {
-                    tv_item_my_message_type.setVisibility(View.GONE);
+                    tv_item_my_message_type.setVisibility(View.INVISIBLE);
                 }else {
                     tv_item_my_message_type.setVisibility(View.VISIBLE);
                 }
@@ -83,10 +83,14 @@ public class MyMessageActivity extends BaseActivity {
     protected void initData() {
         showProgress();
         getData(1,false);
-
-
     }
 
+    @Override
+    protected void myReStart() {
+        super.myReStart();
+        showLoading();
+        getData(1,false);
+    }
 
     //
     protected void getData(int page, boolean isLoad) {
@@ -112,12 +116,7 @@ public class MyMessageActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        getData(1,false);
 
-    }
 
     @Override
     protected void onViewClick(View v) {

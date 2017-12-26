@@ -2,6 +2,7 @@ package com.sk.uudc.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
 
 import com.github.androidtools.ToastUtils;
 import com.github.baseclass.utils.ActUtils;
@@ -65,21 +66,25 @@ public abstract class MyCallBack<T> implements Callback<ResponseObj<T>> {
     public abstract void onSuccess(T obj);
 
     public void onError(Throwable e, boolean showContentView) {
-        if (pfl != null) {
+        if(pfl!=null){
             pfl.refreshComplete();
-            pfl = null;
+            pfl=null;
+        }
+        if(e instanceof ServerException ||e instanceof NoNetworkException){
+            ToastUtils.showToast(context,e.getMessage());
+        }else{
+            ToastUtils.showToast(context,"连接失败");
+            e.printStackTrace();
         }
         if (progressLayout != null) {
-            if (showContentView) {
-                progressLayout.showErrorText();
+            progressLayout.showErrorText();
+            if(e instanceof ServerException){
+                if (((ServerException) e).errorCode!=0) {
+                    progressLayout.againView.setVisibility(View.INVISIBLE);
+                    progressLayout.tv_load_error_msg.setText(e.getMessage());
+                }
             }
-            progressLayout = null;
-        }
-        if (e instanceof ServerException || e instanceof NoNetworkException) {
-            ToastUtils.showToast(context, e.getMessage());
-        } else {
-            ToastUtils.showToast(context, "连接失败");
-            e.printStackTrace();
+            progressLayout=null;
         }
         Loading.dismissLoading();
     }
@@ -123,7 +128,7 @@ public abstract class MyCallBack<T> implements Callback<ResponseObj<T>> {
         }
         int errCode = response.body().getErrCode();
         if (errCode == 1) {
-            onError(new ServerException(response.body().getErrMsg()));
+            onError(new ServerException(errCode,response.body().getErrMsg()));
             return;
         } else if (errCode == 2) {//2需要登录
             if (this.progressLayout != null) {//需要finish

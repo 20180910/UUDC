@@ -19,6 +19,7 @@ public class ShowOrderBody implements Serializable{
      */
 
     private String user_id;
+    private String order_id;
     private String merchant_id;
     private String dine_time;
     private int time_id;
@@ -28,6 +29,14 @@ public class ShowOrderBody implements Serializable{
 
     public String getUser_id() {
         return user_id;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 
     public void setUser_id(String user_id) {

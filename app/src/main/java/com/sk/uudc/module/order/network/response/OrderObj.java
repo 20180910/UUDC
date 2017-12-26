@@ -75,10 +75,13 @@ public class OrderObj extends BaseObj {
          * goods_count : 2
          * combined : 28.89
          * dine_time : 2017年11月23日12:00
+         * is_jiacai :0
          */
 
+        private String merchant_id;
         private String order_id;
         private String order_no;
+        private int is_jiacai;
         private int order_status;
         private String merchant_avatar;
         private String merchant_name;
@@ -87,8 +90,24 @@ public class OrderObj extends BaseObj {
         private double combined;
         private String dine_time;
 
+        public int getIs_jiacai() {
+            return is_jiacai;
+        }
+
+        public void setIs_jiacai(int is_jiacai) {
+            this.is_jiacai = is_jiacai;
+        }
+
         public String getOrder_id() {
             return order_id;
+        }
+
+        public String getMerchant_id() {
+            return merchant_id;
+        }
+
+        public void setMerchant_id(String merchant_id) {
+            this.merchant_id = merchant_id;
         }
 
         public void setOrder_id(String order_id) {
