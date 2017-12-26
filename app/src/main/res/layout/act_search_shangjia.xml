@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background_f2"
+    >
+<include layout="@layout/app_title"/>
+<com.github.customview.MyEditText
+    android:id="@+id/et_search_shangjia"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:gravity="center_vertical"
+    android:textSize="13sp"
+    android:hint="请输入搜索内容"
+    android:inputType="text"
+    android:imeOptions="actionSearch"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    app:my_et_solid="@color/white"
+    />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_search_shangjia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2px"
+        >
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>
