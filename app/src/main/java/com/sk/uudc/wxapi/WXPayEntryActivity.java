@@ -11,6 +11,7 @@ import com.github.androidtools.ToastUtils;
 import com.github.baseclass.rx.RxBus;
 import com.sk.uudc.Config;
 import com.sk.uudc.base.BaseActivity;
+import com.sk.uudc.module.my.event.ChongZhiEvent;
 import com.sk.uudc.module.near.Constant;
 import com.sk.uudc.module.near.activity.YudingSuccessActivity;
 import com.sk.uudc.module.order.event.OrdersEvent;
@@ -79,7 +80,14 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             if(isChongZhi){
                 SPUtils.removeKey(mContext, Config.accountChongZhi);
                 if (resp.errCode == 0) {// 支付成功
-
+                    /*Intent intent = new Intent();
+                    intent.putExtra(com.sk.uudc.module.my.Constant.IParam.order_no, orderNo);
+                    STActivity(intent, ChongZhiSuccessActivity.class);
+                    finish();*/
+                    /*Intent payIntent = new Intent(Config.WXPAY);
+                    payIntent.putExtra(Config.isJiaCai,true);
+                    LocalBroadcastManager.getInstance(mContext).sendBroadcast(payIntent);*/
+                    RxBus.getInstance().post(new ChongZhiEvent());
                 } else if (resp.errCode == -2) {
                     ToastUtils.showToast(this, "充值已取消");
                 } else if (resp.errCode == -1) {

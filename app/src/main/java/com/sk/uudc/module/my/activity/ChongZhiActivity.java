@@ -10,6 +10,7 @@ import android.widget.RadioGroup;
 import com.alipay.sdk.app.PayTask;
 import com.github.androidtools.SPUtils;
 import com.github.baseclass.rx.IOCallBack;
+import com.github.baseclass.rx.MySubscriber;
 import com.github.customview.MyRadioButton;
 import com.github.customview.MyTextView;
 import com.sk.uudc.Config;
@@ -18,11 +19,15 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.my.Constant;
+import com.sk.uudc.module.my.event.ChongZhiEvent;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.ChongzhiCreateOrderObj;
+import com.sk.uudc.tools.AndroidUtils;
 import com.sk.uudc.tools.alipay.AliPay;
 import com.sk.uudc.tools.alipay.OrderInfoUtil2_0;
 import com.sk.uudc.tools.alipay.PayResult;
+import com.sk.uudc.wxapi.OrderBean;
+import com.sk.uudc.wxapi.WXPay;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,6 +74,17 @@ public class ChongZhiActivity extends BaseActivity {
     }
 
     @Override
+    protected void initRxBus() {
+        super.initRxBus();
+        getRxBusEvent(ChongZhiEvent.class, new MySubscriber() {
+            @Override
+            public void onMyNext(Object o) {
+                chongZhiSuccess();
+            }
+        });
+    }
+
+    @Override
     protected void onViewClick(View v) {
 
     }
@@ -84,18 +100,10 @@ public class ChongZhiActivity extends BaseActivity {
         showProgress();
         if (rb_pay_zhifubao.isChecked()) {
             payment_type = 1;
-            getCreateOrder();
-
-
         } else {
-            showMsg("开发中");
-//            payment_type=2;
-//            getCreateOrder();
-
-
+            payment_type=2;
         }
-
-
+        getCreateOrder();
     }
 
     private void getCreateOrder() {
@@ -112,12 +120,21 @@ public class ChongZhiActivity extends BaseActivity {
                 if (payment_type == 1) {
                     zhiFuBaoPay(order_no, money);
                 } else {
-
+                    OrderBean orderBean =new OrderBean();
+                    orderBean.body="优优点餐充值";
+                    orderBean.nonceStr=getRnd();
+                    orderBean.out_trade_no=order_no;
+                    orderBean.totalFee= AndroidUtils.mul(money,100);
+                    orderBean.IP= AndroidUtils.getIP(mContext);
+                    weiXinPay(orderBean);
                 }
             }
         });
     }
-
+    private void weiXinPay(OrderBean orderBean) {
+        SPUtils.setPrefBoolean(mContext, Config.accountChongZhi, true);
+        new WXPay(mContext).pay(orderBean);
+    }
     private void zhiFuBaoPay(String orderNo, double totalPrice) {
         showLoading();
         double total = totalPrice;
@@ -153,12 +170,7 @@ public class ChongZhiActivity extends BaseActivity {
                 // 判断resultStatus 为9000则代表支付成功
                 if (TextUtils.equals(resultStatus, "9000")) {
                     // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
-                    Intent intent = new Intent();
-                    intent.putExtra(Constant.IParam.order_no, orderNo);
-                    STActivity(intent, ChongZhiSuccessActivity.class);
-                    finish();
-
-
+                    chongZhiSuccess();
                 } else if (TextUtils.equals(resultStatus, "6001")) {
                     showMsg("支付取消");
                 } else {
@@ -166,6 +178,13 @@ public class ChongZhiActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void chongZhiSuccess() {
+        Intent intent = new Intent();
+        intent.putExtra(Constant.IParam.order_no, order_no);
+        STActivity(intent, ChongZhiSuccessActivity.class);
+        finish();
     }
 
 }
