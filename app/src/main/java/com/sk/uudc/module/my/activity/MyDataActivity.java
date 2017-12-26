@@ -392,8 +392,6 @@ public class MyDataActivity extends BaseActivity {
         if(resultCode!=RESULT_OK){
             return;
         }
-        Log.d("======",data.getStringExtra("name")+"zzzz");
-
         switch (requestCode){
             case 2000:
                 uploadImg();
