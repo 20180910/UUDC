@@ -12,3 +12,4 @@
 gradle/
 gradle.properties
 *.apk
+.svn
