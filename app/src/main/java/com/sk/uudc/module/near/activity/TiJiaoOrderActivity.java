@@ -1,16 +1,21 @@
 package com.sk.uudc.module.near.activity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.adapter.BaseRecyclerAdapter;
 import com.github.baseclass.adapter.RecyclerViewHolder;
 import com.github.baseclass.rx.RxBus;
@@ -83,9 +88,12 @@ public class TiJiaoOrderActivity extends BaseActivity {
     TextView tv_place_order_price;
     @BindView(R.id.tv_place_order)
     TextView tv_place_order;
+    @BindView(R.id.tv_youhui_name)
+    TextView tv_youhui_name;
     BaseRecyclerAdapter adapter;
     private ShowOrderBody orderBody;
     private TiJiaoOrderObj orderObj;
+    private BottomSheetDialog youHuiTypeDialog;
 
     @Override
     protected int getContentView() {
@@ -146,9 +154,25 @@ public class TiJiaoOrderActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_place_order,R.id.rb_place_order_fapiao_geren,R.id.rb_place_order_fapiao_gongsi,R.id.cb_place_order_fapiao})
+    @OnClick({R.id.tv_place_order,R.id.rb_place_order_fapiao_geren,R.id.rb_place_order_fapiao_gongsi,R.id.cb_place_order_fapiao,R.id.ll_youhui_type})
     public void onViewClick(View view) {
         switch (view.getId()) {
+            case R.id.ll_youhui_type:
+                if(youHuiTypeDialog==null){
+                    youHuiTypeDialog = new BottomSheetDialog(mContext);
+                    youHuiTypeDialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    View youhuiTypeView = LayoutInflater.from(mContext).inflate(R.layout.popu_youhui_type, null);
+                    TextView tv_youhui_type_youhui = youhuiTypeView.findViewById(R.id.tv_youhui_type_youhui);
+                    TextView tv_youhui_type_hongbao =youhuiTypeView.findViewById(R.id.tv_youhui_type_hongbao);
+                    TextView tv_youhui_type_manjian =youhuiTypeView.findViewById(R.id.tv_youhui_type_manjian);
+                    tv_youhui_type_youhui.setOnClickListener(getYouHuiClickListener(1,tv_youhui_type_youhui.getText().toString()));
+                    tv_youhui_type_hongbao.setOnClickListener(getYouHuiClickListener(2,tv_youhui_type_hongbao.getText().toString()));
+                    tv_youhui_type_manjian.setOnClickListener(getYouHuiClickListener(3,tv_youhui_type_manjian.getText().toString()));
+                    youHuiTypeDialog.setContentView(youhuiTypeView);
+                }
+                youHuiTypeDialog.show();
+
+                break;
             case R.id.cb_place_order_fapiao:
                 if(cb_place_order_fapiao.isChecked()){
                     ll_tijiao_order_fapiao.setVisibility(View.VISIBLE);
@@ -193,6 +217,43 @@ public class TiJiaoOrderActivity extends BaseActivity {
         }
     }
 
+    @NonNull
+    private MyOnClickListener getYouHuiClickListener(int flag,String youHuiText) {
+        return new MyOnClickListener() {
+            @Override
+            protected void onNoDoubleClick(View view) {
+                youHuiTypeDialog.dismiss();
+                tv_youhui_name.setText(youHuiText);
+                switch (flag){
+                    case 1://优惠券
+                        STActivityForResult(UseHongBaoActivity.class,100);
+                    break;
+                    case 2://红包
+                        STActivityForResult(UseHongBaoActivity.class,200);
+                    break;
+                    case 3://满减活动
+
+                    break;
+                }
+
+            }
+        };
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case 100:
+                    break;
+
+                case 200:
+                    break;
+            }
+        }
+    }
+
     private void commitOrder(String faPiaoName, String faPiaoCode, String peopleName, String peoplePhone) {
         showLoading();
         Map<String,String>map=new HashMap<String,String>();
@@ -219,9 +280,10 @@ public class TiJiaoOrderActivity extends BaseActivity {
             @Override
             public void onSuccess(CommitOrderResultObj obj) {
                 RxBus.getInstance().post(new OrdersEvent(Config.refresh));
-                Intent place=new Intent(mContext,OrderPayActivity.class);
-                place.putExtra(Constant.IParam.orderPayInfo,obj);
-                startActivity(place);
+                showMsg(obj.getMsg());
+//                Intent place=new Intent(mContext,OrderPayActivity.class);
+//                place.putExtra(Constant.IParam.orderPayInfo,obj);
+//                startActivity(place);
                 finish();
             }
         });

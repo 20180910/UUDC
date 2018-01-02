@@ -245,6 +245,63 @@
                             />
                     </com.github.customview.MyLinearLayout>
                     <com.github.customview.MyLinearLayout
+                        android:id="@+id/ll_my_youhuiquan"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        app:my_ll_press="@color/c_press"
+                        app:my_ll_solid="@color/white"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginTop="5dp"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="我的优惠券"
+                            android:textColor="@color/gray_33"
+                            android:drawableLeft="@drawable/my_youhuiquan"
+                            android:drawablePadding="8dp"
+                            />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/jiantou_right"
+                            />
+                    </com.github.customview.MyLinearLayout>
+                    <com.github.customview.MyLinearLayout
+                        android:id="@+id/ll_my_hongbao"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        app:my_ll_press="@color/c_press"
+                        app:my_ll_solid="@color/white"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:layout_marginTop="2px"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:text="我的红包"
+                            android:textColor="@color/gray_33"
+                            android:drawableLeft="@drawable/my_hongbao"
+                            android:drawablePadding="10dp"
+                            android:gravity="center_vertical"
+                            />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/jiantou_right"
+                            />
+                    </com.github.customview.MyLinearLayout>
+                    <com.github.customview.MyLinearLayout
                         android:id="@+id/ll_my_collect"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"

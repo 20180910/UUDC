@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                xmlns:tools="http://schemas.android.com/tools"
                 android:background="@color/background_f2"
     >
 
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/ll_shangpin_bottom"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_shang_pin_type"
@@ -21,26 +21,119 @@
             >
 
         </android.support.v7.widget.RecyclerView>
-        <FrameLayout
+
+        <com.sk.uudc.view.MyScrollView
+            android:id="@id/nsv"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:layout_height="wrap_content">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_shang_pin_cai"
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                >
-            </android.support.v7.widget.RecyclerView>
-            <TextView
-                android:id="@+id/tv_goods_xuanfu_title"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                tools:text="中华料理"
-                android:background="@color/background_f2"
+                android:orientation="vertical"
                 android:gravity="center_vertical"
-                android:paddingLeft="10dp"
-                />
-        </FrameLayout>
+                >
+                <LinearLayout
+                    android:id="@+id/ll_shangpin_youhuiquan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="10dp"
+                    android:background="@color/white"
+                    android:visibility="gone"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:background="@drawable/shangjia_youhui"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="¥"
+                            android:textColor="@color/orange"
+                            android:textSize="11sp"
+                            android:layout_marginLeft="15dp"
+                            />
+                        <TextView
+                            android:id="@+id/tv_shangjia_shangpin_total"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="8"
+                            android:textColor="@color/orange"
+                            android:textSize="22sp"
+                            />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="优惠券"
+                                android:textColor="@color/gray_33"
+                                />
+                            <TextView
+                                android:id="@+id/tv_shangjia_shangpin_num"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                tools:text="共3张"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:orientation="vertical"
+                        android:background="@drawable/shangjia_youhui2"
+                        android:gravity="center"
+                        >
+                        <com.github.customview.MyTextView
+                            android:id="@+id/tv_shangjia_get_youhuiquan"
+                            android:layout_width="65dp"
+                            android:layout_height="26dp"
+                            android:text="领取"
+                            app:my_tv_solid="@color/orange"
+                            android:textColor="@color/white"
+                            android:gravity="center"
+                            app:my_tv_corner_radius="4dp"
+                            android:textSize="13sp"
+                            />
+                    </LinearLayout>
+
+                </LinearLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_shang_pin_cai"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                    </android.support.v7.widget.RecyclerView>
+
+                    <TextView
+                        android:id="@+id/tv_goods_xuanfu_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:background="@color/background_f2"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        tools:text="中华料理"
+                        />
+                </FrameLayout>
+            </LinearLayout>
+
+        </com.sk.uudc.view.MyScrollView>
+
 
     </LinearLayout>
 
@@ -48,33 +141,36 @@
         android:id="@+id/ll_shangpin_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/black"
-        android:layout_alignParentBottom="true" >
+        android:layout_alignParentBottom="true"
+        android:background="@color/black">
+
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="70dp"
-            android:orientation="vertical"
+            android:layout_weight="1"
             android:background="@color/black"
+            android:orientation="vertical"
             >
+
             <TextView
                 android:id="@+id/tv_shangpin_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="购物车为空"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:layout_marginTop="5dp"
                 />
+
             <TextView
                 android:id="@+id/tv_shangpin_youhui"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="满30减10元,还差14元可减20元"
                 android:textColor="@color/white"
-                android:textSize="11sp"/>
+                android:textSize="11sp"
+                tools:text="满30减10元,还差14元可减20元"/>
         </LinearLayout>
 
         <TextView
@@ -82,38 +178,42 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:background="@color/gray_99"
+            android:enabled="false"
             android:gravity="center"
-            tools:text="¥50起订"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:enabled="false"
+            tools:text="¥50起订"
             />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_shopping_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
         android:layout_above="@+id/ll_shangpin_bottom"
         android:background="@color/transparent_half"
-        android:paddingTop="120dp"
         android:clickable="true"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingTop="120dp"
         android:visibility="gone"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:background="@color/background_f2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             >
+
             <TextView
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
-                android:background="@color/home_green"
                 android:layout_margin="10dp"
+                android:background="@color/home_green"
                 />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -121,6 +221,7 @@
                 android:textSize="17sp"
                 />
         </LinearLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_shopping_cart"
             android:layout_width="match_parent"
@@ -129,45 +230,48 @@
             >
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:paddingLeft="10dp"
         android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
         >
+
         <com.github.customview.MyTextView
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_centerVertical="true"
-            app:my_tv_solid="@color/black"
             app:my_tv_corner_radius="28dp"
+            app:my_tv_solid="@color/black"
             />
+
         <ImageView
             android:id="@+id/iv_shangpin_shopping_car"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/shopping_car"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/shopping_car"
             />
 
         <com.github.customview.MyTextView
             android:id="@+id/tv_shangpin_car_num"
             android:layout_width="18dp"
             android:layout_height="13dp"
-            android:gravity="center"
-            tools:text="22"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            app:my_tv_corner_radius="10dp"
-            app:my_tv_solid="@color/red"
             android:layout_gravity="right"
             android:layout_marginTop="3dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="10sp"
             android:visibility="gone"
+            app:my_tv_corner_radius="10dp"
+            app:my_tv_solid="@color/red"
+            tools:text="22"
             />
     </FrameLayout>
 </RelativeLayout>

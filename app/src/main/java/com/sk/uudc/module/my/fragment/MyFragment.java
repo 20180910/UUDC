@@ -25,6 +25,7 @@ import com.sk.uudc.module.my.activity.SettingActivity;
 import com.sk.uudc.module.my.activity.WoYaoHeZuoActivity;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.UserInfoObj;
+import com.sk.uudc.module.near.activity.UseHongBaoActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -190,6 +191,12 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.ll_my_hezuo:
                 STActivity(WoYaoHeZuoActivity.class);
+                break;
+            case R.id.ll_my_youhuiquan:
+                STActivity(UseHongBaoActivity.class);
+                break;
+            case R.id.ll_my_hongbao:
+                STActivity(UseHongBaoActivity.class);
                 break;
         }
     }

@@ -53,6 +53,14 @@ public class ApiRequest extends BaseApiRequest {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).getShangJiaGoods(map ).enqueue(callBack);
     }
+    public static void getShangJiaYouHuiQuanList(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getShangJiaYouHuiQuanList(map ).enqueue(callBack);
+    }
+    public static void getShangJiaYouHuiQuan(Map map, MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getShangJiaYouHuiQuan(map ).enqueue(callBack);
+    }
     public static void getShangJiaYuYue(Map map, MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).getShangJiaYuYue(map ).enqueue(callBack);
@@ -80,6 +88,10 @@ public class ApiRequest extends BaseApiRequest {
     public static void payTuiJianShangJia(Map map,  MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).payTuiJianShangJia(map ).enqueue(callBack);
+    }
+    public static void getHongBaoYouHuiQuan(Map map,  MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).getHongBaoYouHuiQuan(map ).enqueue(callBack);
     }
 
 }

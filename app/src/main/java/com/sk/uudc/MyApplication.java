@@ -27,8 +27,11 @@ public class MyApplication extends MultiDexApplication {
     public void onCreate() {
 //        SpeechUtility.createUtility(this, "appid=" + Config.xunfei_app_id);
         super.onCreate();
-
-        NetWorkManager.getInstance(getApplicationContext(),"http://121.40.186.118:5019/",BuildConfig.DEBUG).complete();
+        String baseURL="http://121.40.186.118:5019/";
+        if(true&&BuildConfig.DEBUG){
+            baseURL="http://121.40.186.118:5119/";
+        }
+        NetWorkManager.getInstance(getApplicationContext(),baseURL,BuildConfig.DEBUG).complete();
         //二维码
         ZXingLibrary.initDisplayOpinion(this);
 //        ZXingLibrary.initDisplayOpinion(this);

@@ -8,6 +8,7 @@ import com.sk.uudc.module.near.network.request.NearShangJiaBody;
 import com.sk.uudc.module.near.network.request.ShowOrderBody;
 import com.sk.uudc.module.near.network.request.YuYueBody;
 import com.sk.uudc.module.near.network.response.CommitOrderResultObj;
+import com.sk.uudc.module.near.network.response.HongBaoObj;
 import com.sk.uudc.module.near.network.response.NearListObj;
 import com.sk.uudc.module.near.network.response.NearShangJiaObj;
 import com.sk.uudc.module.near.network.response.PaySuccessObj;
@@ -16,6 +17,7 @@ import com.sk.uudc.module.near.network.response.ShangJiaEvaluateNumObj;
 import com.sk.uudc.module.near.network.response.ShangJiaInfoObj;
 import com.sk.uudc.module.near.network.response.ShangJiaObj;
 import com.sk.uudc.module.near.network.response.ShangJiaShangPingObj;
+import com.sk.uudc.module.near.network.response.ShangJiaYouHuiQuanObj;
 import com.sk.uudc.module.near.network.response.TiJiaoOrderObj;
 import com.sk.uudc.module.near.network.response.YuYueTimeObj;
 
@@ -70,6 +72,14 @@ public interface IRequest {
     @GET("api/MerchantCenter/GetMerchantGoods")
     Call<ResponseObj<ShangJiaShangPingObj>> getShangJiaGoods(@QueryMap Map<String, String> map );
 
+    //商家优惠券
+    @GET("api/MerchantCenter/GetMerchantCoupon")
+    Call<ResponseObj<ShangJiaYouHuiQuanObj>> getShangJiaYouHuiQuanList(@QueryMap Map<String, String> map );
+
+    //领取商家优惠券
+    @GET("api/MerchantCenter/GetReceive")
+    Call<ResponseObj<BaseObj>> getShangJiaYouHuiQuan(@QueryMap Map<String, String> map );
+
     //商家预约时间段
     @GET("api/MerchantCenter/GetAppointmentSchedule")
     Call<ResponseObj<List<YuYueTimeObj>>> getShangJiaYuYue(@QueryMap Map<String, String> map );
@@ -97,4 +107,8 @@ public interface IRequest {
     //支付完成推荐商家
     @GET("api/Order/GetPayRecommend")
     Call<ResponseObj<PaySuccessObj>> payTuiJianShangJia(@QueryMap Map<String, String> map);
+
+    //红包优惠券列表
+    @GET("api/UserBase/GetMyRedEnvelope")
+    Call<ResponseObj<List<HongBaoObj>>> getHongBaoYouHuiQuan(@QueryMap Map<String, String> map);
 }

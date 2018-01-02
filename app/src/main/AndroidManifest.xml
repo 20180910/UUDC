@@ -224,6 +224,8 @@
                 <data android:scheme="wx84ef2f811b19ad6b"/>
             </intent-filter>
         </activity>
+        <activity android:name=".module.near.activity.UseHongBaoActivity"/>
+        <activity android:name=".module.near.activity.GetYouHuiQuanActivity"/>
 
 
         <!--极光推送-->

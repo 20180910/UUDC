@@ -26,6 +26,11 @@ public class Constant {
     public static final String fragmentHeight="fragmentHeight";
     public static class IParam{
 
+        public static final String youHuiQuan="youHuiQuan";
+        public static final String hongBaoId="hongBaoId";
+        public static final String youHuiType="youHuiType";
+        public static final int youHuiType_1=1;
+        public static final int youHuiType_2=2;
         public static final String orderNo="orderNo";
         public static final String jiaCai="jiaCai";
         public static final String jiaCaiBody="jiaCaiBody";

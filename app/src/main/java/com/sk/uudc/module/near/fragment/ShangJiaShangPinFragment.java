@@ -29,12 +29,15 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseFragment;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.near.Constant;
+import com.sk.uudc.module.near.activity.GetYouHuiQuanActivity;
 import com.sk.uudc.module.near.activity.NewImageDetailActivity;
 import com.sk.uudc.module.near.event.JieSuanEvent;
 import com.sk.uudc.module.near.network.ApiRequest;
 import com.sk.uudc.module.near.network.request.ShowOrderBody;
 import com.sk.uudc.module.near.network.response.ShangJiaShangPingObj;
+import com.sk.uudc.module.near.network.response.ShangJiaYouHuiQuanObj;
 import com.sk.uudc.tools.AndroidUtils;
+import com.sk.uudc.view.MyScrollView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,6 +58,8 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_SETTLING;
 public class ShangJiaShangPinFragment extends BaseFragment {
     @BindView(R.id.rv_shang_pin_type)
     RecyclerView rv_shang_pin_type;
+    @BindView(R.id.nsv)
+    MyScrollView nsv;
 
     @BindView(R.id.rv_shang_pin_cai)
     RecyclerView rv_shang_pin_cai;
@@ -73,10 +78,16 @@ public class ShangJiaShangPinFragment extends BaseFragment {
     TextView tv_shangpin_jiesuan;
     @BindView(R.id.tv_goods_xuanfu_title)
     TextView tv_goods_xuanfu_title;
+    @BindView(R.id.tv_shangjia_shangpin_total)
+    TextView tv_shangjia_shangpin_total;
+    @BindView(R.id.tv_shangjia_shangpin_num)
+    TextView tv_shangjia_shangpin_num;
     @BindView(R.id.ll_shangpin_bottom)
     LinearLayout ll_shangpin_bottom;
     @BindView(R.id.ll_shopping_bottom)
     LinearLayout ll_shopping_bottom;
+    @BindView(R.id.ll_shangpin_youhuiquan)
+    LinearLayout ll_shangpin_youhuiquan;
 
     BaseRecyclerAdapter typeAdapter, goodsAdapter;
     private SparseIntArray sparseType, sparseIntArray;
@@ -84,18 +95,20 @@ public class ShangJiaShangPinFragment extends BaseFragment {
     private int xuanFuHeight;
     private int clickTypePosition = 0;
     private BaseRecyclerAdapter shoppingAdapter;
-    private int totalNum=0;
-    private double totalPrice=0;
+    private int totalNum = 0;
+    private double totalPrice = 0;
     private double minMoney;
-    public static ShangJiaShangPinFragment newInstance(int fragmentHeight,String merchantId, double minMoney, ArrayList<Integer> manList, ArrayList<Integer> jianList,String actionType) {
+    private ShangJiaYouHuiQuanObj shangJiaYouHuiQuanObj;
+
+    public static ShangJiaShangPinFragment newInstance(int fragmentHeight, String merchantId, double minMoney, ArrayList<Integer> manList, ArrayList<Integer> jianList, String actionType) {
         ShangJiaShangPinFragment newFragment = new ShangJiaShangPinFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Constant.fragmentHeight, fragmentHeight);
         bundle.putString(Constant.merchantId, merchantId);
         bundle.putString(Constant.actionType, actionType);
         bundle.putDouble(Constant.minMoney, minMoney);
-        bundle.putIntegerArrayList(Constant.actManList,manList);
-        bundle.putIntegerArrayList(Constant.actJianList,jianList);
+        bundle.putIntegerArrayList(Constant.actManList, manList);
+        bundle.putIntegerArrayList(Constant.actJianList, jianList);
         newFragment.setArguments(bundle);
         return newFragment;
     }
@@ -107,25 +120,24 @@ public class ShangJiaShangPinFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        if(getArguments().getInt(Constant.fragmentHeight,0)!=0){
-            rv_shang_pin_cai.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,getArguments().getInt(Constant.fragmentHeight,0)));
-            Log.i(TAG+"===","=11=="+getArguments().getInt(Constant.fragmentHeight,0));
+        if (getArguments().getInt(Constant.fragmentHeight, 0) != 0) {
+            rv_shang_pin_cai.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getArguments().getInt(Constant.fragmentHeight, 0)));
+            Log.i(TAG + "===", "=11==" + getArguments().getInt(Constant.fragmentHeight, 0));
         }
         xuanFuHeight = PhoneUtils.dip2px(mContext, 30);
         merchantId = getArguments().getString(Constant.merchantId);
         minMoney = getArguments().getDouble(Constant.minMoney);
 
-        if(TextUtils.isEmpty( getArguments().getString(Constant.actionType))){//如果有加菜的标识就不显示满减
-            tv_shangpin_jiesuan.setText("¥"+minMoney+"起订");
+        if (TextUtils.isEmpty(getArguments().getString(Constant.actionType))) {//如果有加菜的标识就不显示满减
+            tv_shangpin_jiesuan.setText("¥" + minMoney + "起订");
             ArrayList<Integer> manList = getArguments().getIntegerArrayList(Constant.actManList);
-            if(notEmpty(manList)){
+            if (notEmpty(manList)) {
                 ArrayList<Integer> jianList = getArguments().getIntegerArrayList(Constant.actJianList);
-                tv_shangpin_youhui.setText("满"+manList.get(0)+"减"+jianList.get(0));
+                tv_shangpin_youhui.setText("满" + manList.get(0) + "减" + jianList.get(0));
             }
-        }else{
+        } else {
             tv_shangpin_jiesuan.setText("去加菜");
         }
-
 
 
         typeAdapter = new BaseRecyclerAdapter<ShangJiaShangPingObj.MerchantClassListBean>(mContext, R.layout.item_shang_jia_goods_type) {
@@ -169,19 +181,19 @@ public class ShangJiaShangPinFragment extends BaseFragment {
             @Override
             public void bindData(RecyclerViewHolder holder, int position, ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean) {
                 ImageView imageView = holder.getImageView(R.id.iv_goods_img);
-                Log.i(TAG+"===","==="+position);
+                Log.i(TAG + "===", "===" + position);
                 imageView.setOnClickListener(new MyOnClickListener() {
                     @Override
                     protected void onNoDoubleClick(View view) {
-                        Intent intent=new Intent();
+                        Intent intent = new Intent();
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(bean.getGoods_image());
-                        intent.putStringArrayListExtra(Constant.IParam.imgList,imgList);
-                        intent.putExtra(Constant.IParam.imgIndex,position);
-                        STActivity(intent,NewImageDetailActivity.class);
+                        intent.putStringArrayListExtra(Constant.IParam.imgList, imgList);
+                        intent.putExtra(Constant.IParam.imgIndex, position);
+                        STActivity(intent, NewImageDetailActivity.class);
                     }
                 });
-                Glide.with(mContext).load(bean.getGoods_image()).skipMemoryCache(false).override(PhoneUtils.dip2px(mContext,70), PhoneUtils.dip2px(mContext,70)) .error(R.color.c_press).into(imageView);
+                Glide.with(mContext).load(bean.getGoods_image()).skipMemoryCache(false).override(PhoneUtils.dip2px(mContext, 70), PhoneUtils.dip2px(mContext, 70)).error(R.color.c_press).into(imageView);
 
                 holder.setText(R.id.tv_goods_name, bean.getGoods_name())
                         .setText(R.id.tv_goods_xiaoliang, "月销量" + bean.getSales_volume() + "份")
@@ -195,31 +207,31 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                 }
 
                 TextView tv_goods_num = holder.getTextView(R.id.tv_goods_num);
-                tv_goods_num.setText(bean.getNum()+"");
+                tv_goods_num.setText(bean.getNum() + "");
                 ImageView iv_goods_jian = holder.getImageView(R.id.iv_goods_jian);
                 ImageView iv_goods_add = holder.getImageView(R.id.iv_goods_add);
-                if(bean.getNum()==0){
+                if (bean.getNum() == 0) {
                     iv_goods_jian.setVisibility(View.INVISIBLE);
                     tv_goods_num.setVisibility(View.INVISIBLE);
-                }else{
+                } else {
                     iv_goods_jian.setVisibility(View.VISIBLE);
                     tv_goods_num.setVisibility(View.VISIBLE);
                 }
                 iv_goods_jian.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        totalPrice=AndroidUtils.jianFa(totalPrice,bean.getGoods_price());
+                        totalPrice = AndroidUtils.jianFa(totalPrice, bean.getGoods_price());
                         int num = bean.getNum();
                         num--;
                         bean.setNum(num);
-                        if(bean.getNum()==0){
+                        if (bean.getNum() == 0) {
                             iv_goods_jian.setVisibility(View.INVISIBLE);
                             tv_goods_num.setVisibility(View.INVISIBLE);
-                        }else{
+                        } else {
                             iv_goods_jian.setVisibility(View.VISIBLE);
                             tv_goods_num.setVisibility(View.VISIBLE);
                         }
-                        tv_goods_num.setText(num+"");
+                        tv_goods_num.setText(num + "");
                         totalNum--;
                         jiSuanNum();
                     }
@@ -227,11 +239,11 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                 iv_goods_add.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        totalPrice=AndroidUtils.jiaFa(totalPrice,bean.getGoods_price());
+                        totalPrice = AndroidUtils.jiaFa(totalPrice, bean.getGoods_price());
                         int num = bean.getNum();
                         num++;
                         bean.setNum(num);
-                        tv_goods_num.setText(num+"");
+                        tv_goods_num.setText(num + "");
                         iv_goods_jian.setVisibility(View.VISIBLE);
                         tv_goods_num.setVisibility(View.VISIBLE);
                         totalNum++;
@@ -262,7 +274,7 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                 rv_shang_pin_type.scrollToPosition(clickTypePosition);
                 typeAdapter.notifyDataSetChanged();
                 bean = null;
-                switch (newState){
+                switch (newState) {
                     case SCROLL_STATE_IDLE: // The RecyclerView is not currently scrolling.
                         //对于滚动不加载图片的尝试
                         Glide.with(mContext).resumeRequests();
@@ -281,7 +293,7 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-                if(goodsAdapter.getList().size()<=1){
+                if (goodsAdapter.getList().size() <= 1) {
                     return;
                 }
                 ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean = (ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean) goodsAdapter.getList().get(firstVisibleItemPosition);
@@ -305,79 +317,108 @@ public class ShangJiaShangPinFragment extends BaseFragment {
     }
 
     private void jiSuanNum() {
-        if(totalNum==0){
-            tv_shangpin_car_num.setText(totalNum+"");
+        if (totalNum == 0) {
+            tv_shangpin_car_num.setText(totalNum + "");
             tv_shangpin_car_num.setVisibility(View.INVISIBLE);
             ll_shopping_bottom.setVisibility(View.GONE);
 
-        }else{
-            tv_shangpin_car_num.setText(totalNum+"");
+        } else {
+            tv_shangpin_car_num.setText(totalNum + "");
             tv_shangpin_car_num.setVisibility(View.VISIBLE);
 
         }
-        tv_shangpin_price.setText("¥"+totalPrice);
-        if(totalPrice<=0){
+        tv_shangpin_price.setText("¥" + totalPrice);
+        if (totalPrice <= 0) {
             tv_shangpin_price.setText("购物车为空");
         }
-        if(isJiaCai()){
-            if(totalPrice<=0){
+        if (isJiaCai()) {
+            if (totalPrice <= 0) {
                 tv_shangpin_jiesuan.setText("加菜");
-                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.gray_99));
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray_99));
                 tv_shangpin_jiesuan.setEnabled(false);
-            }else{
+            } else {
                 tv_shangpin_jiesuan.setText("加菜");
-                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.orange));
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext, R.color.orange));
                 tv_shangpin_jiesuan.setEnabled(true);
             }
-        }else{
-            if(totalPrice<minMoney){
-                if(totalPrice<=0){
-                    tv_shangpin_jiesuan.setText("¥"+minMoney+"起订");
-                }else{
-                    tv_shangpin_jiesuan.setText("还差¥"+AndroidUtils.jianFa(minMoney,totalPrice));
+        } else {
+            if (totalPrice < minMoney) {
+                if (totalPrice <= 0) {
+                    tv_shangpin_jiesuan.setText("¥" + minMoney + "起订");
+                } else {
+                    tv_shangpin_jiesuan.setText("还差¥" + AndroidUtils.jianFa(minMoney, totalPrice));
                 }
-                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.gray_99));
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray_99));
                 tv_shangpin_jiesuan.setEnabled(false);
-            }else{
+            } else {
                 tv_shangpin_jiesuan.setText("结算");
-                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext,R.color.orange));
+                tv_shangpin_jiesuan.setBackgroundColor(ContextCompat.getColor(mContext, R.color.orange));
                 tv_shangpin_jiesuan.setEnabled(true);
             }
         }
 
-        if(TextUtils.isEmpty( getArguments().getString(Constant.actionType))) {//如果有加菜的标识就不显示满减
+        if (TextUtils.isEmpty(getArguments().getString(Constant.actionType))) {//如果有加菜的标识就不显示满减
             ArrayList<Integer> manList = getArguments().getIntegerArrayList(Constant.actManList);
             ArrayList<Integer> jianList = getArguments().getIntegerArrayList(Constant.actJianList);
-            if(isEmpty(manList)){
+            if (isEmpty(manList)) {
                 return;
             }
-            int index=-1;
-            double v=0;
+            int index = -1;
+            double v = 0;
             for (int i = 0; i < manList.size(); i++) {
                 Integer integer = manList.get(i);
                 v = AndroidUtils.jianFa(integer, totalPrice);
-                if(v>0){
-                    index=i;
+                if (v > 0) {
+                    index = i;
                     break;
                 }
             }
-            if(totalPrice>=manList.get(manList.size()-1)){
-                tv_shangpin_youhui.setText("满"+manList.get(manList.size()-1)+"减"+jianList.get(manList.size()-1));
-            }else{
-                if(index!=-1){
-                    tv_shangpin_youhui.setText("满"+manList.get(index)+"减"+jianList.get(index)+","+"还差"+v+"元可减"+jianList.get(index));
+            if (totalPrice >= manList.get(manList.size() - 1)) {
+                tv_shangpin_youhui.setText("满" + manList.get(manList.size() - 1) + "减" + jianList.get(manList.size() - 1));
+            } else {
+                if (index != -1) {
+                    tv_shangpin_youhui.setText("满" + manList.get(index) + "减" + jianList.get(index) + "," + "还差" + v + "元可减" + jianList.get(index));
                 }
             }
         }
 
     }
-    public boolean isJiaCai(){
+
+    public boolean isJiaCai() {
         return !TextUtils.isEmpty(getArguments().getString(Constant.actionType));
     }
+
     @Override
     protected void initData() {
         showProgress();
+        getYouHuiQuan();
         getData(1, false);
+    }
+
+    private void getYouHuiQuan() {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("merchant_id", merchantId);
+        map.put("user_id", getUserId());
+        map.put("sign", GetSign.getSign(map));
+        ApiRequest.getShangJiaYouHuiQuanList(map, new MyCallBack<ShangJiaYouHuiQuanObj>(mContext) {
+            @Override
+            public void onSuccess(ShangJiaYouHuiQuanObj obj) {
+                if(obj.getTotal_number()>0){
+                    nsv.setCanScroll(true);
+                    ll_shangpin_youhuiquan.setVisibility(View.VISIBLE);
+                    shangJiaYouHuiQuanObj = obj;
+                    shangJiaYouHuiQuanObj.setMerchant_id(merchantId);
+                    double total_amount = obj.getTotal_amount();
+                    int total_number = obj.getTotal_number();
+                    tv_shangjia_shangpin_total.setText(total_amount + "");
+                    tv_shangjia_shangpin_num.setText("共" + total_number + "张");
+                }else{
+                    nsv.setCanScroll(false);
+                    ll_shangpin_youhuiquan.setVisibility(View.GONE);
+                }
+            }
+        });
+
     }
 
     @Override
@@ -403,7 +444,7 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                     sparseType.put(typeBean.getNavigation_id(), i);
                     sparseTypeTitle.put(typeBean.getNavigation_id(), typeBean.getNavigation_name());
                 }
-                if(notEmpty(classList)){
+                if (notEmpty(classList)) {
                     tv_goods_xuanfu_title.setText(classList.get(0).getNavigation_name());
                 }
                 typeAdapter.setList(classList, true);
@@ -421,29 +462,34 @@ public class ShangJiaShangPinFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv_shangpin_shopping_car, R.id.tv_shangpin_jiesuan,R.id.ll_shopping_bottom})
+    @OnClick({R.id.tv_shangjia_get_youhuiquan, R.id.iv_shangpin_shopping_car, R.id.tv_shangpin_jiesuan, R.id.ll_shopping_bottom})
     public void onViewClick(View view) {
         switch (view.getId()) {
+            case R.id.tv_shangjia_get_youhuiquan:
+                Intent intent=new Intent();
+                intent.putExtra(Constant.IParam.youHuiQuan,shangJiaYouHuiQuanObj);
+                STActivity(intent,GetYouHuiQuanActivity.class);
+                break;
             case R.id.ll_shopping_bottom:
             case R.id.iv_shangpin_shopping_car:
-                if(totalNum==0){
+                if (totalNum == 0) {
                     return;
                 }
-                if(ll_shopping_bottom.getVisibility()==View.VISIBLE){
+                if (ll_shopping_bottom.getVisibility() == View.VISIBLE) {
                     ll_shopping_bottom.setVisibility(View.GONE);
-                }else{
+                } else {
                     ll_shopping_bottom.setVisibility(View.VISIBLE);
                     showShoppingCart();
                 }
                 break;
             case R.id.tv_shangpin_jiesuan:
-                ShowOrderBody body=new ShowOrderBody();
-                List<ShowOrderBody.ShowOrderBean> showOrder=new ArrayList<>();
+                ShowOrderBody body = new ShowOrderBody();
+                List<ShowOrderBody.ShowOrderBean> showOrder = new ArrayList<>();
                 ShowOrderBody.ShowOrderBean bean;
                 for (int i = 0; i < goodsAdapter.getList().size(); i++) {
                     ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean goodsListBean = (ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean) goodsAdapter.getList().get(i);
-                    if(goodsListBean.getNum()>0){
-                        bean=new ShowOrderBody.ShowOrderBean();
+                    if (goodsListBean.getNum() > 0) {
+                        bean = new ShowOrderBody.ShowOrderBean();
                         bean.setGoods_id(goodsListBean.getGoods_id());
                         bean.setNumber(goodsListBean.getNum());
                         showOrder.add(bean);
@@ -456,42 +502,43 @@ public class ShangJiaShangPinFragment extends BaseFragment {
     }
 
     private void showShoppingCart() {
-        if(shoppingAdapter==null){
-            shoppingAdapter=new BaseRecyclerAdapter<ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean>(mContext,R.layout.item_shopping_cart_goods) {
+        if (shoppingAdapter == null) {
+            shoppingAdapter = new BaseRecyclerAdapter<ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean>(mContext, R.layout.item_shopping_cart_goods) {
                 @Override
                 public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                     RecyclerViewHolder holder;
-                    if(viewType==1){
-                        holder=new RecyclerViewHolder(mContext,LayoutInflater.from(mContext).inflate(R.layout.item_shopping_cart_goods,parent,false));
-                    }else{
-                        holder=new RecyclerViewHolder(mContext,LayoutInflater.from(mContext).inflate(R.layout.item_shopping_empty,parent,false));
+                    if (viewType == 1) {
+                        holder = new RecyclerViewHolder(mContext, LayoutInflater.from(mContext).inflate(R.layout.item_shopping_cart_goods, parent, false));
+                    } else {
+                        holder = new RecyclerViewHolder(mContext, LayoutInflater.from(mContext).inflate(R.layout.item_shopping_empty, parent, false));
                     }
                     return holder;
                 }
+
                 @Override
-                public void bindData(RecyclerViewHolder holder,final int i, ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean) {
-                    if(getItemViewType(i)==0){
+                public void bindData(RecyclerViewHolder holder, final int i, ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean) {
+                    if (getItemViewType(i) == 0) {
                         return;
                     }
-                    holder.setText(R.id.tv_shopping_name,bean.getGoods_name())
-                            .setText(R.id.tv_shopping_price,"¥"+bean.getGoods_price())
-                            .setText(R.id.tv_shopping_num,bean.getNum()+"");
-                    TextView  tv_shopping_num = holder.getTextView(R.id.tv_shopping_num);
+                    holder.setText(R.id.tv_shopping_name, bean.getGoods_name())
+                            .setText(R.id.tv_shopping_price, "¥" + bean.getGoods_price())
+                            .setText(R.id.tv_shopping_num, bean.getNum() + "");
+                    TextView tv_shopping_num = holder.getTextView(R.id.tv_shopping_num);
                     ImageView iv_shopping_jian = holder.getImageView(R.id.iv_shopping_jian);
                     ImageView iv_shopping_add = holder.getImageView(R.id.iv_shopping_add);
 
                     iv_shopping_jian.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            totalPrice=AndroidUtils.jianFa(totalPrice,bean.getGoods_price());
+                            totalPrice = AndroidUtils.jianFa(totalPrice, bean.getGoods_price());
                             int num = bean.getNum();
                             num--;
                             bean.setNum(num);
-                            if(bean.getNum()==0){
+                            if (bean.getNum() == 0) {
                                 notifyDataSetChanged();
                             }
                             changeShangPinGoodsNum(num, i);//点击购物车加减，改变商品里面相应的数据
-                            tv_shopping_num.setText(num+"");
+                            tv_shopping_num.setText(num + "");
                             totalNum--;
                             jiSuanNum();
                         }
@@ -499,24 +546,25 @@ public class ShangJiaShangPinFragment extends BaseFragment {
                     iv_shopping_add.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            totalPrice=AndroidUtils.jiaFa(totalPrice,bean.getGoods_price());
+                            totalPrice = AndroidUtils.jiaFa(totalPrice, bean.getGoods_price());
                             int num = bean.getNum();
                             num++;
                             bean.setNum(num);
                             changeShangPinGoodsNum(num, i);//点击购物车加减，改变商品里面相应的数据
-                            tv_shopping_num.setText(num+"");
+                            tv_shopping_num.setText(num + "");
                             totalNum++;
                             jiSuanNum();
                         }
                     });
 
                 }
+
                 @Override
                 public int getItemViewType(int position) {
                     ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean bean = (ShangJiaShangPingObj.MerchantClassListBean.GoodsListBean) goodsAdapter.getList().get(position);
-                    if(bean.getNum()>0){
+                    if (bean.getNum() > 0) {
                         return 1;
-                    }else{
+                    } else {
                         return 0;
                     }
                 }
@@ -525,7 +573,7 @@ public class ShangJiaShangPinFragment extends BaseFragment {
 //            rv_shopping_cart.addItemDecoration(getItemDivider());
             shoppingAdapter.setList(goodsAdapter.getList());
             rv_shopping_cart.setAdapter(shoppingAdapter);
-        }else{
+        } else {
             shoppingAdapter.notifyDataSetChanged();
         }
     }
@@ -533,14 +581,14 @@ public class ShangJiaShangPinFragment extends BaseFragment {
     private void changeShangPinGoodsNum(int num, int i) {
         View itemView = rv_shang_pin_cai.getChildAt(i);
         TextView tv_goods_num = itemView.findViewById(R.id.tv_goods_num);
-        if(tv_goods_num==null){
+        if (tv_goods_num == null) {
             return;
         }
         ImageView iv_goods_jian = itemView.findViewById(R.id.iv_goods_jian);
-        if(num==0){
+        if (num == 0) {
             iv_goods_jian.setVisibility(View.INVISIBLE);
             tv_goods_num.setVisibility(View.INVISIBLE);
         }
-        tv_goods_num.setText(num+"");
+        tv_goods_num.setText(num + "");
     }
 }
