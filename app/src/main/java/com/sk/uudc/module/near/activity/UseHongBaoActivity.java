@@ -3,6 +3,7 @@ package com.sk.uudc.module.near.activity;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,6 +41,10 @@ public class UseHongBaoActivity extends BaseActivity {
 
     private int youHuiType;
     private String title="";
+    private String action;
+    private String merchantId;
+    private String amount;
+
     @Override
     protected int getContentView() {
         return R.layout.act_use_hongbao;
@@ -47,6 +52,12 @@ public class UseHongBaoActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        action = getIntent().getAction();
+        if(TextUtils.equals(Constant.IParam.tiJiaoOrder,action)){
+            merchantId =getIntent().getStringExtra(Constant.IParam.merchantId);
+            amount =getIntent().getStringExtra(Constant.IParam.amount);
+        }
+
         youHuiType=getIntent().getIntExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_1);
         int layoutView;
         if(youHuiType==Constant.IParam.youHuiType_1){
@@ -77,7 +88,8 @@ public class UseHongBaoActivity extends BaseActivity {
                     @Override
                     protected void onNoDoubleClick(View view) {
                         Intent intent=new Intent();
-                        intent.putExtra(Constant.IParam.hongBaoId,bean.getCoupons_id()+"");
+                        intent.putExtra(Constant.IParam.youHuiId,bean.getCoupons_id()+"");
+                        intent.putExtra(Constant.IParam.youHuiTotal,bean.getFace_value());
                         setResult(RESULT_OK,intent);
                         finish();
                     }
@@ -103,24 +115,51 @@ public class UseHongBaoActivity extends BaseActivity {
     protected void getData(int page, boolean isLoad) {
         super.getData(page, isLoad);
         Map<String,String> map=new HashMap<String,String>();
-        map.put("user_id",getUserId());
-        map.put("type",youHuiType+"");
-        map.put("status","1");
-        map.put("pagesize",pageSize+"");
-        map.put("page",page+"");
-        map.put("sign", GetSign.getSign(map));
-        ApiRequest.getHongBaoYouHuiQuan(map, new MyCallBack<List<HongBaoObj>>(mContext) {
-            @Override
-            public void onSuccess(List<HongBaoObj> list) {
-                if(isLoad){
-                    pageNum++;
-                    adapter.addList(list,true);
-                }else{
-                    pageNum=2;
-                    adapter.setList(list,true);
+        //提交订单
+        if(TextUtils.equals(Constant.IParam.tiJiaoOrder,action)){
+            map.put("user_id",getUserId());
+            map.put("type",youHuiType+"");
+            map.put("merchant_id", merchantId);
+            map.put("amount", amount);
+            map.put("pagesize",pageSize+"");
+            map.put("page",page+"");
+            map.put("sign", GetSign.getSign(map));
+
+            ApiRequest.getHongBaoYouHuiQuanForOrder(map, new MyCallBack<List<HongBaoObj>>(mContext,pcfl,pl_load) {
+                @Override
+                public void onSuccess(List<HongBaoObj> list) {
+                    if(isLoad){
+                        pageNum++;
+                        adapter.addList(list,true);
+                    }else{
+                        pageNum=2;
+                        adapter.setList(list,true);
+                    }
                 }
-            }
-        });
+            });
+
+        }else{//个人信息
+            map.put("user_id",getUserId());
+            map.put("type",youHuiType+"");
+            map.put("status","1");
+            map.put("pagesize",pageSize+"");
+            map.put("page",page+"");
+            map.put("sign", GetSign.getSign(map));
+            ApiRequest.getHongBaoYouHuiQuan(map, new MyCallBack<List<HongBaoObj>>(mContext,pcfl,pl_load) {
+                @Override
+                public void onSuccess(List<HongBaoObj> list) {
+                    if(isLoad){
+                        pageNum++;
+                        adapter.addList(list,true);
+                    }else{
+                        pageNum=2;
+                        adapter.setList(list,true);
+                    }
+                }
+            });
+        }
+
+
 
     }
 

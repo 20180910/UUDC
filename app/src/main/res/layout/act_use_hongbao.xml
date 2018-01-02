@@ -23,7 +23,7 @@
             app:my_tv_solid="@color/white"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="5dp"
             app:my_tv_all_line="true"
             app:my_tv_corner_radius="3dp"

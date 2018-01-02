@@ -104,6 +104,7 @@
                             android:layout_height="wrap_content"
                             android:text="订单优惠"
                             android:textColor="@color/gray_33"
+                            android:paddingLeft="10dp"
                             />
                         <TextView
                             android:id="@+id/tv_youhui_name"

@@ -38,6 +38,11 @@ public class CommitOrderBody  {
     private String remark;
     private String contact_person_recipient;
     private String contact_person_phone;
+
+    private String type;
+    private String coupons_id;
+
+
     private List<TiJiaoOrderObj.GoodsListBean> ShowOrder;
 
     public String getUser_id() {
@@ -54,6 +59,22 @@ public class CommitOrderBody  {
 
     public String getOrder_id() {
         return order_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCoupons_id() {
+        return coupons_id;
+    }
+
+    public void setCoupons_id(String coupons_id) {
+        this.coupons_id = coupons_id;
     }
 
     public void setOrder_id(String order_id) {

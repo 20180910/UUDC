@@ -34,6 +34,7 @@ import com.sk.uudc.module.near.network.request.ShowOrderBody;
 import com.sk.uudc.module.near.network.response.CommitOrderResultObj;
 import com.sk.uudc.module.near.network.response.TiJiaoOrderObj;
 import com.sk.uudc.module.order.event.OrdersEvent;
+import com.sk.uudc.tools.AndroidUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -94,6 +95,9 @@ public class TiJiaoOrderActivity extends BaseActivity {
     private ShowOrderBody orderBody;
     private TiJiaoOrderObj orderObj;
     private BottomSheetDialog youHuiTypeDialog;
+    private String youHuiType="0";//(0商家优惠 1红包 2商家优惠券)
+    private String youHuiId="0";
+    private double youHuiTotal=0;
 
     @Override
     protected int getContentView() {
@@ -138,12 +142,10 @@ public class TiJiaoOrderActivity extends BaseActivity {
             @Override
             public void onSuccess(TiJiaoOrderObj obj) {
                 orderObj = obj;
-                tv_place_order_price.setText(obj.getTo_pay()+"");
                 Glide.with(mContext).load(obj.getMerchant_avatar()).error(R.color.c_press).into(iv_place_order);
                 tv_place_order_name.setText(obj.getMerchant_name());
-                tv_price_order_youhui.setText("-¥"+obj.getMerchants_preferential());
-                tv_price_order_dingdan_price.setText("订单¥"+obj.getTo_pay());
-                tv_price_order_daizhifu_price.setText("待支付¥"+obj.getTo_pay());
+                youHuiTotal=obj.getMerchants_preferential();
+                orderPrice(obj.getMerchants_preferential(),obj.getTo_pay());
                 tv_price_order_time.setText(obj.getDine_time());
                 tv_price_order_num.setText(obj.getDine_num_people()+"");
                 cb_place_order_baojian.setChecked(obj.getIs_require_rooms()==1);
@@ -152,6 +154,13 @@ public class TiJiaoOrderActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private void orderPrice(double preferential,double orderPrice) {
+        tv_price_order_youhui.setText("-¥"+preferential);
+        tv_price_order_dingdan_price.setText("订单¥"+orderPrice);
+        tv_price_order_daizhifu_price.setText("待支付¥"+orderPrice);
+        tv_place_order_price.setText(orderPrice+"");
     }
 
     @OnClick({R.id.tv_place_order,R.id.rb_place_order_fapiao_geren,R.id.rb_place_order_fapiao_gongsi,R.id.cb_place_order_fapiao,R.id.ll_youhui_type})
@@ -223,13 +232,17 @@ public class TiJiaoOrderActivity extends BaseActivity {
             @Override
             protected void onNoDoubleClick(View view) {
                 youHuiTypeDialog.dismiss();
-                tv_youhui_name.setText(youHuiText);
+                Intent intent=new Intent(Constant.IParam.tiJiaoOrder);
+                intent.putExtra(Constant.IParam.merchantId,orderBody.getMerchant_id());
+                intent.putExtra(Constant.IParam.amount,AndroidUtils.jiaFa(orderObj.getTo_pay(),orderObj.getMerchants_preferential())+"");
                 switch (flag){
                     case 1://优惠券
-                        STActivityForResult(UseHongBaoActivity.class,100);
+                        intent.putExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_2);
+                        STActivityForResult(intent,UseHongBaoActivity.class,100);
                     break;
                     case 2://红包
-                        STActivityForResult(UseHongBaoActivity.class,200);
+                        intent.putExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_1);
+                        STActivityForResult(intent,UseHongBaoActivity.class,200);
                     break;
                     case 3://满减活动
 
@@ -245,12 +258,41 @@ public class TiJiaoOrderActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
             switch (requestCode){
-                case 100:
-                    break;
+                case 100://优惠券
 
-                case 200:
+                    if(data==null&&youHuiType.equals("2")){
+                        youHuiType="0";
+                        youHuiId="0";
+                        tv_youhui_name.setText("满减活动");
+                        youHuiTotal=orderObj.getMerchants_preferential();
+                        orderPrice(youHuiTotal, orderObj.getTo_pay() );
+                    }else if(data!=null){
+                        youHuiType="2";//(0商家优惠 1红包 2商家优惠券)
+                        tv_youhui_name.setText("优惠券");
+                        youHuiId=data.getStringExtra(Constant.IParam.youHuiId);
+                        youHuiTotal=data.getDoubleExtra(Constant.IParam.youHuiTotal,0);
+                        orderPrice(youHuiTotal,AndroidUtils.jianFa(AndroidUtils.jiaFa(orderObj.getTo_pay(),orderObj.getMerchants_preferential()),youHuiTotal));
+                    }
+                    break;
+                case 200://红包
+
+                    if(data==null&&youHuiType.equals("1")){
+                        youHuiType="0";
+                        youHuiId="0";
+                        tv_youhui_name.setText("满减活动");
+                        youHuiTotal=orderObj.getMerchants_preferential();
+                        orderPrice(youHuiTotal, orderObj.getTo_pay() );
+                    }else if(data!=null){
+                        youHuiType="1";//(0商家优惠 1红包 2商家优惠券)
+                        tv_youhui_name.setText("红包");
+                        youHuiId=data.getStringExtra(Constant.IParam.youHuiId);
+                        youHuiTotal=data.getDoubleExtra(Constant.IParam.youHuiTotal,0);
+                        orderPrice(youHuiTotal,AndroidUtils.jianFa(AndroidUtils.jiaFa(orderObj.getTo_pay(),orderObj.getMerchants_preferential()),youHuiTotal));
+                    }
                     break;
             }
+
+
         }
     }
 
@@ -262,6 +304,8 @@ public class TiJiaoOrderActivity extends BaseActivity {
         CommitOrderBody body=new CommitOrderBody();
         body.setShowOrder(orderObj.getGoods_list());
         body.setUser_id(getUserId());
+        body.setType(youHuiType);
+        body.setCoupons_id(youHuiId);
         body.setMerchant_id(orderObj.getMerchant_id()+"");
         body.setDine_time(orderObj.getDine_time());
         body.setTime_id(orderObj.getTime_id());

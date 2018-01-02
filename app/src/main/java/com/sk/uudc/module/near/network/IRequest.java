@@ -108,7 +108,11 @@ public interface IRequest {
     @GET("api/Order/GetPayRecommend")
     Call<ResponseObj<PaySuccessObj>> payTuiJianShangJia(@QueryMap Map<String, String> map);
 
-    //红包优惠券列表
+    //我的-红包优惠券列表
     @GET("api/UserBase/GetMyRedEnvelope")
     Call<ResponseObj<List<HongBaoObj>>> getHongBaoYouHuiQuan(@QueryMap Map<String, String> map);
+
+    //提交订单-红包优惠券列表
+    @GET("api/Order/GetMyRedEnvelope")
+    Call<ResponseObj<List<HongBaoObj>>> getHongBaoYouHuiQuanForOrder(@QueryMap Map<String, String> map);
 }
