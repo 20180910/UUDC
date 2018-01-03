@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              xmlns:tools="http://schemas.android.com/tools"
               android:background="@color/background_f2"
               android:orientation="vertical"
     >
 
     <include layout="@layout/app_title2"/>
+
     <com.sk.uudc.base.ProgressLayout
         android:id="@id/pl_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:background="@color/background_f2"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:background="@color/background_f2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -42,15 +41,15 @@
 
                         <TextView
                             android:id="@+id/tv_order_details_type"
-                            android:padding="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:drawableRight="@drawable/daifukuan_c"
                             android:gravity="center_vertical"
-
-                            tools:text="待付款"
+                            android:padding="10dp"
                             android:textColor="@color/orange"
-                            android:textSize="15sp"/>
+
+                            android:textSize="15sp"
+                            tools:drawableRight="@drawable/daifukuan_c"
+                            tools:text="待付款"/>
 
                     </com.github.customview.MyLinearLayout>
 
@@ -58,42 +57,46 @@
                     <LinearLayout
                         android:id="@+id/ll_order_details_hexiaoma"
                         android:layout_width="match_parent"
-                        android:background="@color/white"
-                        android:layout_marginBottom="10dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/white"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="14sp"
+                                android:padding="10dp"
                                 android:text="核销码"
-                                android:padding="10dp"/>
+                                android:textSize="14sp"/>
+
                             <View
                                 android:layout_width="0dp"
                                 android:layout_height="1dp"
                                 android:layout_weight="1"/>
+
                             <TextView
-                                android:textSize="14sp"
                                 android:id="@+id/tv_order_details_hexiaoma"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:padding="10dp"
                                 android:textColor="@color/black_33"
-                                tools:text="4561666"
-                                android:padding="10dp"/>
-
+                                android:textSize="14sp"
+                                tools:text="4561666"/>
 
 
                         </LinearLayout>
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:padding="10dp"
                             android:text="*前往消费时出示给商家"
-                            android:textSize="13sp"
-                            android:padding="10dp"/>
+                            android:textSize="13sp"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -118,13 +121,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:padding="10dp"
-                            tools:text="和喜粤式美食（澳门路）"
-                            android:textSize="15sp"/>
+                            android:textSize="15sp"
+                            tools:text="和喜粤式美食（澳门路）"/>
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="2px"
-                      android:background="@color/gray_f4"/>
+                        android:background="@color/gray_f4"/>
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rv_order_details_shangpin"
@@ -138,8 +142,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:background="@color/c_press"/>
-
-
 
 
                     <LinearLayout
@@ -166,9 +168,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
-                            tools:text="-¥5"
                             android:textColor="@color/black_33"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            tools:text="-¥5"/>
 
                     </LinearLayout>
 
@@ -195,9 +197,9 @@
                             android:layout_height="wrap_content"
                             android:paddingBottom="10dp"
                             android:paddingTop="10dp"
-                            tools:text="待支付"
                             android:textColor="@color/red"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            tools:text="待支付"/>
 
                         <TextView
                             android:id="@+id/tv_order_details_price"
@@ -206,19 +208,21 @@
                             android:paddingBottom="10dp"
                             android:paddingRight="10dp"
                             android:paddingTop="10dp"
-                            tools:text="¥19"
                             android:textColor="@color/red"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            tools:text="¥19"/>
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:id="@+id/ll_order_details_jiacai_info"
-                        android:layout_marginTop="10dp"
-
                         android:layout_width="match_parent"
+
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:background="@color/white">
+                        android:layout_marginTop="10dp"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -228,10 +232,12 @@
                             android:text="加菜信息"
                             android:textColor="@color/black_33"
                             android:textSize="14sp"/>
+
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="@color/c_press"/>
+
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/rv_order_details_jiacai_shangpin"
                             android:layout_width="match_parent"
@@ -244,6 +250,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="1px"
                             android:background="@color/c_press"/>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -268,9 +275,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                tools:text="-¥5"
                                 android:textColor="@color/black_33"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp"
+                                tools:text="-¥5"/>
 
                         </LinearLayout>
 
@@ -298,9 +305,9 @@
                                 android:layout_height="wrap_content"
                                 android:paddingBottom="10dp"
                                 android:paddingTop="10dp"
-                                tools:text="待支付"
                                 android:textColor="@color/red"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp"
+                                tools:text="待支付"/>
 
                             <TextView
                                 android:id="@+id/tv_order_details_jiacai_price"
@@ -309,16 +316,11 @@
                                 android:paddingBottom="10dp"
                                 android:paddingRight="10dp"
                                 android:paddingTop="10dp"
-                                tools:text="¥19"
                                 android:textColor="@color/red"
-                                android:textSize="14sp"/>
+                                android:textSize="14sp"
+                                tools:text="¥19"/>
 
                         </LinearLayout>
-
-
-
-
-
 
 
                     </LinearLayout>
@@ -379,9 +381,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="10dp"
-                                tools:text="和喜粤式美食（澳门路）"
                                 android:textColor="@color/black_33"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp"
+                                tools:text="和喜粤式美食（澳门路）"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -430,9 +432,9 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
-                                    tools:text="5.0"
                                     android:textColor="@color/orange"
-                                    android:textSize="13sp"/>
+                                    android:textSize="13sp"
+                                    tools:text="5.0"/>
                             </LinearLayout>
 
                             <TextView
@@ -447,8 +449,8 @@
                                 android:paddingLeft="10dp"
                                 android:paddingRight="40dp"
                                 android:paddingTop="10dp"
-                                tools:text="上海市普陀区澳门路477号中华创意园7号楼205室"
-                                android:textSize="15sp"/>
+                                android:textSize="15sp"
+                                tools:text="上海市普陀区澳门路477号中华创意园7号楼205室"/>
 
                         </LinearLayout>
 
@@ -480,198 +482,227 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="用餐时间"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_dinner_time_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="用餐时间"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="用餐时间"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="用餐人数"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_dinner_num_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="用餐人数"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="用餐人数"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="是否需要包间"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_baojian_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="不需要"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="不需要"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="发票信息"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_invoice_info_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="需要发票 优优点餐可就有限公司。发票单号1334455666667"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="需要发票 优优点餐可就有限公司。发票单号1334455666667"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="备注信息"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_remarks_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="不要辣椒不要蒜"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="不要辣椒不要蒜"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="联系人"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_contacts_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="张先生"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="张先生"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/white"
-                        android:padding="10dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="联系电话"
-                            android:textSize="14sp"
-                            android:textColor="@color/gray_99"/>
+                            android:textColor="@color/gray_99"
+                            android:textSize="14sp"/>
+
                         <TextView
                             android:id="@+id/tv_order_details_phone_tv"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="13246658855"
+                            android:textColor="@color/gray_33"
                             android:textSize="14sp"
-                            android:textColor="@color/gray_33"/>
+                            tools:text="13246658855"/>
 
                     </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="@color/c_press"/>
+
                     <TextView
                         android:id="@+id/tv_order_details_dingdanhao"
                         android:layout_width="match_parent"
-                        android:background="@color/white"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:background="@color/white"
                         android:padding="10dp"
-                        tools:text="订单号：201710105566"
+                        android:textColor="@color/gray_99"
                         android:textSize="14sp"
-                        android:textColor="@color/gray_99"/>
+                        tools:text="订单号：201710105566"/>
+
                     <TextView
                         android:id="@+id/tv_order_details_time"
                         android:layout_width="match_parent"
-                        android:background="@color/white"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:paddingLeft="10dp"
+                        android:background="@color/white"
                         android:paddingBottom="10dp"
-                        tools:text="下单时间：2017.03.12 14:00"
+                        android:paddingLeft="10dp"
+                        android:textColor="@color/gray_99"
                         android:textSize="14sp"
-                        android:textColor="@color/gray_99"/>
+                        tools:text="下单时间：2017.03.12 14:00"/>
 
 
                 </LinearLayout>
@@ -687,7 +718,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white"
                 android:orientation="horizontal"
-               >
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -701,12 +732,12 @@
                         android:layout_weight="1"/>
 
                     <com.github.customview.MyTextView
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
                         android:id="@+id/tv_order_details_lijifukuan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -722,11 +753,11 @@
 
                     <com.github.customview.MyTextView
                         android:id="@+id/tv_order_details_quxiao"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -742,11 +773,11 @@
 
                     <com.github.customview.MyTextView
                         android:id="@+id/tv_order_details_tuikuan"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -761,12 +792,12 @@
                         app:my_tv_solid="@color/white"/>
 
                     <com.github.customview.MyTextView
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
                         android:id="@+id/tv_order_details_pingjia"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -781,13 +812,12 @@
                         app:my_tv_solid="@color/white"/>
 
                     <com.github.customview.MyTextView
-                        android:visibility="gone"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
                         android:id="@+id/tv_order_details_chakan"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -795,6 +825,7 @@
                         android:text="查看核销码"
                         android:textColor="@color/gray_33"
                         android:textSize="13sp"
+                        android:visibility="gone"
                         app:my_tv_border_color="@color/gray_99"
                         app:my_tv_border_width="1dp"
                         app:my_tv_corner_radius="5dp"

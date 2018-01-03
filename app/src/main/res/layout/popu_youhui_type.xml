@@ -36,6 +36,6 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:text="满减活动"
+        android:text="满减优惠"
         />
 </LinearLayout>

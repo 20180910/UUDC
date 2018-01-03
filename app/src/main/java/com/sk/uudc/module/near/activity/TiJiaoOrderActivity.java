@@ -245,7 +245,11 @@ public class TiJiaoOrderActivity extends BaseActivity {
                         STActivityForResult(intent,UseHongBaoActivity.class,200);
                     break;
                     case 3://满减活动
-
+                        youHuiType="0";
+                        youHuiId="0";
+                        tv_youhui_name.setText("满减优惠");
+                        youHuiTotal=orderObj.getMerchants_preferential();
+                        orderPrice(youHuiTotal, orderObj.getTo_pay() );
                     break;
                 }
 
@@ -263,7 +267,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
                     if(data==null&&youHuiType.equals("2")){
                         youHuiType="0";
                         youHuiId="0";
-                        tv_youhui_name.setText("满减活动");
+                        tv_youhui_name.setText("满减优惠");
                         youHuiTotal=orderObj.getMerchants_preferential();
                         orderPrice(youHuiTotal, orderObj.getTo_pay() );
                     }else if(data!=null){
@@ -279,7 +283,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
                     if(data==null&&youHuiType.equals("1")){
                         youHuiType="0";
                         youHuiId="0";
-                        tv_youhui_name.setText("满减活动");
+                        tv_youhui_name.setText("满减优惠");
                         youHuiTotal=orderObj.getMerchants_preferential();
                         orderPrice(youHuiTotal, orderObj.getTo_pay() );
                     }else if(data!=null){

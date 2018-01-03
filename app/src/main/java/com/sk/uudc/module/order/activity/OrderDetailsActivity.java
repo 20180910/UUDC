@@ -244,8 +244,22 @@ public class OrderDetailsActivity extends BaseActivity {
 
 
 
-
-        if (obj.getOrder_status() == 1) {
+        if(obj.getOrder_status() == 0){
+            ll_order_details_hexiaoma.setVisibility(View.GONE);
+//            ll_order_details_jiacai_info.setVisibility(View.GONE);
+            tv_order_details_type.setText("等待商家确认");
+            tv_order_details_type2.setText("等待商家确认");
+            tv_order_details_type.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+                    null,
+                    mContext.getResources().getDrawable(R.drawable.daifukuan_c),
+                    null);
+            tv_order_details_quxiao.setVisibility(View.GONE);
+            tv_order_details_tuikuan.setVisibility(View.GONE);
+            tv_order_details_lijifukuan.setVisibility(View.GONE);
+            tv_order_details_pingjia.setVisibility(View.GONE);
+            tv_order_details_chakan.setVisibility(View.GONE);
+            tv_order_details_jiacai.setVisibility(View.GONE);
+        }else if (obj.getOrder_status() == 1) {
             ll_order_details_hexiaoma.setVisibility(View.GONE);
 //            ll_order_details_jiacai_info.setVisibility(View.GONE);
             tv_order_details_type.setText("待付款");

@@ -110,7 +110,7 @@
                             android:id="@+id/tv_youhui_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="满减活动"
+                            android:text="满减优惠"
                             />
                         <ImageView
                             android:layout_width="wrap_content"
