@@ -8,8 +8,6 @@
     >
 <include layout="@layout/app_title"/>
 
-
-
     <LinearLayout
         android:id="@+id/ll_setting_gengxin"
         android:layout_width="match_parent"
@@ -61,9 +59,10 @@
             android:text="清空缓存"
             />
         <TextView
+            android:id="@+id/tv_setting_cache_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6.8M"
+            android:text="0.0MB"
             android:drawableRight="@drawable/jiantou_right"
             android:drawablePadding="10dp"
             />

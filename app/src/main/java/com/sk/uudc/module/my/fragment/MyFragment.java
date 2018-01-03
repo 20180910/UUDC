@@ -1,5 +1,6 @@
 package com.sk.uudc.module.my.fragment;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import com.sk.uudc.module.my.activity.SettingActivity;
 import com.sk.uudc.module.my.activity.WoYaoHeZuoActivity;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.UserInfoObj;
+import com.sk.uudc.module.near.Constant;
 import com.sk.uudc.module.near.activity.UseHongBaoActivity;
 
 import java.util.HashMap;
@@ -157,7 +159,8 @@ public class MyFragment extends BaseFragment {
 
     }
 
-    @OnClick({R.id.iv_my_icon, R.id.tv_my_yue, R.id.tv_my_message, R.id.tv_my_shouyi, R.id.ll_my_zhanghu, R.id.ll_my_shouyi, R.id.ll_my_fenxiao, R.id.ll_my_collect, R.id.ll_my_pingjia, R.id.ll_my_setting, R.id.ll_my_hezuo})
+    @OnClick({R.id.ll_my_youhuiquan,
+            R.id.ll_my_hongbao,R.id.iv_my_icon, R.id.tv_my_yue, R.id.tv_my_message, R.id.tv_my_shouyi, R.id.ll_my_zhanghu, R.id.ll_my_shouyi, R.id.ll_my_fenxiao, R.id.ll_my_collect, R.id.ll_my_pingjia, R.id.ll_my_setting, R.id.ll_my_hezuo})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.iv_my_icon:
@@ -184,7 +187,6 @@ public class MyFragment extends BaseFragment {
                 break;
             case R.id.ll_my_pingjia:
                 STActivity(MyEvaluateActivity.class);
-
                 break;
             case R.id.ll_my_setting:
                 STActivity(SettingActivity.class);
@@ -193,10 +195,14 @@ public class MyFragment extends BaseFragment {
                 STActivity(WoYaoHeZuoActivity.class);
                 break;
             case R.id.ll_my_youhuiquan:
-                STActivity(UseHongBaoActivity.class);
+                Intent intent=new Intent();
+                intent.putExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_2);
+                STActivity(intent,UseHongBaoActivity.class);
                 break;
             case R.id.ll_my_hongbao:
-                STActivity(UseHongBaoActivity.class);
+                Intent intent2=new Intent();
+                intent2.putExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_1);
+                STActivity(intent2,UseHongBaoActivity.class);
                 break;
         }
     }

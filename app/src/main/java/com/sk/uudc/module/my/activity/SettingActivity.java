@@ -5,8 +5,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.androidtools.SPUtils;
+import com.github.baseclass.rx.IOCallBack;
 import com.github.baseclass.view.MyDialog;
 import com.github.customview.MyTextView;
 import com.sk.uudc.Config;
@@ -16,6 +18,7 @@ import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.my.network.ApiRequest;
+import com.sk.uudc.tools.CleanMessageUtil;
 import com.suke.widget.SwitchButton;
 
 import java.util.HashMap;
@@ -23,6 +26,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import rx.Subscriber;
 
 /**
  * Created by Administrator on 2017/11/7.
@@ -39,6 +43,8 @@ public class SettingActivity extends BaseActivity {
     LinearLayout ll_setting_pingtai;
     @BindView(R.id.tv_setting_tuichu)
     MyTextView tv_setting_tuichu;
+    @BindView(R.id.tv_setting_cache_size)
+    TextView tv_setting_cache_size;
     String message_sink;
 
     @Override
@@ -111,6 +117,7 @@ public class SettingActivity extends BaseActivity {
             case R.id.ll_setting_gengxin:
                 break;
             case R.id.ll_setting_qinglihuancun:
+                deleteCache();
                 break;
             case R.id.ll_setting_pingtai:
                 STActivity(AboutPlatformActivity.class);
@@ -130,6 +137,29 @@ public class SettingActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void deleteCache() {
+        RXStart(new IOCallBack<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                CleanMessageUtil.clearAllCache(getApplicationContext());
+                try {
+                    String totalCacheSize = CleanMessageUtil.getTotalCacheSize(getApplicationContext());
+                    subscriber.onNext(totalCacheSize);
+                    subscriber.onCompleted();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            @Override
+            public void onMyNext(String totalCacheSize) {
+                showMsg("清除成功");
+                tv_setting_cache_size.setText(totalCacheSize);
+            }
+        });
+
+    }
+
     private void exitLogin() {
         SPUtils.removeKey(mContext, Config.user_id);
         Intent intent = new Intent(Config.Bro.operation);
