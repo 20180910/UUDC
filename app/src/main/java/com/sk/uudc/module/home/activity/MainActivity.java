@@ -8,14 +8,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
-import com.baidu.mapapi.cloud.CloudListener;
-import com.baidu.mapapi.cloud.CloudManager;
-import com.baidu.mapapi.cloud.CloudRgcInfo;
-import com.baidu.mapapi.cloud.CloudRgcResult;
-import com.baidu.mapapi.cloud.CloudSearchResult;
-import com.baidu.mapapi.cloud.DetailSearchResult;
 import com.github.androidtools.SPUtils;
 import com.github.androidtools.StatusBarUtils;
+import com.github.baseclass.view.MyDialog;
 import com.github.customview.MyRadioButton;
 import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
@@ -26,10 +21,13 @@ import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.broadcast.MyOperationBro;
 import com.sk.uudc.module.home.fragment.HomeFragment;
 import com.sk.uudc.module.my.activity.LoginActivity;
+import com.sk.uudc.module.my.entity.AppInfo;
 import com.sk.uudc.module.my.fragment.MyFragment;
 import com.sk.uudc.module.near.fragment.NearFragment;
 import com.sk.uudc.module.order.fragment.OrderFragment;
 import com.sk.uudc.network.ApiRequest;
+import com.sk.uudc.network.response.UpdateAppObj;
+import com.sk.uudc.service.APPDownloadService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -89,7 +87,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        getXY();
+        updateApp();
         String registrationID = JPushInterface.getRegistrationID(mContext);
         Log.i("registrationID","registrationID====="+registrationID);
         if(!TextUtils.isEmpty(registrationID)){
@@ -99,36 +97,40 @@ public class MainActivity extends BaseActivity {
         getPaymentURL(2);//获取微信回传地址
     }
 
-    private void getXY() {
-        CloudListener listen = new CloudListener() {
-
+    private void updateApp() {
+        Map<String,String>map=new HashMap<String,String>();
+        map.put("rnd",getRnd());
+        map.put("sign",GetSign.getSign(map));
+        ApiRequest.updateApp(map, new MyCallBack<UpdateAppObj>(mContext) {
             @Override
-            public void onGetSearchResult(CloudSearchResult result, int error) {
-                Log.i(TAG+"===","1==="+result.poiList.get(0).city);
+            public void onSuccess(UpdateAppObj obj) {
+                if(obj.getAndroid_version()>getAppVersionCode()){
+                    SPUtils.setPrefString(mContext,Config.appDownloadUrl,obj.getAndroid_vs_url());
+                    SPUtils.setPrefBoolean(mContext,Config.appHasNewVersion,true);
+                    MyDialog.Builder mDialog=new MyDialog.Builder(mContext);
+                    mDialog.setMessage("检测到app有新版本是否更新?");
+                    mDialog.setNegativeButton((dialog, which) -> dialog.dismiss());
+                    mDialog.setPositiveButton((dialog, which) -> {
+                        dialog.dismiss();
+                        AppInfo info=new AppInfo();
+                        info.setUrl(obj.getAndroid_vs_url());
+                        info.setHouZhui(".apk");
+                        info.setFileName("uudc");
+                        info.setId(obj.getAndroid_version()+"");
+                        downloadApp(info);
+                    });
+                    mDialog.create().show();
+                }else{
+                    SPUtils.setPrefBoolean(mContext,Config.appHasNewVersion,false);
+                }
             }
-
-            @Override
-            public void onGetDetailSearchResult(DetailSearchResult result, int error) {
-                Log.i(TAG+"===","2==="+result.poiInfo.address);
-            }
-
-            @Override
-            public void onGetCloudRgcResult(CloudRgcResult result, int error) {
-                Log.i(TAG+"===","3==="+result.addressCompents);
-
-                //获取云反地理编码检索结果
-            }
-        };
-
-        CloudManager.getInstance().init(listen);
-
-        CloudRgcInfo info = new CloudRgcInfo();
-        info.geoTableId = 145801;
-        info.location = "40.047969,116.313718";
-
-//        CloudManager.getInstance().registerListener(listen);
-        CloudManager.getInstance().rgcSearch(info);
+        });
     }
+
+    private void downloadApp(AppInfo info) {
+        APPDownloadService.intentDownload(mContext, info);
+    }
+
 
     private void getPaymentURL(int type) {
         Map<String,String> map=new HashMap<String,String>();

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.aspsine.multithreaddownload.DownloadConfiguration;
+import com.aspsine.multithreaddownload.DownloadManager;
 import com.baidu.mapapi.SDKInitializer;
 import com.github.androidtools.SPUtils;
 import com.github.retrofitutil.NetWorkManager;
@@ -48,8 +50,14 @@ public class MyApplication extends MultiDexApplication {
         //清除本地经纬度
         SPUtils.removeKey(getApplicationContext(),Config.longitude);
         SPUtils.removeKey(getApplicationContext(),Config.latitude);
+        initDownloader();
     }
-
+    private void initDownloader() {
+        DownloadConfiguration configuration = new DownloadConfiguration();
+        configuration.setMaxThreadNum(10);
+        configuration.setThreadNum(3);
+        DownloadManager.getInstance().init(getApplicationContext(), configuration);
+    }
    //经度
    public static double longitude;//=121.432986;
     //纬度

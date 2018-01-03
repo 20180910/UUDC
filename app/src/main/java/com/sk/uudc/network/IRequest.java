@@ -6,6 +6,7 @@ import com.sk.uudc.module.home.network.response.CitySearchObj;
 import com.sk.uudc.module.my.network.request.UploadImgBody;
 import com.sk.uudc.module.my.network.response.ProvinceObj;
 import com.sk.uudc.network.response.FenXiangObj;
+import com.sk.uudc.network.response.UpdateAppObj;
 
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,9 @@ import retrofit2.http.QueryMap;
  */
 
 public interface IRequest {
+    @GET("api/Lib/GetVersionUpdate")
+    Call<ResponseObj<UpdateAppObj>> updateApp(@QueryMap Map<String, String> map);
+
     @GET("api/HomePage/GetProductGroupOrderShow")
     Call<ResponseObj<BaseObj>> tuanGouSureOrder(@QueryMap Map<String, String> map);
     //获取验证码

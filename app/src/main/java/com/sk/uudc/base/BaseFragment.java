@@ -1,8 +1,12 @@
 package com.sk.uudc.base;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -494,5 +498,20 @@ iv_yaoqing_sina*//*
         } else {
             return false;
         }
+    }
+
+    public int getAppVersionCode() {
+        Context context=mContext;
+        int versioncode = 1;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            String versionName = pi.versionName;
+            versioncode = pi.versionCode;
+            return versioncode;
+        } catch (Exception e) {
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versioncode;
     }
 }

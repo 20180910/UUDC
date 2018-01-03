@@ -17,7 +17,10 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.my.entity.AppInfo;
 import com.sk.uudc.module.my.network.ApiRequest;
+import com.sk.uudc.network.response.UpdateAppObj;
+import com.sk.uudc.service.APPDownloadService;
 import com.sk.uudc.tools.CleanMessageUtil;
 import com.suke.widget.SwitchButton;
 
@@ -45,6 +48,8 @@ public class SettingActivity extends BaseActivity {
     MyTextView tv_setting_tuichu;
     @BindView(R.id.tv_setting_cache_size)
     TextView tv_setting_cache_size;
+    @BindView(R.id.tv_setting_new_version)
+    TextView tv_setting_new_version;
     String message_sink;
 
     @Override
@@ -77,6 +82,13 @@ public class SettingActivity extends BaseActivity {
                 return true;
             }
         });
+
+
+        if(SPUtils.getPrefBoolean(mContext,Config.appHasNewVersion,false)){
+            tv_setting_new_version.setVisibility(View.VISIBLE);
+        }else{
+            tv_setting_new_version.setVisibility(View.INVISIBLE);
+        }
     }
     private void setSwitch() {
         boolean checked = sb_setting.isChecked();
@@ -115,6 +127,7 @@ public class SettingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_setting_gengxin:
+                updateApp();
                 break;
             case R.id.ll_setting_qinglihuancun:
                 deleteCache();
@@ -123,7 +136,6 @@ public class SettingActivity extends BaseActivity {
                 STActivity(AboutPlatformActivity.class);
                 break;
             case R.id.tv_setting_tuichu:
-
                 mDialog = new MyDialog.Builder(mContext);
                 mDialog.setMessage("是否确认退出登录?")
                         .setNegativeButton((dialog, which) -> dialog.dismiss())
@@ -137,7 +149,41 @@ public class SettingActivity extends BaseActivity {
                 break;
         }
     }
+    private void updateApp() {
+        Map<String,String>map=new HashMap<String,String>();
+        map.put("rnd",getRnd());
+        map.put("sign",GetSign.getSign(map));
+        com.sk.uudc.network.ApiRequest.updateApp(map, new MyCallBack<UpdateAppObj>(mContext) {
+            @Override
+            public void onSuccess(UpdateAppObj obj) {
+                if(obj.getAndroid_version()>getAppVersionCode()){
+                    tv_setting_new_version.setVisibility(View.VISIBLE);
+                    SPUtils.setPrefString(mContext,Config.appDownloadUrl,obj.getAndroid_vs_url());
+                    SPUtils.setPrefBoolean(mContext,Config.appHasNewVersion,true);
+                    MyDialog.Builder mDialog=new MyDialog.Builder(mContext);
+                    mDialog.setMessage("检测到app有新版本是否更新?");
+                    mDialog.setNegativeButton((dialog, which) -> dialog.dismiss());
+                    mDialog.setPositiveButton((dialog, which) -> {
+                        dialog.dismiss();
+                        AppInfo info=new AppInfo();
+                        info.setUrl(obj.getAndroid_vs_url());
+                        info.setHouZhui(".apk");
+                        info.setId(obj.getAndroid_version()+"");
+                        info.setFileName("uudc");
+                        downloadApp(info);
+                    });
+                    mDialog.create().show();
+                }else{
+                    tv_setting_new_version.setVisibility(View.INVISIBLE);
+                    SPUtils.setPrefBoolean(mContext,Config.appHasNewVersion,false);
+                }
+            }
+        });
+    }
 
+    private void downloadApp(AppInfo info) {
+        APPDownloadService.intentDownload(mContext, info);
+    }
     private void deleteCache() {
         RXStart(new IOCallBack<String>() {
             @Override

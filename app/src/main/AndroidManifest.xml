@@ -245,6 +245,18 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
+
+
+
+        <service android:name="com.sk.uudc.service.APPDownloadService"/>
+        <receiver
+            android:name=".broadcast.DownloadBro"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="download" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

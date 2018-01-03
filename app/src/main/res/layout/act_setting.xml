@@ -27,6 +27,7 @@
             android:text="版本更新"
             />
         <com.github.customview.MyTextView
+            android:id="@+id/tv_setting_new_version"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
             android:text="NEW"

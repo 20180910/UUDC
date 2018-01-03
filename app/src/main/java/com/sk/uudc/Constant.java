@@ -20,6 +20,7 @@ public class Constant {
     public static final String isFirstIntoApp="isFirstIntoApp";
 
     public static class IParam{
+        public static final String path="path";
         public static final String tuanType="tuanType";
         public static final String noTuan="noTuan";
         public static final String canTuan="canTuan";

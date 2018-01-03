@@ -1,6 +1,9 @@
 package com.sk.uudc.base;
 
+import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
@@ -695,5 +698,20 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         } else {
             return false;
         }
+    }
+
+    public int getAppVersionCode() {
+        Context context=mContext;
+        int versioncode = 1;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            String versionName = pi.versionName;
+            versioncode = pi.versionCode;
+            return versioncode;
+        } catch (Exception e) {
+            Log.e("VersionInfo", "Exception", e);
+        }
+        return versioncode;
     }
 }
