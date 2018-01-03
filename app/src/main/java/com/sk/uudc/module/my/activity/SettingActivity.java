@@ -174,6 +174,7 @@ public class SettingActivity extends BaseActivity {
                     });
                     mDialog.create().show();
                 }else{
+                    showMsg("当前app已是最新版本");
                     tv_setting_new_version.setVisibility(View.INVISIBLE);
                     SPUtils.setPrefBoolean(mContext,Config.appHasNewVersion,false);
                 }

@@ -47,7 +47,7 @@ public class SpalshActivity extends BaseActivity {
         boolean flag = SPUtils.getPrefBoolean(this, Constant.isFirstIntoApp, true);
         Log.i(TAG+"===","==="+flag);
         if(!flag){
-            STActivity(MainActivity.class);
+            STActivity(WelcomeActivity.class);
             finish();
         }
         super.onCreate(savedInstanceState);
@@ -68,7 +68,7 @@ public class SpalshActivity extends BaseActivity {
                     @Override
                     protected void onNoDoubleClick(View view) {
                         SPUtils.setPrefBoolean(mContext, Constant.isFirstIntoApp,false);
-                        STActivity(MainActivity.class);
+                        STActivity(WelcomeActivity.class);
                         finish();
                     }
                 });

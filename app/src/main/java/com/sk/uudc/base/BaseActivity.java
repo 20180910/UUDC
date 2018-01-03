@@ -91,6 +91,7 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     private boolean hiddenBottomLine;
     protected PtrClassicFrameLayout pcfl;
     protected boolean isPause;
+    protected boolean noTheme;
     protected ProgressLayout pl_load;
     protected String TAG=this.getClass().getSimpleName();
     /****************************************************/
@@ -107,7 +108,9 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     protected void myReStart() {
     }
 
-
+    public void setNoTheme(boolean noTheme) {
+        this.noTheme = noTheme;
+    }
 
     protected void getData(int page, boolean isLoad) {
     }
@@ -184,7 +187,6 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        setTheme(R.style.AppTheme_NoActionBar);
         mContext = this;
         if (getContentView() != 0) {
             setContentView(getContentView());
@@ -195,7 +197,9 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
 //                rootView.setPadding(0,0,0,navigationBarHeight);
 //            }
         }
-
+        if(!noTheme){
+            setTheme(R.style.AppTheme_NoActionBar);
+        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
 //            StatusBarUtils.setTransparent(this);
             WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();

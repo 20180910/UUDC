@@ -7,8 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/gray_66</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.NoActionBar" >
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -18,6 +16,18 @@
         <item name="android:editTextStyle">@style/editTextStyle</item>
         <item name="android:listDivider">@drawable/app_list_divider</item>
     </style>
+    <style name="AppTheme.NoActionBarNoLayout" >
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/colorText</item>
+        <!--<item name="android:textCursorDrawable">@drawable/cursor_color</item>&lt;!&ndash;光标颜色&ndash;&gt;-->
+        <item name="android:editTextStyle">@style/editTextStyle</item>
+        <item name="android:listDivider">@drawable/app_list_divider</item>
+        <item name="android:windowBackground">@drawable/spalsh_uudc</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
     <style name="editTextStyle" parent="@style/Base.V7.Widget.AppCompat.EditText">
         <item name="android:editTextColor">@color/colorText</item>
         <item name="android:textColor">@color/colorText</item>
