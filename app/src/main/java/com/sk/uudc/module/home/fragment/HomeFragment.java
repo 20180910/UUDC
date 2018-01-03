@@ -494,12 +494,14 @@ public class HomeFragment extends BaseFragment {
     private void getCityId() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("city", city);
+        map.put("area", area);
         map.put("sign", GetSign.getSign(map));
         ApiRequest.getCityId(map, new MyCallBack<CityIdObj>(mContext) {
             @Override
             public void onSuccess(CityIdObj obj) {
                 city_id = obj.getCity_id();
                 SPUtils.setPrefString(mContext, Config.city_id_xuanze, city_id);
+                SPUtils.setPrefString(mContext, Config.city_id_dingwei, city_id);
 
             }
         });
@@ -608,14 +610,16 @@ public class HomeFragment extends BaseFragment {
         if (bn_home != null && bannerList != null) {
             bn_home.startAutoPlay();
         }
-        city=SPUtils.getPrefString(mContext, Config.city, city);
-        tv_home_city.setText(city);
+        if(SPUtils.getPrefInt(mContext,Config.city_level,3)==3){
 
-
-
-
-
-
+            city=SPUtils.getPrefString(mContext, Config.city, city);
+            Log.i(TAG+"===","city==="+city);
+            tv_home_city.setText(city);
+        }else{
+            area=SPUtils.getPrefString(mContext, Config.area, area);
+            Log.i(TAG+"===","area==="+area);
+            tv_home_city.setText(area);
+        }
         if (!TextUtils.isEmpty(getUserId())) {
             getUnreadNews();
         }
@@ -718,9 +722,11 @@ public class HomeFragment extends BaseFragment {
                 city = location.getCity();
                 area = location.getDistrict();
                 SPUtils.setPrefString(mContext, Config.city, city);
-                SPUtils.setPrefString(mContext, Config.dingweicity, city);
                 SPUtils.setPrefString(mContext, Config.area, area);
-                tv_home_city.setText(location.getCity());
+                SPUtils.setPrefString(mContext, Config.dingweicity, city);
+                SPUtils.setPrefString(mContext, Config.dingweiarea, area);
+                SPUtils.setPrefInt(mContext, Config.city_level, Config.level4);
+                tv_home_city.setText(area);
                 getCityId();
                 //
                 getLatLng(location.getLongitude(), location.getLatitude());

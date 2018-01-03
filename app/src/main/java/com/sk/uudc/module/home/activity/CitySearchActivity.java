@@ -5,12 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.PixelFormat;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -48,6 +51,8 @@ public class CitySearchActivity extends BaseActivity {
     MyLetterListView mllv_city_search;
     @BindView(R.id.tv_city_search)
     TextView tv_city_search;
+    @BindView(R.id.et_city_search)
+    EditText et_city_search;
 
     private TextView overlay;
     private BaseAdapter adapter;
@@ -73,19 +78,62 @@ public class CitySearchActivity extends BaseActivity {
     @Override
     protected void initView() {
         //  SPUtils.setPrefString(mContext, Config.city,city);
-        tv_city_search.setText(SPUtils.getPrefString(mContext, Config.dingweicity, city));
+        String dingweicity = SPUtils.getPrefString(mContext, Config.dingweicity, city);
+        String dingweiarea = SPUtils.getPrefString(mContext, Config.dingweiarea,"");
+        tv_city_search.setText(dingweicity+dingweiarea);
 
 
-
+        et_city_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                getAllCityAndCounty(editable.toString());
+            }
+        });
 
        /* DBManager dbManager = new DBManager(this);
         dbManager.openDateBase();
         dbManager.closeDatabase();
         database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);*/
+
+
+
+    }
+    @Override
+    protected void initData() {
         showProgress();
-        getAllCity();
+//        getAllCity();
+        getAllCityAndCounty("");
+    }
 
 
+    private void getAllCityAndCounty(String search_term) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("search_term", search_term);
+        map.put("sign", GetSign.getSign(map));
+        ApiRequest.getAllCityAndCounty(map, new MyCallBack<List<CitySearchObj>>(mContext, pcfl, pl_load) {
+
+            @Override
+            public void onSuccess(List<CitySearchObj> list) {
+                cityList = list;
+                sortListByZiMu(cityList);
+//                mCityNames = getCityNames();
+//                database.close();
+                mllv_city_search.setOnTouchingLetterChangedListener(new LetterListViewListener());
+                alphaIndexer = new HashMap<String, Integer>();
+                handler = new Handler();
+                overlayThread = new OverlayThread();
+                initOverlay();
+
+                setAdapter(cityList);
+                lv_city_search.setOnItemClickListener(new CityListOnItemClick());
+            }
+        });
     }
 
     private void getAllCity() {
@@ -148,11 +196,15 @@ public class CitySearchActivity extends BaseActivity {
 
     @OnClick(R.id.tv_city_search)
     public void onClick() {
-        SPUtils.setPrefString(mContext, Config.city, getSStr(tv_city_search));
-        city= getSStr(tv_city_search);
+        SPUtils.setPrefString(mContext, Config.city,SPUtils.getPrefString(mContext,Config.dingweicity,""));
+        SPUtils.setPrefString(mContext, Config.area,SPUtils.getPrefString(mContext,Config.dingweiarea,""));
+        SPUtils.setPrefInt(mContext, Config.city_level,Config.level4);
+        city= SPUtils.getPrefString(mContext,Config.dingweicity,"");
+        SPUtils.setPrefString(mContext, Config.city_id_xuanze, SPUtils.getPrefString(mContext,Config.city_id_dingwei,""));
+        finish();
 //      STActivity(CitySearchActivity.class);
-//        finish();
-        getCityId();
+        finish();
+//        getCityId();
 
     }
 
@@ -163,7 +215,13 @@ public class CitySearchActivity extends BaseActivity {
     private void getCityId() {
         showLoading();
         Map<String, String> map = new HashMap<String, String>();
+        String city=SPUtils.getPrefString(mContext,Config.city,"");
+        String area="";
+        if(SPUtils.getPrefInt(mContext,Config.city_level,0)==4){
+            area=SPUtils.getPrefString(mContext,Config.area,"");
+        }
         map.put("city", city);
+        map.put("area", area);
         map.put("sign", GetSign.getSign(map));
         com.sk.uudc.module.home.network.ApiRequest.getCityId(map, new MyCallBack<CityIdObj>(mContext) {
             @Override
@@ -186,9 +244,17 @@ public class CitySearchActivity extends BaseActivity {
         public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
             cityModel = (CitySearchObj) lv_city_search.getAdapter().getItem(pos);
             city = cityModel.getTitle();
-            SPUtils.setPrefString(mContext, Config.city, city);
-            getCityId();
-
+            //记录当前是选择的城市还是区县
+            SPUtils.setPrefInt(mContext, Config.city_level, cityModel.getClass_layer());
+            if(cityModel.getClass_layer()==Config.level3){//城市
+                SPUtils.setPrefString(mContext, Config.city, cityModel.getTitle());
+            }else{
+                SPUtils.setPrefString(mContext, Config.area, cityModel.getTitle());
+            }
+//            getCityId();
+            city_id_xuanze = cityModel.getId();
+            SPUtils.setPrefString(mContext, Config.city_id_xuanze, city_id_xuanze);
+            finish();
         }
 
     }
@@ -320,11 +386,6 @@ public class CitySearchActivity extends BaseActivity {
                 handler.postDelayed(overlayThread, 1500);
             }
         }
-
-    }
-
-    @Override
-    protected void initData() {
 
     }
 

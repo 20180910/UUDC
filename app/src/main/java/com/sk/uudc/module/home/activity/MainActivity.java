@@ -8,6 +8,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.baidu.mapapi.cloud.CloudListener;
+import com.baidu.mapapi.cloud.CloudManager;
+import com.baidu.mapapi.cloud.CloudRgcInfo;
+import com.baidu.mapapi.cloud.CloudRgcResult;
+import com.baidu.mapapi.cloud.CloudSearchResult;
+import com.baidu.mapapi.cloud.DetailSearchResult;
 import com.github.androidtools.SPUtils;
 import com.github.androidtools.StatusBarUtils;
 import com.github.customview.MyRadioButton;
@@ -83,6 +89,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+        getXY();
         String registrationID = JPushInterface.getRegistrationID(mContext);
         Log.i("registrationID","registrationID====="+registrationID);
         if(!TextUtils.isEmpty(registrationID)){
@@ -91,6 +98,38 @@ public class MainActivity extends BaseActivity {
         getPaymentURL(1);//获取支付宝回传地址
         getPaymentURL(2);//获取微信回传地址
     }
+
+    private void getXY() {
+        CloudListener listen = new CloudListener() {
+
+            @Override
+            public void onGetSearchResult(CloudSearchResult result, int error) {
+                Log.i(TAG+"===","1==="+result.poiList.get(0).city);
+            }
+
+            @Override
+            public void onGetDetailSearchResult(DetailSearchResult result, int error) {
+                Log.i(TAG+"===","2==="+result.poiInfo.address);
+            }
+
+            @Override
+            public void onGetCloudRgcResult(CloudRgcResult result, int error) {
+                Log.i(TAG+"===","3==="+result.addressCompents);
+
+                //获取云反地理编码检索结果
+            }
+        };
+
+        CloudManager.getInstance().init(listen);
+
+        CloudRgcInfo info = new CloudRgcInfo();
+        info.geoTableId = 145801;
+        info.location = "40.047969,116.313718";
+
+//        CloudManager.getInstance().registerListener(listen);
+        CloudManager.getInstance().rgcSearch(info);
+    }
+
     private void getPaymentURL(int type) {
         Map<String,String> map=new HashMap<String,String>();
         map.put("payment_type",type+"");

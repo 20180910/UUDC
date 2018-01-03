@@ -13,6 +13,15 @@ public class CitySearchObj
 	private String  parent_id;
 	private String title;
 	private String sort_id;
+	private int class_layer;
+
+	public int getClass_layer() {
+		return class_layer;
+	}
+
+	public void setClass_layer(int class_layer) {
+		this.class_layer = class_layer;
+	}
 
 	public String getSort_id() {
 		return sort_id;

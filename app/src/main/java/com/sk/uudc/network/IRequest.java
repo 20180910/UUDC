@@ -57,6 +57,10 @@ public interface IRequest {
     @GET("api/Lib/GetAllCity")
     Call<ResponseObj<List<CitySearchObj>>> getAllCity(@QueryMap Map<String, String> map);
 
+    //获取所有城市和县
+    @GET("api/Lib/GetAllCityAndCounty")
+    Call<ResponseObj<List<CitySearchObj>>> getAllCityAndCounty(@QueryMap Map<String, String> map);
+
     //退出登录
     @GET("api/Lib/GetLogOut")
     Call<ResponseObj<BaseObj>> getLogOut(@QueryMap Map<String, String> map);

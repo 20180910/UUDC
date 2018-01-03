@@ -27,6 +27,15 @@ public class HomeTypeMerchantListBody {
     private String distance;
     private String sequencing;
     private String dinner_time;
+    private String city_type;
+
+    public String getCity_type() {
+        return city_type;
+    }
+
+    public void setCity_type(String city_type) {
+        this.city_type = city_type;
+    }
 
     public String getType_id() {
         return type_id;

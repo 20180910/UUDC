@@ -137,7 +137,15 @@ public class OrderActivity extends BaseActivity {
                     tv_order_item_chakan.setVisibility(View.GONE);
                     tv_order_item_pingjia.setVisibility(View.GONE);
                     tv_order_item_jiacai.setVisibility(View.GONE);
-                } else {
+                } else if(bean.getOrder_status() == 0){
+                    tv_order_item_type.setText("等待商家确认");
+                    tv_order_item_lijifukuan.setVisibility(View.GONE);
+                    tv_order_item_tuikuan.setVisibility(View.GONE);
+                    tv_order_item_quxiao.setVisibility(View.GONE);
+                    tv_order_item_chakan.setVisibility(View.GONE);
+                    tv_order_item_pingjia.setVisibility(View.GONE);
+                    tv_order_item_jiacai.setVisibility(View.GONE);
+                }else {
                     tv_order_item_type.setText("已完成");
                     tv_order_item_lijifukuan.setVisibility(View.GONE);
                     tv_order_item_tuikuan.setVisibility(View.GONE);

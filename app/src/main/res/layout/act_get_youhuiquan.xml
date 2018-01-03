@@ -25,9 +25,10 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_shangjia_youhuiquan"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="20dp"
             >
 
         </android.support.v7.widget.RecyclerView>
@@ -43,6 +44,7 @@
             android:textSize="16sp"
             app:my_tv_corner_radius="4dp"
             android:layout_margin="10dp"
+            android:visibility="gone"
             />
     </RelativeLayout>
 </LinearLayout>

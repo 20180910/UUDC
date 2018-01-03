@@ -78,6 +78,7 @@ public class ShangJiaMapAddress extends BaseActivity {
         LatLng ll = new LatLng(weiDu,jingDu);
         MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 
+
         mBaiduMap.animateMapStatus(u);
     }
     @Override

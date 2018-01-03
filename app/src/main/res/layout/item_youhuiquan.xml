@@ -24,6 +24,7 @@
             app:my_iv_radius="25dp"
             tools:src="@drawable/time_full"
             android:layout_marginRight="10dp"
+            android:scaleType="centerCrop"
             />
         <LinearLayout
             android:layout_width="0dp"

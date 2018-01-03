@@ -13,12 +13,14 @@ import com.bumptech.glide.Glide;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.github.androidtools.SPUtils;
 import com.github.baseclass.adapter.BaseRecyclerAdapter;
 import com.github.baseclass.adapter.LoadMoreAdapter;
 import com.github.baseclass.adapter.LoadMoreViewHolder;
 import com.github.baseclass.adapter.RecyclerViewHolder;
 import com.github.customview.MyRadioButton;
 import com.github.customview.MyTextView;
+import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.MyApplication;
 import com.sk.uudc.R;
@@ -155,7 +157,9 @@ public class GoodsTypeActivity extends BaseActivity {
     private void getAreaBusinessCircle() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("city_id", city_id_xuanze);
+        map.put("city_type", SPUtils.getPrefInt(mContext,Config.city_level,3)+"");
         map.put("localize_city_id", city_id);
+        map.put("localize_city_type","4");
         map.put("sign", GetSign.getSign(map));
         ApiRequest.getAreaBusinessCircle(map, new MyCallBack<List<AreaBusinessCircleObj>>(mContext) {
             @Override
@@ -603,6 +607,7 @@ public class GoodsTypeActivity extends BaseActivity {
         body.setDistance(distance);
         body.setSequencing(sequencing);
         body.setDinner_time(dinner_time);
+        body.setCity_type(SPUtils.getPrefInt(mContext, Config.city_level,3)+"");
         ApiRequest.postMerchantList(map, body, new MyCallBack<HomeTypeMerchantListObj>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(HomeTypeMerchantListObj obj) {

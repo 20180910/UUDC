@@ -38,10 +38,16 @@ yTKTw0Ct5XUkIoGhR8DIwFus4P0lR9Tq  百度地图*/
     public static final String nick_name="nick_name";
     public static final String name="name";
     public static final String sex="sex";
-    public static final String area="area";
-    public static final String city="city";
     public static final String city_id_xuanze="city_id_xuanze";
-    public static final String dingweicity="dingweicity";
+    public static final String city_id_dingwei="city_id_dingwei";
+    public static final String area_id_xuanze="area_id_xuanze";
+    public static final String area="area";//选择的区县
+    public static final String city="city";//选择的城市
+    public static final String dingweicity="dingweicity";//定位城市
+    public static final String dingweiarea="dingweiarea";//定位区县
+    public static final String city_level="city_level";//城市等级
+    public static final int level3=3;//城市
+    public static final int level4=4;//区县
     public static final String phone="phone";
     public static final String mobile="mobile";
     public static final String avatar="avatar";
@@ -85,7 +91,6 @@ yTKTw0Ct5XUkIoGhR8DIwFus4P0lR9Tq  百度地图*/
 
     public static final String pwd="pwd";
     public static final String distribution_yard="distribution_yard";
-    public static final String level="level";
     public static final String authentication="authentication";
 
 
