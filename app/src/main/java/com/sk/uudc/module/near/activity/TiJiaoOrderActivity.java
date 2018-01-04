@@ -97,6 +97,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
     private BottomSheetDialog youHuiTypeDialog;
     private String youHuiType="0";//(0商家优惠 1红包 2商家优惠券)
     private String youHuiId="0";
+    private int hongBaoId=-1;
     private double youHuiTotal=0;
 
     @Override
@@ -238,10 +239,12 @@ public class TiJiaoOrderActivity extends BaseActivity {
                 switch (flag){
                     case 1://优惠券
                         intent.putExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_2);
+                        intent.putExtra(Constant.IParam.hongBaoId,hongBaoId);
                         STActivityForResult(intent,UseHongBaoActivity.class,100);
                     break;
                     case 2://红包
                         intent.putExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_1);
+                        intent.putExtra(Constant.IParam.hongBaoId,hongBaoId);
                         STActivityForResult(intent,UseHongBaoActivity.class,200);
                     break;
                     case 3://满减活动
@@ -250,6 +253,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
                         tv_youhui_name.setText("满减优惠");
                         youHuiTotal=orderObj.getMerchants_preferential();
                         orderPrice(youHuiTotal, orderObj.getTo_pay() );
+                        hongBaoId=-1;
                     break;
                 }
 
@@ -269,12 +273,14 @@ public class TiJiaoOrderActivity extends BaseActivity {
                         youHuiId="0";
                         tv_youhui_name.setText("满减优惠");
                         youHuiTotal=orderObj.getMerchants_preferential();
+                        hongBaoId=-1;
                         orderPrice(youHuiTotal, orderObj.getTo_pay() );
                     }else if(data!=null){
                         youHuiType="2";//(0商家优惠 1红包 2商家优惠券)
                         tv_youhui_name.setText("优惠券");
                         youHuiId=data.getStringExtra(Constant.IParam.youHuiId);
                         youHuiTotal=data.getDoubleExtra(Constant.IParam.youHuiTotal,0);
+                        hongBaoId=data.getIntExtra(Constant.IParam.hongBaoId,-1);
                         orderPrice(youHuiTotal,AndroidUtils.jianFa(AndroidUtils.jiaFa(orderObj.getTo_pay(),orderObj.getMerchants_preferential()),youHuiTotal));
                     }
                     break;
@@ -285,12 +291,14 @@ public class TiJiaoOrderActivity extends BaseActivity {
                         youHuiId="0";
                         tv_youhui_name.setText("满减优惠");
                         youHuiTotal=orderObj.getMerchants_preferential();
-                        orderPrice(youHuiTotal, orderObj.getTo_pay() );
+                        hongBaoId=-1;
+                        orderPrice(youHuiTotal, orderObj.getTo_pay());
                     }else if(data!=null){
                         youHuiType="1";//(0商家优惠 1红包 2商家优惠券)
                         tv_youhui_name.setText("红包");
                         youHuiId=data.getStringExtra(Constant.IParam.youHuiId);
                         youHuiTotal=data.getDoubleExtra(Constant.IParam.youHuiTotal,0);
+                        hongBaoId=data.getIntExtra(Constant.IParam.hongBaoId,-1);
                         orderPrice(youHuiTotal,AndroidUtils.jianFa(AndroidUtils.jiaFa(orderObj.getTo_pay(),orderObj.getMerchants_preferential()),youHuiTotal));
                     }
                     break;

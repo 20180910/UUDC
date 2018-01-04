@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -36,6 +37,8 @@ public class UseHongBaoActivity extends BaseActivity {
     RecyclerView rv_hongbao;
     @BindView(R.id.tv_hongbao_nouser)
     TextView tv_hongbao_nouser;
+    @BindView(R.id.ll_hongbao_cancel)
+    LinearLayout ll_hongbao_cancel;
 
     LoadMoreAdapter adapter;
 
@@ -44,7 +47,8 @@ public class UseHongBaoActivity extends BaseActivity {
     private String action;
     private String merchantId;
     private String amount;
-
+    private int hongBaoId;
+    String titleType="";
     @Override
     protected int getContentView() {
         return R.layout.act_use_hongbao;
@@ -54,8 +58,16 @@ public class UseHongBaoActivity extends BaseActivity {
     protected void initView() {
         action = getIntent().getAction();
         if(TextUtils.equals(Constant.IParam.tiJiaoOrder,action)){
+
+            hongBaoId =getIntent().getIntExtra(Constant.IParam.hongBaoId,-1);
             merchantId =getIntent().getStringExtra(Constant.IParam.merchantId);
             amount =getIntent().getStringExtra(Constant.IParam.amount);
+
+            ll_hongbao_cancel.setVisibility(View.VISIBLE);
+            titleType="使用";
+        }else{
+            ll_hongbao_cancel.setVisibility(View.GONE);
+            titleType="我的";
         }
 
         youHuiType=getIntent().getIntExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_1);
@@ -67,7 +79,7 @@ public class UseHongBaoActivity extends BaseActivity {
             title="优惠券";
             layoutView=R.layout.item_youhuiquan;
         }
-        setAppTitle("使用"+title);
+        setAppTitle(titleType+title);
         tv_hongbao_nouser.setText("不使用"+title);
 
         adapter=new LoadMoreAdapter<HongBaoObj>(mContext,layoutView,pageSize) {
@@ -84,16 +96,28 @@ public class UseHongBaoActivity extends BaseActivity {
                     Glide.with(mContext).load(bean.getPhoto()).error(R.color.c_press).into(imageView);
                 }
 
-                holder.itemView.setOnClickListener(new MyOnClickListener() {
-                    @Override
-                    protected void onNoDoubleClick(View view) {
-                        Intent intent=new Intent();
-                        intent.putExtra(Constant.IParam.youHuiId,bean.getCoupons_id()+"");
-                        intent.putExtra(Constant.IParam.youHuiTotal,bean.getFace_value());
-                        setResult(RESULT_OK,intent);
-                        finish();
+                ImageView iv_hongbao_flag = holder.getImageView(R.id.iv_hongbao_flag);
+                if(TextUtils.equals(Constant.IParam.tiJiaoOrder,action)){
+                    holder.itemView.setOnClickListener(new MyOnClickListener() {
+                        @Override
+                        protected void onNoDoubleClick(View view) {
+                            Intent intent=new Intent();
+                            intent.putExtra(Constant.IParam.youHuiId,bean.getCoupons_id()+"");
+                            intent.putExtra(Constant.IParam.youHuiTotal,bean.getFace_value());
+                            intent.putExtra(Constant.IParam.hongBaoId,bean.getCoupons_id());
+                            setResult(RESULT_OK,intent);
+                            finish();
+                        }
+                    });
+                    if(hongBaoId==bean.getCoupons_id()){
+                        iv_hongbao_flag.setVisibility(View.VISIBLE);
+                    }else{
+                        iv_hongbao_flag.setVisibility(View.INVISIBLE);
                     }
-                });
+                }else {
+                    iv_hongbao_flag.setVisibility(View.INVISIBLE);
+                }
+
             }
         };
         adapter.setOnLoadMoreListener(this);

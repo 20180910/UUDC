@@ -8,6 +8,7 @@
     >
 <include layout="@layout/app_title"/>
     <LinearLayout
+        android:id="@+id/ll_hongbao_cancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -27,6 +28,7 @@
             android:layout_marginBottom="5dp"
             app:my_tv_all_line="true"
             app:my_tv_corner_radius="3dp"
+            app:my_tv_border_color="@color/gray_99"
             android:textSize="16sp"
             android:textColor="@color/gray_66"
             />
