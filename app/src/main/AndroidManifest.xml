@@ -226,6 +226,7 @@
         <activity android:name=".module.near.activity.UseHongBaoActivity"/>
         <activity android:name=".module.near.activity.GetYouHuiQuanActivity"/>
         <activity android:name=".module.home.activity.WelcomeActivity" android:theme="@style/AppTheme.NoActionBarNoLayout"/>
+        <activity android:name=".module.near.activity.ShiXiaoHongBaoActivity"/>
 
 
         <!--极光推送-->

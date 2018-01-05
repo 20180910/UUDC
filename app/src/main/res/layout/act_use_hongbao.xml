@@ -33,26 +33,41 @@
             android:textColor="@color/gray_66"
             />
     </LinearLayout>
-
     <com.sk.uudc.base.ProgressLayout
         android:id="@id/pl_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <in.srain.cube.views.ptr.PtrClassicFrameLayout
-            android:id="@id/pcfl_refresh"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:ptr_resistance="2.1"
-            app:ptr_ratio_of_header_height_to_refresh="1.2"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             >
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_hongbao"
+            <in.srain.cube.views.ptr.PtrClassicFrameLayout
+                android:id="@id/pcfl_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2px"
+                android:layout_height="match_parent"
+                app:ptr_resistance="2.1"
+                app:ptr_ratio_of_header_height_to_refresh="1.2"
+                android:layout_above="@+id/tv_look_shixiao_hongbao"
                 >
-
-            </android.support.v7.widget.RecyclerView>
-        </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_hongbao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2px"
+                    >
+                </android.support.v7.widget.RecyclerView>
+            </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+        <TextView
+            android:id="@+id/tv_look_shixiao_hongbao"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="查看已失效优惠券"
+            android:background="@color/white"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            />
+        </RelativeLayout>
     </com.sk.uudc.base.ProgressLayout>
+
 </LinearLayout>

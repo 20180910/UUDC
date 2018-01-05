@@ -37,6 +37,8 @@ public class UseHongBaoActivity extends BaseActivity {
     RecyclerView rv_hongbao;
     @BindView(R.id.tv_hongbao_nouser)
     TextView tv_hongbao_nouser;
+    @BindView(R.id.tv_look_shixiao_hongbao)
+    TextView tv_look_shixiao_hongbao;
     @BindView(R.id.ll_hongbao_cancel)
     LinearLayout ll_hongbao_cancel;
 
@@ -65,9 +67,13 @@ public class UseHongBaoActivity extends BaseActivity {
 
             ll_hongbao_cancel.setVisibility(View.VISIBLE);
             titleType="使用";
+
+            tv_look_shixiao_hongbao.setVisibility(View.GONE);
         }else{
             ll_hongbao_cancel.setVisibility(View.GONE);
             titleType="我的";
+
+            tv_look_shixiao_hongbao.setVisibility(View.VISIBLE);
         }
 
         youHuiType=getIntent().getIntExtra(Constant.IParam.youHuiType,Constant.IParam.youHuiType_1);
@@ -75,9 +81,11 @@ public class UseHongBaoActivity extends BaseActivity {
         if(youHuiType==Constant.IParam.youHuiType_1){
             title="红包";
             layoutView=R.layout.item_hongbao;
+            tv_look_shixiao_hongbao.setText("查看已失效红包");
         }else{
             title="优惠券";
             layoutView=R.layout.item_youhuiquan;
+            tv_look_shixiao_hongbao.setText("查看已失效优惠券");
         }
         setAppTitle(titleType+title);
         tv_hongbao_nouser.setText("不使用"+title);
@@ -187,12 +195,17 @@ public class UseHongBaoActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_hongbao_nouser})
+    @OnClick({R.id.tv_hongbao_nouser,R.id.tv_look_shixiao_hongbao})
     protected void onViewClick(View v) {
         switch (v.getId()){
             case R.id.tv_hongbao_nouser:
                 setResult(RESULT_OK);
                 finish();
+            break;
+            case R.id.tv_look_shixiao_hongbao:
+                Intent intent=new Intent();
+                intent.putExtra(Constant.IParam.youHuiType,youHuiType);
+                STActivity(intent,ShiXiaoHongBaoActivity.class);
             break;
         }
     }
