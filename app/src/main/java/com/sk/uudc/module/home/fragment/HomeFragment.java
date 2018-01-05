@@ -36,6 +36,7 @@ import com.sk.uudc.base.BaseFragment;
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
 import com.sk.uudc.module.home.activity.CitySearchActivity;
+import com.sk.uudc.module.home.activity.GongGaoActivity;
 import com.sk.uudc.module.home.activity.GoodsTypeActivity;
 import com.sk.uudc.module.home.activity.SearchActivity;
 import com.sk.uudc.module.home.event.HomePageEvent;
@@ -332,6 +333,20 @@ public class HomeFragment extends BaseFragment {
         rv_home_like.addItemDecoration(getItemDivider());
         rv_home_like.setAdapter(likeAdapter);
 
+
+
+        avstv_home1.setOnClickListener(new MyOnClickListener() {
+            @Override
+            protected void onNoDoubleClick(View view) {
+                STActivity(GongGaoActivity.class);
+            }
+        });
+        avstv_home2.setOnClickListener(new MyOnClickListener() {
+            @Override
+            protected void onNoDoubleClick(View view) {
+                STActivity(GongGaoActivity.class);
+            }
+        });
 
     }
 

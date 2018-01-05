@@ -18,7 +18,7 @@ public class Constant {
     public static final int tomorrow=2;
     public static final int houTian=3;
     public static class IParam{
-        public static final String tuanType="tuanType";
+        public static final String gongGao="gongGao";
         public static final String noTuan="noTuan";
         public static final String canTuan="canTuan";
         public static final String zhiBaoId="phone";

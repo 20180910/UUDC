@@ -3,6 +3,7 @@ package com.sk.uudc.network;
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.ResponseObj;
 import com.sk.uudc.module.home.network.response.CitySearchObj;
+import com.sk.uudc.module.home.network.response.GongGaoObj;
 import com.sk.uudc.module.my.network.request.UploadImgBody;
 import com.sk.uudc.module.my.network.response.ProvinceObj;
 import com.sk.uudc.network.response.FenXiangObj;
@@ -76,6 +77,11 @@ public interface IRequest {
     //获取分享信息
     @GET("api/Lib/GetShareInformation")
     Call<ResponseObj<FenXiangObj>> fenXiang(@QueryMap Map<String, String> map);
+
+
+    //获取公告列表
+    @GET("api/Information/GetAnnouncementList")
+    Call<ResponseObj<List<GongGaoObj>>> getGongGao(@QueryMap Map<String, String> map);
 
 
 
