@@ -76,7 +76,7 @@ public class GongGaoActivity extends BaseActivity {
         map.put("page",page+"");
         map.put("pagesize",pageSize+"");
         map.put("sign", GetSign.getSign(map));
-        ApiRequest.getGongGao(map, new MyCallBack<List<GongGaoObj>>(mContext) {
+        ApiRequest.getGongGao(map, new MyCallBack<List<GongGaoObj>>(mContext,pl_load,pcfl) {
             @Override
             public void onSuccess(List<GongGaoObj> list) {
                 if(isLoad){

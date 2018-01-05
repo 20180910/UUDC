@@ -7,7 +7,7 @@
               android:background="@color/background_f2"
     >
 <include layout="@layout/app_title"/>
-    <com.library.base.ProgressLayout
+    <com.sk.uudc.base.ProgressLayout
         android:id="@id/pl_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,6 +27,6 @@
 
             </android.support.v7.widget.RecyclerView>
         </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-    </com.library.base.ProgressLayout>
+    </com.sk.uudc.base.ProgressLayout>
 
 </LinearLayout>
