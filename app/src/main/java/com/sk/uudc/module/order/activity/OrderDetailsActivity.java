@@ -253,7 +253,7 @@ public class OrderDetailsActivity extends BaseActivity {
                     null,
                     mContext.getResources().getDrawable(R.drawable.daifukuan_c),
                     null);
-            tv_order_details_quxiao.setVisibility(View.GONE);
+            tv_order_details_quxiao.setVisibility(View.VISIBLE);
             tv_order_details_tuikuan.setVisibility(View.GONE);
             tv_order_details_lijifukuan.setVisibility(View.GONE);
             tv_order_details_pingjia.setVisibility(View.GONE);
