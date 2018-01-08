@@ -30,7 +30,7 @@ public class MyApplication extends MultiDexApplication {
 //        SpeechUtility.createUtility(this, "appid=" + Config.xunfei_app_id);
         super.onCreate();
         String baseURL="http://121.40.186.118:5019/";
-        if(true&&BuildConfig.DEBUG){
+        if(false&&BuildConfig.DEBUG){
             baseURL="http://121.40.186.118:5119/";
         }
         NetWorkManager.getInstance(getApplicationContext(),baseURL,BuildConfig.DEBUG).complete();

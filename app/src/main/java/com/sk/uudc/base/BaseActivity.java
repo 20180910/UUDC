@@ -35,6 +35,7 @@ import com.github.androidtools.SPUtils;
 import com.github.androidtools.inter.MyOnClickListener;
 import com.github.baseclass.activity.IBaseActivity;
 import com.github.baseclass.adapter.LoadMoreAdapter;
+import com.sk.uudc.BuildConfig;
 import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
@@ -142,7 +143,11 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
     protected void setAppTitle(String title) {
         appTitle = title;
         if (app_title != null) {
-            app_title.setText(appTitle == null ? "" : appTitle);
+            if(BuildConfig.DEBUG){
+                app_title.setText(appTitle == null ? "" : appTitle+"(测试环境)");
+            }else{
+                app_title.setText(appTitle == null ? "" : appTitle);
+            }
         }
     }
 
@@ -241,7 +246,8 @@ public abstract class BaseActivity extends IBaseActivity implements ProgressLayo
         }
         if (null != findViewById(R.id.app_title)) {
             app_title = (TextView) findViewById(R.id.app_title);
-            app_title.setText(appTitle == null ? "" : appTitle);
+            setAppTitle(appTitle);
+//            app_title.setText(appTitle == null ? "" : appTitle);
             if(null!=findViewById(R.id.v_bottom_line)){
                 if(TextUtils.isEmpty(appTitle)||hiddenBottomLine){
                     findViewById(R.id.v_bottom_line).setVisibility(View.GONE);
