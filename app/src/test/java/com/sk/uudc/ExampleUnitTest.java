@@ -30,6 +30,16 @@ public class ExampleUnitTest {
 
     @Test
     public void afsd() throws Exception {
+        A a=new A();
+        a.a="a";
 
+        A b=a;
+        b.a="b";
+        System.out.println(a.a);
+        System.out.println(b.a);
+    }
+
+    public class  A{
+        public String a;
     }
 }

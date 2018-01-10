@@ -746,7 +746,7 @@ public class HomeFragment extends BaseFragment {
                 //
                 getLatLng(location.getLongitude(), location.getLatitude());
 
-
+                getData(1, false);
             }
         }
 
