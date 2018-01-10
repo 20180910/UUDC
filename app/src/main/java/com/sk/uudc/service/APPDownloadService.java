@@ -15,6 +15,7 @@ import com.aspsine.multithreaddownload.DownloadException;
 import com.aspsine.multithreaddownload.DownloadManager;
 import com.aspsine.multithreaddownload.DownloadRequest;
 import com.aspsine.multithreaddownload.util.L;
+import com.github.androidtools.ToastUtils;
 import com.sk.uudc.Constant;
 import com.sk.uudc.R;
 import com.sk.uudc.module.my.entity.AppInfo;
@@ -125,6 +126,7 @@ public class APPDownloadService extends Service {
     }
 
     private void download(final AppInfo appInfo) {
+        ToastUtils.showToast(mContext,"优优点餐正在下载中...");
         appInfo.setTitle("优优点餐");
         if(appInfo.getHouZhui().indexOf(".")==-1){
             appInfo.setHouZhui("."+appInfo.getHouZhui());
