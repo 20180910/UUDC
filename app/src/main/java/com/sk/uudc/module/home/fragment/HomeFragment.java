@@ -363,12 +363,12 @@ public class HomeFragment extends BaseFragment {
                             number++;
                             avstv_home1.setText(arrayList.get(number % arrayList.size()));
                             number++;
-                            avstv_home2.setText(arrayList.get(number % arrayList.size()));
+                            if(arrayList.size()>1){
+                                avstv_home2.setText(arrayList.get(number % arrayList.size()));
+                            }
                         }
                     }
                 });
-
-
             }
         };
         timer.schedule(task, 0, 3000);
