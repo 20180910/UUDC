@@ -163,7 +163,7 @@
         <activity android:name=".module.my.activity.DaiEvaluateActivity"/>
         <activity android:name=".module.home.activity.SearchActivity" android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".module.home.activity.SearchResultActivity"/>
-        <activity android:name=".module.home.activity.CitySearchActivity"/>
+        <activity android:name=".module.home.activity.CitySearchActivity" android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".module.near.activity.SearchShangJiaActivity"/>
 
 
