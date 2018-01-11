@@ -389,7 +389,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void initData() {
         showProgress();
-
+        getOtherData();
         //首页类别集合信息
         getTypeAssemblage();
         //轮播图
@@ -402,8 +402,12 @@ public class HomeFragment extends BaseFragment {
         getAnnouncement();
         //猜你喜欢
         getData(1, false);
+    }
 
-
+    @Override
+    protected void getOtherData() {
+        super.getOtherData();
+        isFirstLoc=true;
     }
 
     @Override
@@ -498,6 +502,7 @@ public class HomeFragment extends BaseFragment {
         ApiRequest.getAnnouncement(map, new MyCallBack<List<HomeAnnouncementObj>>(mContext, pcfl, pl_load) {
             @Override
             public void onSuccess(List<HomeAnnouncementObj> obj) {
+                arrayList.clear();
                 for (int i = 0; i < obj.size(); i++) {
                     arrayList.add(obj.get(i).getTitle());
                 }
