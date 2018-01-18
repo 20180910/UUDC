@@ -10,7 +10,7 @@ public class Constant {
     public static final String url="url";
     public static final String goodsType="goodsType";
     public static final String xianShiStatus="xianShiStatus";
-    public static final String timeStatus="timeStatus";
+    public static final String dialogTime="dialogTime";
     public static final int timeStatus_0=0;//未到限时活动时间
     public static final int timeStatus_1=1;//限时活动进行中
     public static final int timeStatus_2=2;//已结束

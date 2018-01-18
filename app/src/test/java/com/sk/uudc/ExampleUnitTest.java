@@ -3,6 +3,7 @@ package com.sk.uudc;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
+import java.util.Date;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +17,11 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
     }
-
+    @Test
+    public void afd() throws Exception {
+        long jianGe=3*60*60*1000;
+        System.out.println(new Date().getTime());
+    }
     @Test
     public void calculateMethodNum() throws Exception {
         Method[] declaredMethods1 = com.sk.uudc.module.near.network.IRequest.class.getDeclaredMethods();

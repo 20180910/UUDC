@@ -147,9 +147,12 @@ public class ApiRequest extends BaseApiRequest {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(com.sk.uudc.network.IRequest.class).getGongGao(map).enqueue(callBack);
     }
-    //获取公告
     public static void getHongBaoList(Map map,MyCallBack callBack) {
         if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
         getGeneralClient(IRequest.class).getHongBaoList(map).enqueue(callBack);
+    }
+    public static void lingQuHongBao(Map map,MyCallBack callBack) {
+        if (notNetWork(callBack.getContext())) { callBack.onFailure(null, new NoNetworkException(Config.noNetWork)); return; }
+        getGeneralClient(IRequest.class).lingQuHongBao(map).enqueue(callBack);
     }
 }

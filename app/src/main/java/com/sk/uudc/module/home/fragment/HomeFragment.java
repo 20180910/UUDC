@@ -2,6 +2,7 @@ package com.sk.uudc.module.home.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.BitmapEncoder;
 import com.github.androidtools.PhoneUtils;
 import com.github.androidtools.SPUtils;
 import com.github.androidtools.inter.MyOnClickListener;
@@ -67,6 +69,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -360,14 +363,21 @@ public class HomeFragment extends BaseFragment {
     Dialog hongBaoDialog;
 
     private void showHongBao() {
-        if(!noLogin()){
+        long lastTime = SPUtils.getPrefLong(mContext, com.sk.uudc.module.home.Constant.dialogTime, 0);
+        long nowTime=new Date().getTime();
+        long jianGe=3*60*60*1000;
+//        long jianGe=20*1000;
+        if(!noLogin()&&(lastTime==0||nowTime-lastTime>jianGe)){
             Map<String,String>map=new HashMap<String,String>();
             map.put("user_id",getUserId());
             map.put("sign",GetSign.getSign(map));
             ApiRequest.getHongBaoList(map, new MyCallBack<ShowHongBaoObj>(mContext) {
                 @Override
                 public void onSuccess(ShowHongBaoObj obj) {
-                    showHongBaoDialog(obj);
+                    if(notEmpty(obj.getRed_envelope_list())){
+                        SPUtils.setSettingLong(mContext, com.sk.uudc.module.home.Constant.dialogTime,new Date().getTime());
+                        showHongBaoDialog(obj);
+                    }
                 }
             });
         }
@@ -384,6 +394,10 @@ public class HomeFragment extends BaseFragment {
         win.setAttributes(lp);
         View dialogView = LayoutInflater.from(mContext).inflate(R.layout.popu_home_hongbao, null);
         RecyclerView rv_hongbao = dialogView.findViewById(R.id.rv_hongbao);
+        ImageView iv_dialog_img = dialogView.findViewById(R.id.iv_dialog_img);
+        if(!TextUtils.isEmpty(obj.getImg_url())){
+            Glide.with(mContext).load(obj.getImg_url()).asBitmap().encoder(new BitmapEncoder(Bitmap.CompressFormat.PNG,90)).into(iv_dialog_img);
+        }
         dialogView.findViewById(R.id.iv_dialog_close).setOnClickListener(new MyOnClickListener() {
             @Override
             protected void onNoDoubleClick(View view) {
@@ -401,7 +415,26 @@ public class HomeFragment extends BaseFragment {
                     @Override
                     protected void onNoDoubleClick(View view) {
 
-                        getHongBao(bean.getCoupons_id()+"");
+                        getHongBao( );
+
+                    }
+                    private void getHongBao() {
+                        Map<String,String>map=new HashMap<String,String>();
+                        map.put("coupons_id",bean.getCoupons_id()+"");
+                        map.put("user_id",getUserId());
+                        map.put("sign",GetSign.getSign(map));
+                        ApiRequest.lingQuHongBao(map, new MyCallBack<BaseObj>(mContext) {
+                            @Override
+                            public void onSuccess(BaseObj obj) {
+                                if(getList().size()==1){
+                                    hongBaoDialog.dismiss();
+                                }else{
+                                    getList().remove(position);
+                                    notifyDataSetChanged();
+                                }
+                                showMsg(obj.getMsg());
+                            }
+                        });
 
                     }
                 });
@@ -409,10 +442,8 @@ public class HomeFragment extends BaseFragment {
         };
 
         adapter.setList(obj.getRed_envelope_list());
-        adapter.addList(obj.getRed_envelope_list());
         rv_hongbao.setLayoutManager(new LinearLayoutManager(mContext));
         rv_hongbao.setAdapter(adapter);
-
 
         hongBaoDialog.setContentView(dialogView);
         hongBaoDialog.show();
@@ -420,9 +451,6 @@ public class HomeFragment extends BaseFragment {
 
     }
 
-    private void getHongBao(String hongBaoId) {
-
-    }
 
     private void gunDong() {
         task = new TimerTask() {

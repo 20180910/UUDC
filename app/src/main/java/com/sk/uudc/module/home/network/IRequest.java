@@ -96,6 +96,10 @@ public interface IRequest {
     @GET("api/Information/GetMerchantCoupon")
     Call<ResponseObj<ShowHongBaoObj>> getHongBaoList(@QueryMap Map<String, String> map);
 
+    //首页弹框-领取红包
+    @GET("api/Information/GetReceive")
+    Call<ResponseObj<BaseObj>> lingQuHongBao(@QueryMap Map<String, String> map);
+
 
 
 }
