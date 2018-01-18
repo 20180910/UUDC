@@ -20,6 +20,7 @@
                 android:gravity="center_horizontal|bottom"
                 >
                 <ImageView
+                    android:id="@+id/iv_login_test"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="centerCrop"

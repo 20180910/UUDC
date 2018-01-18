@@ -10,6 +10,7 @@ import com.github.androidtools.SPUtils;
 import com.github.baseclass.rx.RxBus;
 import com.github.customview.MyEditText;
 import com.github.customview.MyTextView;
+import com.sk.uudc.BuildConfig;
 import com.sk.uudc.Config;
 import com.sk.uudc.GetSign;
 import com.sk.uudc.R;
@@ -82,7 +83,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.tv_login, R.id.tv_login_wangji, R.id.tv_login_register})
+    @OnClick({R.id.tv_login, R.id.tv_login_wangji, R.id.tv_login_register,R.id.iv_login_test})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.tv_login:
@@ -107,6 +108,11 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.tv_login_register:
                 STActivity(RegisterActivity.class);
+                break;
+            case R.id.iv_login_test:
+                if(BuildConfig.DEBUG){
+                    et_login_phone.setText("18616266521");
+                }
                 break;
         }
     }

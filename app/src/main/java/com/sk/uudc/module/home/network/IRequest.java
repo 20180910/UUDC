@@ -18,6 +18,7 @@ import com.sk.uudc.module.home.network.response.HomeTypeMerchantListObj;
 import com.sk.uudc.module.home.network.response.HomeUnreadNews;
 import com.sk.uudc.module.home.network.response.SearchObj;
 import com.sk.uudc.module.home.network.response.SearchResultObj;
+import com.sk.uudc.module.home.network.response.ShowHongBaoObj;
 
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,10 @@ public interface IRequest {
     //获取公告列表
     @GET("api/Information/GetAnnouncementList")
     Call<ResponseObj<List<GongGaoObj>>> getGongGao(@QueryMap Map<String, String> map);
+
+    //首页获取红包列表
+    @GET("api/Information/GetMerchantCoupon")
+    Call<ResponseObj<ShowHongBaoObj>> getHongBaoList(@QueryMap Map<String, String> map);
 
 
 

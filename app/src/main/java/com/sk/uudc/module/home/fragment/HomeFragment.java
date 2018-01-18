@@ -1,5 +1,6 @@
 package com.sk.uudc.module.home.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,8 +8,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -50,6 +54,7 @@ import com.sk.uudc.module.home.network.response.HomePageImageObj;
 import com.sk.uudc.module.home.network.response.HomeRoastingChartObj;
 import com.sk.uudc.module.home.network.response.HomeTypeAssemblageObj;
 import com.sk.uudc.module.home.network.response.HomeUnreadNews;
+import com.sk.uudc.module.home.network.response.ShowHongBaoObj;
 import com.sk.uudc.module.my.activity.LoginActivity;
 import com.sk.uudc.module.my.activity.MyMessageActivity;
 import com.sk.uudc.module.my.activity.WoYaoHeZuoActivity;
@@ -135,6 +140,8 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+
+        showHongBao();
 
         pcfl.disableWhenHorizontalMove(true);
         baiDuMap();
@@ -347,6 +354,73 @@ public class HomeFragment extends BaseFragment {
                 STActivity(GongGaoActivity.class);
             }
         });
+
+    }
+
+    Dialog hongBaoDialog;
+
+    private void showHongBao() {
+        if(!noLogin()){
+            Map<String,String>map=new HashMap<String,String>();
+            map.put("user_id",getUserId());
+            map.put("sign",GetSign.getSign(map));
+            ApiRequest.getHongBaoList(map, new MyCallBack<ShowHongBaoObj>(mContext) {
+                @Override
+                public void onSuccess(ShowHongBaoObj obj) {
+                    showHongBaoDialog(obj);
+                }
+            });
+        }
+    }
+
+    private void showHongBaoDialog(ShowHongBaoObj obj) {
+        hongBaoDialog=new Dialog(mContext,R.style.dialog);
+        hongBaoDialog.setCanceledOnTouchOutside(false);
+        Window win = hongBaoDialog.getWindow();
+        win.getDecorView().setPadding(70, 0, 70, 0);
+        WindowManager.LayoutParams lp = win.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        win.setAttributes(lp);
+        View dialogView = LayoutInflater.from(mContext).inflate(R.layout.popu_home_hongbao, null);
+        RecyclerView rv_hongbao = dialogView.findViewById(R.id.rv_hongbao);
+        dialogView.findViewById(R.id.iv_dialog_close).setOnClickListener(new MyOnClickListener() {
+            @Override
+            protected void onNoDoubleClick(View view) {
+                hongBaoDialog.dismiss();
+            }
+        });
+        BaseRecyclerAdapter adapter=new BaseRecyclerAdapter<ShowHongBaoObj.RedEnvelopeListBean>(mContext,R.layout.item_home_hongbao) {
+            @Override
+            public void bindData(RecyclerViewHolder holder, int position, ShowHongBaoObj.RedEnvelopeListBean bean) {
+                holder.setText(R.id.tv_home_hongbao_total,bean.getFace_value()+"")
+                        .setText(R.id.tv_home_hongbao_man,bean.getTitle()+"");
+
+                TextView tv_home_hongbao_get = holder.getTextView(R.id.tv_home_hongbao_get);
+                tv_home_hongbao_get.setOnClickListener(new MyOnClickListener() {
+                    @Override
+                    protected void onNoDoubleClick(View view) {
+
+                        getHongBao(bean.getCoupons_id()+"");
+
+                    }
+                });
+            }
+        };
+
+        adapter.setList(obj.getRed_envelope_list());
+        adapter.addList(obj.getRed_envelope_list());
+        rv_hongbao.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_hongbao.setAdapter(adapter);
+
+
+        hongBaoDialog.setContentView(dialogView);
+        hongBaoDialog.show();
+
+
+    }
+
+    private void getHongBao(String hongBaoId) {
 
     }
 
