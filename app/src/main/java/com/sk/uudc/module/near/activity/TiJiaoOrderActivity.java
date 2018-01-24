@@ -67,8 +67,8 @@ public class TiJiaoOrderActivity extends BaseActivity {
     TextView tv_price_order_time;
     @BindView(R.id.tv_price_order_num)
     TextView tv_price_order_num;
-    @BindView(R.id.cb_place_order_baojian)
-    MyCheckBox cb_place_order_baojian;
+    @BindView(R.id.tv_place_order_baojian)
+    TextView tv_place_order_baojian;
     @BindView(R.id.cb_place_order_fapiao)
     MyCheckBox cb_place_order_fapiao;
     @BindView(R.id.rb_place_order_fapiao_geren)
@@ -149,8 +149,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
                 orderPrice(obj.getMerchants_preferential(),obj.getTo_pay());
                 tv_price_order_time.setText(obj.getDine_time());
                 tv_price_order_num.setText(obj.getDine_num_people()+"");
-                cb_place_order_baojian.setChecked(obj.getIs_require_rooms()==1);
-
+                tv_place_order_baojian.setText(obj.getIs_require_rooms()==1?"是":"否");
                 adapter.setList(obj.getGoods_list(),true);
             }
         });
@@ -322,7 +321,7 @@ public class TiJiaoOrderActivity extends BaseActivity {
         body.setDine_time(orderObj.getDine_time());
         body.setTime_id(orderObj.getTime_id());
         body.setDine_num_people(orderObj.getDine_num_people());
-        body.setIs_require_rooms(cb_place_order_baojian.isChecked()?1:0);
+        body.setIs_require_rooms(getSStr(tv_place_order_baojian).equals("是")?1:0);
         if(cb_place_order_fapiao.isChecked()){
             body.setInvoice_type(rb_place_order_fapiao_geren.isChecked()?"个人":"单位");
             body.setInvoice_name(faPiaoName);
