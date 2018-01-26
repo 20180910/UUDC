@@ -39,7 +39,7 @@
                    android:layout_width="0dp"
                    android:layout_height="wrap_content"
                    android:layout_weight="1"
-                   android:text="分销码"
+                   android:text="邀请码"
                    android:textColor="@color/gray_66"
                    />
 
@@ -73,7 +73,7 @@
                    android:layout_marginTop="15dp"
                    android:paddingRight="50dp"
                    android:paddingLeft="50dp"
-                   tools:text="将此分销码分享给好友,好友注册时输入他将成为你的下级好友,你可以赚取收益"
+                   tools:text="将此邀请码分享给好友,好友注册时输入他将成为你的下级好友,你可以赚取收益"
                    />
                <com.github.customview.MyTextView
                    android:id="@+id/tv_my_fenxiao_yaoqing"

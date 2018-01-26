@@ -36,7 +36,7 @@ public class MyFenXiaoActivity extends BaseActivity {
 
     @Override
     protected int getContentView() {
-        setAppTitle("我的分销码");
+        setAppTitle("我的邀请码");
         setAppTitleColor(this.getResources().getColor(R.color.gray_33));
         setTitleBackgroud(R.color.white);
         return R.layout.act_my_fenxiao;
