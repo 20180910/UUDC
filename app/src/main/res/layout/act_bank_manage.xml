@@ -73,7 +73,7 @@
                     android:id="@+id/tv_bank_manage_bianji"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="编辑银行卡信息"
+                    android:text="添加银行卡信息"
                     android:gravity="center"
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/home_green"

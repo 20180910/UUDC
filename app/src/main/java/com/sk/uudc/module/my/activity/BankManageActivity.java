@@ -19,6 +19,7 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.my.Constant;
 import com.sk.uudc.module.my.adapter.BankManageAdapter;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.response.AccountObj;
@@ -108,9 +109,11 @@ public class BankManageActivity extends BaseActivity {
 
                             });
                     mDialog.create().show();
-                } else {
-
-
+                } else if (type.equals("1")) {
+                    AccountObj item = adapter.getItem(position);
+                    Intent intent=new Intent();
+                    intent.putExtra(Constant.IParam.accountBank,item);
+                    STActivityForResult(intent,BangDingBankActivity.class,300);
                 }
             }
         });
@@ -162,7 +165,7 @@ public class BankManageActivity extends BaseActivity {
     @Override
     protected void initData() {
         showProgress();
-        getAccount();
+        getData(1,false);
 
 
     }
@@ -171,11 +174,11 @@ public class BankManageActivity extends BaseActivity {
     protected void myReStart() {
         super.myReStart();
         showLoading();
-        getAccount();
+        getData(1,false);
 
     }
 
-    private void getAccount() {
+    protected void getData(int page, boolean isLoad) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("user_id", getUserId());
         map.put("sign", GetSign.getSign(map));
@@ -201,6 +204,17 @@ public class BankManageActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case 300:
+                    getData(1,false);
+                break;
+            }
+        }
+    }
 
     @OnClick({R.id.tv_bank_manage_bangding, R.id.tv_bank_manage_bianji})
     public void onViewClick(View view) {

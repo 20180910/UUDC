@@ -28,7 +28,7 @@ public class Constant {
         public static final String searchStr="searchStr";
         public static final String city="city";
         public static final String type="type";
-        public static final String editAddress="editAddress";
+        public static final String accountBank="accountBank";
         public static final String Address="Address";
         public static final String goodsId="goodsId";
         public static final String goods="goods";

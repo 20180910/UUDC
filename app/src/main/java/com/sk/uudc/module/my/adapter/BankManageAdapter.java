@@ -32,11 +32,11 @@ public class BankManageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return date.size();
+        return date==null?0:date.size();
     }
 
     @Override
-    public Object getItem(int i) {
+    public AccountObj getItem(int i) {
         return date.get(i);
     }
 
@@ -67,7 +67,6 @@ public class BankManageAdapter extends BaseAdapter {
 
         return convertView;
     }
-
 
     static class ViewHolder {
         @BindView(R.id.iv_item_bank_manage_icon)

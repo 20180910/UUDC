@@ -112,6 +112,9 @@ public interface IRequest {
     //绑定 银行卡
     @POST("api/CashWithdrawal/PostAddAccount")
     Call<ResponseObj<BaseObj>> postAddAccount(@QueryMap Map<String, String> map,@Body AddAccountBody body);
+    //编辑 银行卡
+    @POST("api/CashWithdrawal/EditAccount")
+    Call<ResponseObj<BaseObj>> editAccount(@QueryMap Map<String, String> map,@Body AddAccountBody body);
 
     //获取默认账户
     @GET("api/CashWithdrawal/GetAccountDefault")

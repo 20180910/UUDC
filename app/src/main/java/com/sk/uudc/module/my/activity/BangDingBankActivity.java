@@ -15,10 +15,13 @@ import com.sk.uudc.R;
 import com.sk.uudc.base.BaseActivity;
 import com.sk.uudc.base.BaseObj;
 import com.sk.uudc.base.MyCallBack;
+import com.sk.uudc.module.my.Constant;
 import com.sk.uudc.module.my.network.ApiRequest;
 import com.sk.uudc.module.my.network.request.AddAccountBody;
+import com.sk.uudc.module.my.network.response.AccountObj;
 import com.sk.uudc.tools.AndroidUtils;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,11 +47,12 @@ public class BangDingBankActivity extends BaseActivity {
     @BindView(R.id.et_bangding_bank_kaihuhang_name)
     MyEditText et_bangding_bank_kaihuhang_name;
 
-    String realname,//姓名
+    String  realname,//姓名
             bank_card_num,//银行卡号
             id_number,//身份证号
             card_type,//卡类型(1储蓄卡 2信用卡)
             opening_bank;//开户行名称
+    private Serializable serializableExtra;
 
     @Override
     protected int getContentView() {
@@ -58,7 +62,26 @@ public class BangDingBankActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        serializableExtra = getIntent().getSerializableExtra(Constant.IParam.accountBank);
+        if(serializableExtra !=null){
+            AccountObj obj= (AccountObj) serializableExtra;
+            //姓名
+            realname=obj.getReal_name();
+            //银行卡号
+            bank_card_num=obj.getId_number();
+            //身份证号
+            id_number=obj.getCard_type();
+            //卡类型(1储蓄卡 2信用卡)
+            card_type=obj.getBank_card_number();
+            //开户行名称
+            opening_bank=obj.getOpening_bank();
 
+            et_bangding_bank_name.setText(realname);
+            et_bangding_bank_num.setText(bank_card_num);
+            tv_bangding_bank_type.setText(id_number);
+            et_bangding_bank_card_num.setText(card_type);
+            et_bangding_bank_kaihuhang_name.setText(opening_bank);
+        }
     }
 
     @Override
@@ -134,9 +157,34 @@ public class BangDingBankActivity extends BaseActivity {
                     showMsg("请输入开户行名称！");
                     return;
                 }
-                postAddAccount();
+                if(serializableExtra!=null){//编辑
+                    editAccount();
+                }else{
+                    postAddAccount();
+                }
                 break;
         }
+    }
+
+    private void editAccount() {
+        showLoading();
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("user_id",getUserId());
+        map.put("sign", GetSign.getSign(map));
+        AddAccountBody body=new AddAccountBody();
+        body.setRealname(realname);
+        body.setBank_card_num(bank_card_num);
+        body.setId_number(id_number);
+        body.setCard_type(card_type);
+        body.setOpening_bank(opening_bank);
+        ApiRequest.editAccount(map, body, new MyCallBack<BaseObj>(mContext) {
+            @Override
+            public void onSuccess(BaseObj obj) {
+                showMsg(obj.getMsg());
+                setResult(RESULT_OK);
+                finish();
+            }
+        });
     }
 
     private void postAddAccount() {
