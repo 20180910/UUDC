@@ -53,6 +53,7 @@ public class BangDingBankActivity extends BaseActivity {
             card_type,//卡类型(1储蓄卡 2信用卡)
             opening_bank;//开户行名称
     private Serializable serializableExtra;
+    private AccountObj accountObj;
 
     @Override
     protected int getContentView() {
@@ -64,17 +65,17 @@ public class BangDingBankActivity extends BaseActivity {
     protected void initView() {
         serializableExtra = getIntent().getSerializableExtra(Constant.IParam.accountBank);
         if(serializableExtra !=null){
-            AccountObj obj= (AccountObj) serializableExtra;
+            accountObj = (AccountObj) serializableExtra;
             //姓名
-            realname=obj.getReal_name();
+            realname= accountObj.getReal_name();
             //银行卡号
-            bank_card_num=obj.getId_number();
+            bank_card_num= accountObj.getId_number();
             //身份证号
-            id_number=obj.getCard_type();
+            id_number= accountObj.getCard_type();
             //卡类型(1储蓄卡 2信用卡)
-            card_type=obj.getBank_card_number();
+            card_type= accountObj.getBank_card_number();
             //开户行名称
-            opening_bank=obj.getOpening_bank();
+            opening_bank= accountObj.getOpening_bank();
 
             et_bangding_bank_name.setText(realname);
             et_bangding_bank_num.setText(bank_card_num);
@@ -170,6 +171,7 @@ public class BangDingBankActivity extends BaseActivity {
         showLoading();
         Map<String,String> map=new HashMap<String,String>();
         map.put("user_id",getUserId());
+        map.put("account_id",accountObj.getId()+"");
         map.put("sign", GetSign.getSign(map));
         AddAccountBody body=new AddAccountBody();
         body.setRealname(realname);

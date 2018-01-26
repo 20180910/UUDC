@@ -74,6 +74,7 @@
             android:textColor="@color/gray_66"
             android:maxLines="1"
             android:imeOptions="actionNext"
+            android:inputType="number"
             />
     </LinearLayout>
     <LinearLayout
