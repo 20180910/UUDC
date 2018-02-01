@@ -31,7 +31,11 @@ public class MyApplication extends MultiDexApplication {
         super.onCreate();
         String baseURL="http://121.40.186.118:5019/";
         if(BuildConfig.DEBUG){
+            //测试环境
             baseURL="http://121.40.186.118:5119/";
+        }
+        if(true){//客户环境
+            baseURL="http://106.14.12.235:5008/";
         }
         NetWorkManager.getInstance(getApplicationContext(),baseURL,BuildConfig.DEBUG).complete();
         //二维码
