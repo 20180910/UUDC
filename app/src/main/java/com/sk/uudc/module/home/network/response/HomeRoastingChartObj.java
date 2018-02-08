@@ -29,6 +29,24 @@ public class HomeRoastingChartObj extends BaseObj{
 
         private String img_url;
         private String merchant_id;
+        private String is_jump;
+        private String content;
+
+        public String getIs_jump() {
+            return is_jump;
+        }
+
+        public void setIs_jump(String is_jump) {
+            this.is_jump = is_jump;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
 
         public String getImg_url() {
             return img_url;

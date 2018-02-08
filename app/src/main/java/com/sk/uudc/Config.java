@@ -13,6 +13,7 @@ yTKTw0Ct5XUkIoGhR8DIwFus4P0lR9Tq  百度地图*/
     public static final String app_name = "uudc";
 
     public static final String weixing_id = "wx84ef2f811b19ad6b";
+    //b1dcb0e7c07f5743ec217f95341872c2
     public static final String weixing_AppSecret = "e0e4844100e8c4b92c1ce78beccd61a0";
     public static final String weixing_miyao = "frtghyu76543ertfghjuftgyhuj876yu";
     public static final String weixing_mch_id = "1493557572";//商户号

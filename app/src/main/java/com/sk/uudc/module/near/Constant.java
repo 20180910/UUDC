@@ -49,6 +49,7 @@ public class Constant {
         public static final String jingDu="jingDu";
         public static final String imgList="imgList";
         public static final String imgIndex="imgIndex";
+        public static final String htmlContent="htmlContent";
 
     }
 }

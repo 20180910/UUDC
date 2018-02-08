@@ -142,6 +142,7 @@ public class MyEvaluateActivity extends BaseActivity {
         adapter.setOnLoadMoreListener(this);
 
         rv_dai_evaluate.setLayoutManager(new LinearLayoutManager(mContext));
+        rv_dai_evaluate.setNestedScrollingEnabled(false);
         rv_dai_evaluate.addItemDecoration(getItemDivider());
         rv_dai_evaluate.setAdapter(adapter);
 

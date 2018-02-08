@@ -45,6 +45,7 @@ import com.sk.uudc.module.home.activity.CitySearchActivity;
 import com.sk.uudc.module.home.activity.GongGaoActivity;
 import com.sk.uudc.module.home.activity.GoodsTypeActivity;
 import com.sk.uudc.module.home.activity.SearchActivity;
+import com.sk.uudc.module.home.activity.WebActivity;
 import com.sk.uudc.module.home.event.HomePageEvent;
 import com.sk.uudc.module.home.network.ApiRequest;
 import com.sk.uudc.module.home.network.request.HomeRoastingChartBody;
@@ -702,15 +703,24 @@ public class HomeFragment extends BaseFragment {
                 }
                 bn_home.setImages(bannerList);
                 bn_home.setImageLoader(new GlideLoader());
-                bn_home.start();
                 bn_home.setOnBannerListener(new OnBannerListener() {
                     @Override
                     public void OnBannerClick(int position) {
-                        Intent intent = new Intent();
-                        intent.putExtra(Constant.IParam.merchant_id, obj.getRoasting_list().get(position).getMerchant_id() + "");
-                        STActivity(intent, ShangJiaActivity.class);
+                        Log.i(TAG+"===","==="+obj.getRoasting_list().get(position).getIs_jump());
+                        if("1".equals(obj.getRoasting_list().get(position).getIs_jump())){
+                            Intent intent = new Intent();
+                            intent.putExtra(Constant.IParam.merchant_id, obj.getRoasting_list().get(position).getMerchant_id() + "");
+                            STActivity(intent, ShangJiaActivity.class);
+                        }else{
+                            Intent intent = new Intent();
+                            intent.putExtra(Constant.IParam.htmlContent, obj.getRoasting_list().get(position).getContent());
+                            STActivity(intent, WebActivity.class);
+                        }
+
                     }
                 });
+
+                bn_home.start();
 
             }
         });

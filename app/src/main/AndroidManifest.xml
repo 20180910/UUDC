@@ -229,6 +229,7 @@
         <activity android:name=".module.near.activity.ShiXiaoHongBaoActivity"/>
         <activity android:name=".module.home.activity.GongGaoActivity"/>
         <activity android:name=".module.home.activity.GongGaoDetailActivity"/>
+        <activity android:name=".module.home.activity.WebActivity"/>
 
 
         <!--极光推送-->
