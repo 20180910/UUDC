@@ -510,6 +510,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected void getOtherData() {
         super.getOtherData();
+        postRoastingChart();
         isFirstLoc=true;
     }
 
